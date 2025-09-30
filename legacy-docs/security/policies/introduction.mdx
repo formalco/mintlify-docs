@@ -1,0 +1,62 @@
+---
+title: "Introduction"
+---
+
+
+Formal's policy system, and how to create data access rules
+
+## Introduction
+
+Formal's policy system uses [Open Policy Agent](https://www.openpolicyagent.org/), an open-source, general-purpose policy engine that unifies policy enforcement across the stack. Policy-as-code is the idea of expressing rules using a high-level programming language and treating them as you would treat code.
+Formal is built around this concept and allows for defining policies across the data lifecycle. Your policies enforce user-aware rules that can:
+
+- Block connections to a resource or access to a table, schema...
+- Redact the results of a query
+- Field encrypt and decrypt data
+- Rewrite a query
+- Filter and limit the results of a query
+
+## Policies scope
+
+By default, a policy is applied universally to all users, resources, and data locations. However, within each rule, you can make the policy more specific and ensure that it applies only to a subset of your resources and users.
+
+For example, if you want to apply different rules depending on who's making the request, you can use the user object, that is available in the policy engine via `input.user`, and looks like this:
+
+| Value    | Type         | Description                                          |
+| -------- | ------------ | ---------------------------------------------------- |
+| username | **STRING**   | Username of the user                                 |
+| email    | **STRING**   | If it's a human user, their email address            |
+| groups   | **[]STRING** | Groups in which the user is included                 |
+| type     | **STRING**   | Type of the user, can be either `human` or `machine` |
+
+You can see all input types in the [Formal Evaluation](./policy-evaluation.md) page.
+
+## End-user identity propagation
+
+The Formal Proxy can extract end-user identity information from requests sent by various applications and tools such as Looker, Tableau, or Metabase. This feature enables the enforcement of policies for both the user and end-user. There are two scenarios to consider:
+
+1. Engineers directly connecting to the resources: Alice, an engineer at Acme Corp, uses `psql` to query a resource. In this scenario, since the connection to the proxy is direct, the end-user and the user are the same individual: Alice.
+2. Users making queries behind an application (BI, Internal Dashboards): Katie, a data scientist at Acme Corp, uses Tableau to execute queries against a Snowflake resource. In this case, the user connecting to the proxy would be a formal machine user, while Katie would be the end-user.
+
+The end-user is available in the policy engine via `input.end_user` and has the same "User" object type as above.
+
+## Policy example
+
+The policy below demonstrates how you can use the default rule to block connections to every resource for every user.
+
+The second rule allows connections for end users who are part of the admin group if the connection is made with an application using the machine user `idp:formal:machine:backoffice`, except for the user with the email address `john.doe@joinformal.com`.
+
+```rego
+package formal.v2
+
+import future.keywords.if
+import future.keywords.in
+
+default session := { "action": "block", "type": "block_with_formal_message" }
+
+session := { "action": "allow", "reason": "machine users and user group" } if {
+	"admin" in input.end_user.groups
+	not input.end_user.email == "john.doe@joinformal.com"
+	input.user.username == "idp:formal:machine:backoffice"
+}
+```

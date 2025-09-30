@@ -1,0 +1,62 @@
+---
+title: "Snowflake"
+---
+
+
+The Formal Connector can protect Snowflake computing data warehouse.
+
+## Requirements
+To use the Formal Connector with Snowflake, you must have access to your Snowflake account and the necessary permissions to manage resources within it.
+
+## Configuration
+- **Snowflake account URL**:  Your Snowflake account URL, typically in the format `X.Y.snowflakecomputing.com`. Refer to the displayed image for clarity.
+<img src="/img/snowflake_hostname.png" />
+
+- **Snowflake username and password**: These credentials will be used by Formal users to connect to your Snowflake account.
+
+## TLS Configuration
+TLS must be enabled for secure communication. You have two options:
+
+1. **Formal-Managed TLS**: Formal wil manage the TLS Certificate for you, providing you with a domain of the format `.YOUR_ORG_NAME.connectors.joinformal.com`.
+2. **Self-Managed TLS**: If you prefer to manage the TLS certificate yourself, follow these steps:
+    - Obtain a TLS wildcard certificate.
+    - Add CNAME records for `account.hostname`, `s3.hostname`, `backend.hostname`, and `app.hostname` to your DNS.
+    - Provide the TLS certificate through environment variables:
+    ```
+    CUSTOMER_TLS_CERT_PRIVATE_KEY: ""
+    CUSTOMER_TLS_CERT_FULLCHAIN: ""
+    ```
+<CardInfo> When Formal manages the TLS certificate, the Network Load Balancer (NLB) must be internet-facing. </CardInfo>
+
+## Connecting to Snowflake
+With the above configuration complete, you can now connect to Snowflake using the specified hostname and Formal credentials.
+
+## Connecting to Snowflake via Retool
+1. **Configure the Connector for Snowflake**: Ensure your Formal Connector is correctly set up to proxy Snowflake connections.
+2. **Update Retool Resource**: Retool requires an account identifier to connect to Snowflake. However, to use Formal with Snowflake, you need to bypass this limitation by ensuring Retool supports custom connection options similar to PostgreSQL resources. This allows for more flexible connections, including the ability to specify the full HTTP URL instead of just the account identifier.
+3. **Custom Snowflake Hostname**: For a successful connection, it's crucial to set a custom Snowflake hostname that points to the Formal Connector. This is necessary because Retool's default configuration might not support the direct use of custom domains for Snowflake connections.
+4. **Connection String**: Use the following JDBC connection string format for connecting to Snowflake through Formal:
+```
+jdbc:snowflake://account.test-snowflake-proxy.prod.com:443/?user=idp:formal:machine:prd-retool&password=[pwd]&db=analytics&options=formal_enduser={{ current_user.email }}
+```
+Replace [pwd] with your actual password. This format ensures that the connection is routed through the Formal Connector, leveraging Formal's security and policy enforcement features.
+
+## SSO Access to Snowflake
+To configure federated login to your Snowflake instance secured by Formal, you can follow the [normal federated login setup guide for Snowflake](https://docs.snowflake.com/en/user-guide/admin-security-fed-auth-configure-idp).
+The only difference to be aware of is that when configuring the application in your Identity Provider, you will need to provide the URL for both the Formal proxy and the Snowflake instance,
+so that the SAML2 requests are created correctly, to be sent via the Formal proxy to your Snowflake instance. For example, when creating the application in Okta, you need to set the following settings:
+
+- Single sign-on URL: `https://account.{FORMAL_PROXY_URL}.proxy.formalcloud.net/fed/login`
+- Recipient URL: `https://{SNOWFLAKE_INSTANCE_URL}/fed/login`
+- Destination URL: `https://{SNOWFLAKE_INSTANCE_URL}/fed/login`
+- Audience URI: `https://{SNOWFLAKE_INSTANCE_URL}`
+
+For example, in Okta the SAML settings for the application would look something like this. Make sure to uncheck the `Use this for Recipient URL and Destination URL` box under Single sign-on URL, so you can manually configure those settings.
+<img src="/img/snowflake_saml_okta_example.png" />
+
+
+## Troubleshooting
+### Common Issues and Solutions
+- Ensure TLS certificates are correctly set up, and DNS records are pointing to the NLB.
+- Verify JDBC driver compatibility, especially if using self-signed certificates with Formal.
+- For a "403 Forbidden" error, check that the Formal Resource has the correct account URL configured.

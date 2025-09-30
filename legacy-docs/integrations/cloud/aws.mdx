@@ -1,0 +1,138 @@
+---
+title: "AWS Integration"
+---
+
+
+The AWS Cloud Integration implements resource autodiscovery for RDS databases, Redshift clusters, EKS clusters, EC2 instances, ECS clusters, and S3 buckets.
+
+For ECS clusters specifically, Formal autodiscovery enables container discovery, SSH access via the Desktop app, and connection management through the Connector.
+
+The AWS Cloud Integration also allows log integrations to forward Formal Connectors activity logs to S3 for centralized logging and monitoring (see [S3 Integration](/docs/integrations/s3) for details)
+
+## How to connect
+
+<Steps>
+  <Step title="Navigate to AWS">
+    Go to the [_AWS_ application](https://app.joinformal.com/cloud-accounts) in the Formal dashboard.
+  </Step>
+  <Step title="Add integration">
+    Click the _Add Integration_ button.
+  </Step>
+  <Step title="Choose provider">
+    Select AWS as your cloud provider.
+  </Step>
+  <Step title="Deploy role">
+    Deploy the provided CloudFormation template to create the required IAM role in your AWS account.
+  </Step>
+</Steps>
+
+Alternatively, you can use Terraform to deploy the required CloudFormation stack. See our [example Terraform configuration](https://github.com/formalco/terraform-provider-formal/blob/main/examples/deployments/aws/integrations/main.tf) and [below sections](#cloudformation) for more details.
+
+## Architecture
+
+Formal leverages AWS's [Cross-Account IAM Role architecture](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_third-party.html) to establish secure access to your AWS infrastructure. This enterprise-grade approach creates a dedicated IAM Role within your AWS account with precisely scoped permissions, enabling Formal to execute API operations on your organization's behalf.
+
+A CloudFormation stack is provided to create and manage the required resource for this architecture.
+
+<CardInfo>
+The CloudFormation stack deployment is supported across key AWS regions: `eu-central-1`, `eu-west-1`, `eu-west-2`, `eu-west-3`, `us-east-1`, `us-east-2`, `us-west-1`, `us-west-2`. The IAM role is designed for global access, allowing Formal to seamlessly discover resources across all regions in your AWS account once deployed.
+</CardInfo>
+
+## Security
+
+To ensure maximum security, Formal implements several layers of protection:
+
+1. **Role chaining**: In the Formal AWS account, we create an IAM User and IAM Role per customer. This IAM User has access to assume that IAM Role, which is configured to assume the role in your account. This separation of user and role provides an additional layer of security.
+
+2. **External identifier**: We generate a unique External Identifier per customer account that must be provided when assuming the role. This prevents malicious users from guessing the ARN of another Formal user's IAM Role and attempting to access it.
+
+3. **Least privilege**: The CloudFormation stack Formal provides is designed to follow the principle of least privilege, granting only the specific permissions needed for resource discovery and log forwarding. You can customize which capabilities are enabled through the stack parameters.
+
+## CloudFormation
+
+### Stack parameters
+
+The CloudFormation stack supports the following parameters to customize your integration:
+
+| Parameter                     | Description                                                                             | Default |
+| ----------------------------- | --------------------------------------------------------------------------------------- | ------- |
+| `EnableEKSAutodiscovery`      | Enables automatic discovery of EKS clusters                                             | `false` |
+| `EnableRDSAutodiscovery`      | Enables automatic discovery of RDS instances (PostgreSQL, MySQL, MongoDB)               | `false` |
+| `EnableRedshiftAutodiscovery` | Enables automatic discovery of Redshift clusters                                        | `false` |
+| `EnableEC2Autodiscovery`      | Enables automatic discovery of EC2 instances                                            | `false` |
+| `EnableECSAutodiscovery`      | Enables automatic discovery of ECS clusters                                             | `false` |
+| `AllowS3Access`               | Allows Formal to send logs to S3 buckets in your AWS account through Log Integrations   | `false` |
+| `S3BucketARN`                 | ARN of the S3 bucket that Formal can access. If empty, no S3 permission will be granted | `""`    |
+
+### Using Terraform
+
+When using Terraform to manage your AWS integration with Formal, you'll need to configure these parameters at the Cloud Integration level rather than directly in the CloudFormation stack. This separation is important because:
+
+1. The Cloud Integration resource acts as the source of truth for your integration settings
+2. It guarantees consistency between your Terraform state and Formal's internal configuration
+
+The parameters are defined in the `formal_integration_cloud` resource's `aws` block, which Formal then uses to generate the appropriate CloudFormation stack configuration:
+
+```hcl
+resource "formal_integration_cloud" "demo" {
+  name         = "${var.name}-demo-integration"
+  cloud_region = var.region
+
+  aws {
+    template_version              = "1.2.0"
+    enable_eks_autodiscovery      = true
+    enable_rds_autodiscovery      = true
+    enable_redshift_autodiscovery = true
+    allow_s3_access               = true
+    s3_bucket_arn                 = "${aws_s3_bucket.demo.arn}/*"
+  }
+}
+```
+
+Once the Cloud Integration defined, you then use the read-only fields from the Formal integration resource to configure your CloudFormation stack:
+
+```hcl
+resource "aws_cloudformation_stack" "demo" {
+  depends_on    = [formal_integration_cloud.demo, time_sleep.wait-aws]
+  name          = formal_integration_cloud.demo.aws_formal_stack_name
+  template_body = formal_integration_cloud.demo.aws_template_body
+  parameters = {
+    FormalIntegrationId         = formal_integration_cloud.demo.id
+    FormalIAMRoleId             = formal_integration_cloud.demo.aws_formal_iam_role
+    FormalSNSTopicARN           = formal_integration_cloud.demo.aws_formal_pingback_arn
+    EnableEKSAutodiscovery      = formal_integration_cloud.demo.aws_enable_eks_autodiscovery
+    EnableRDSAutodiscovery      = formal_integration_cloud.demo.aws_enable_rds_autodiscovery
+    EnableRedshiftAutodiscovery = formal_integration_cloud.demo.aws_enable_redshift_autodiscovery
+    AllowS3Access               = formal_integration_cloud.demo.aws_allow_s3_access
+    S3BucketARN                 = formal_integration_cloud.demo.aws_s3_bucket_arn
+  }
+  capabilities = ["CAPABILITY_NAMED_IAM"]
+}
+```
+
+As you can see, the CloudFormation stack requires a few more parameters that are not meant to be customized:
+
+- `FormalIntegrationId`, `FormalIAMRoleId`, and `FormalSNSTopicARN` are handled by Formal and used to establish the connection between your AWS account and Formal's infrastructure.
+- `capabilities` is required because the CloudFormation stack creates an IAM role.
+
+<CardInfo>
+These examples are extracted from our [example Terraform configuration](https://github.com/formalco/terraform-provider-formal/blob/main/examples/deployments/aws/integrations/main.tf) for the AWS integration.
+</CardInfo>
+
+### Stack versioning
+
+Formal's CloudFormation stack is versioned to ensure stability and control over your AWS integration. Each version introduces new features and improvements. You can find the complete changelog in our [CloudFormation stack changelog](/changelogs/cloud-integration-aws-template-changelog).
+
+Pinning your integration to a specific CloudFormation stack version ensures consistent behavior, controlled feature adoption, security compliance, and prevents unexpected IAM changes. To do so, use the `template_version` parameter in your Terraform configuration:
+
+```hcl
+resource "formal_integration_cloud" "demo" {
+  ...
+  aws {
+    template_version = "1.3.0"  # Pin to a specific version
+    ...
+  }
+}
+```
+
+If you don't specify a `template_version`, or if you use `latest` as a version, you will always have the most recent features, but breaking changes or unexpected behavior may occur.

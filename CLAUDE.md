@@ -294,7 +294,7 @@ export const MyComponent = ({ title }) => (
   "links": [
     {
       "label": "Support",
-      "href": "mailto:hi@mintlify.com"
+      "href": "mailto:support@joinformal.com"
     }
   ],
   "primary": {

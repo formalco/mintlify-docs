@@ -1,0 +1,38 @@
+---
+title: "AWS S3"
+---
+
+The Formal Connector streamline access and control for any AWS S3 buckets.
+
+## How it works?
+
+The Formal Connector operates by reverse-proxying the S3 API, effectively serving as an intermediary that forwards requests to S3. By reverse-proxying all buckets that the configured IAM role has access to, it enables precise control over bucket access and operations. Users can specify the target bucket when using the AWS S3 CLI/API, ensuring that access is streamlined and secure.
+
+## Requirements for S3
+
+### Native Users (AWS IAM User)
+
+Create a Native User with the appropriate permissions that will automatically pull your configuration every minute. Please refer to the Native Users section for instructions on creating a Native User.
+
+### AWS IAM Role
+
+Instead of using the Native Users, you can configure the Connector to use the IAM Role available in the AWS Environment. To enable this feature, you need to set the following environment variable:
+
+The IAM Role requires the right permissions to fetch, upload data and interact with AWS S3.
+  
+## Connection to S3 via the Connector
+
+### Using AWS CLI
+To connect to S3 via the Connector, you should use your Formal Credentials as your AWS Credentials and modify the endpoint-url to the Connector hostname as follows:
+
+```
+export AWS_ACCESS_KEY_ID="<formal_username>"
+export AWS_SECRET_ACCESS_KEY="<formal_access_token>"
+
+aws s3 --endpoint-url <connector_hostname> ls
+```
+
+
+## Permissions
+
+The Connector enforces permission controls based on the configuration of the IAM Role it operates under. Each user accessing S3 buckets through the Connector will have access only to those buckets that the IAM Role is configured to access. This ensures that data security and access control policies are effectively applied, maintaining the integrity and security of your S3 resources.

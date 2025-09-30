@@ -1,0 +1,186 @@
+---
+title: "HTTP"
+---
+
+
+How to connect to HTTP using the Formal Connector.
+
+<Warning>
+The connector runs a healthcheck server on port 8080 to let clients determine if the proxy is operational. As a result, you cannot create a listener on port 8080 to connect to an HTTP resource.
+</Warning>
+
+## Connect to an HTTP Resource
+
+To connect to an HTTP Resource, follow these steps:
+
+1. **Adjust the Hostname**: In your API request, modify the hostname to point to the Connector. Replace the hostname with the http resource name you have specified in the resources section of the Formal dashboard or Terraform. If the hostname of your connector is `formalcloud.net`, and your http resource name is `stripe`, you can replace the request URL with the following:
+
+   - Old Way:
+     `https://api.stripe.com/v1/customers`
+   - New Way (Using the Connector):
+     `https://stripe.formalcloud.net/v1/customers`
+
+<img src="/img/http-example.png" className="my-5" />
+
+2. **Tool of Your Preference**: Use your preferred API tool to send requests through the Connector. This can be tools like Postman, cURL, or any other HTTP client that allows you to specify the API endpoint. In order to see the user who made the request, you can set `X-Formal-User-Username` and `X-Formal-User-Password` in the request headers.
+
+## Payload Encryption
+
+The Connector encrypts both response and request payloads before they’re sent to the Formal Control Plane. This ensures that Formal won’t have access to any transmitted data.
+
+### Activate Payload Encryption feature
+
+1. Ensure you have the latest version of the Connector.
+2. Set either or both of the following environment variables to true: `ENCRYPT_RESPONSE_PAYLOAD_IN_LOGS` and `ENCRYPT_REQUEST_PAYLOAD_IN_LOGS`.
+3. Set the `ENCRYPTION_KEY` to the `KMS Key ID` or `KMS Key Arn` and `ENCRYPTION_KEY_REGION` to the region of the KMS Key.
+4. Make sure that the instance running the Connector has the right AWS IAM permissions to call the KMS Key.
+
+The following permissions are required:
+
+```
+"kms:Decrypt",
+"kms:GenerateDataKey"
+```
+
+## Automatic detection of PII
+
+The Connector can automatically detect PII in request and response JSON payloads such that policies can be applied to redact or block such traffic.
+
+To do so, the Connector employs machine learning models hosted by the Data Classifier Satellite. You can choose whether the Satellite should use an LLM model or a custom NLP model built by Formal in its [startup options](/deploying-a-satellite/deployment#data-classifier).
+
+As of Connector version 1.13.1 and Data Classifier Satellite version 0.1.1, the Connector supports dynamically choosing the model using a HTTP header. You can set the `X-Formal-Pii-Classifier` header to `llm` or `nlp` to choose the model type. If the header is not set, the Connector will use the NLP model.
+
+### Decrypting the logs in Formal UI
+
+1. First, deploy the AWS Lambda function using the code found [here](https://github.com/formalco/decrypt-lambda).
+2. Then, navigate to a specific HTTP Log and hit the `Decrypt Response Body` or `Decrypt Request Body` to input the URL of the Lambda function directly in the UI.
+
+You can watch a demo of this feature [here](https://www.loom.com/share/520863bc10fb40e88b6d0a697175a983?sid=db5c0266-dc25-4bd6-9e1e-d4571009d90e).
+
+## HTTP Payload Size Limitation
+
+### Overview
+
+To ensure efficient and streamlined logging while preventing potential issues related to large data volumes, our system provides configurable size limitations for both HTTP request and response payloads. If the size of a payload exceeds the configured limit, it will not be included in the logs.
+
+### Configuration Parameters
+
+1. `LOGGED_HTTP_REQUEST_PAYLOAD_MAX_SIZE:`
+
+   - **Description:** This environment variable determines the maximum allowable size for an HTTP request payload to be included in the logs.
+   - **Default Value:** `5000000` (equivalent to 5MB)
+   - If the actual size of the request payload surpasses this limit, the payload content will not be logged.
+
+2. `LOGGED_HTTP_RESPONSE_PAYLOAD_MAX_SIZE:`
+
+   - **Description:** This environment variable defines the maximum allowable size for an HTTP response payload to be captured in the logs.
+   - **Default Value:** `5000000` (equivalent to 5MB)
+   - If the actual size of the response payload surpasses this limit, the payload content will not be logged.
+
+3. `STRICT_DATA_CLASSIFIER_SATELLITE_RESULTS:`
+   - **Description:** This environment variable determines whether the system should strictly enforce the data classification results from the Satellite.
+   - **Default Value:** `false`
+   - If set to `true`, the Connector will return an error if the classification results are incomplete.
+
+### Usage
+
+1. Setting Environment Variables:
+   - Depending on your environment or deployment method, set the desired values for `LOGGED_HTTP_REQUEST_PAYLOAD_MAX_SIZE` and/or `LOGGED_HTTP_RESPONSE_PAYLOAD_MAX_SIZE`.
+   - Ensure that the provided values can be parsed as valid integers.
+2. Monitoring and Logging:
+   - When processing HTTP requests and responses, the system checks the size of the respective payloads against the configured (or default) limits.
+   - If a payload's size exceeds the limit, its content is omitted from the log, ensuring that the log remains compact and efficient.
+   - If the environment variables are not explicitly set, the system defaults to the 5MB limit.
+
+## Authentication
+
+The Connector supports multiple authentication methods to enable you to restrict the usage of users to specific API keys.
+
+This flexibility ensures that security and access control are maintained according to your organization's policies and the specifics of your integration needs.
+
+## Multiple Resources
+
+The Connector supports connecting multiple downstream APIs to the same Connector.
+
+For example, using a Connector with the hostname `test-http-proxy.formalcloud.net`, you can query:
+
+```
+- `stripe.test-http-proxy.formalcloud.net`
+- `openai.test-http-proxy.formalcloud.net`
+```
+
+Which will then redirect traffic to the following resources:
+
+```
+- api.stripe.com
+- api.openai.com
+```
+
+<Steps>
+  <Step title="First Step">
+    Configure your DNS entries with the subdomains.
+  </Step>
+  <Step title="Second Step">
+    Create HTTP resources with names matching the subdomains used in the hostname of the Connector. In the example provided, the names of the resources should be `openai` and `stripe`.
+  </Step>
+    <Step title="Third Step">
+    Link multiple resources to the same port.
+  </Step>
+</Steps>
+
+<CardInfo>
+The TLS Certificate must be a wildcard certificate and should cover every subdomain.
+</CardInfo>
+
+### Native Users
+
+To create native users, a [JSON object](/using-formal-connector/http#authentication) is used as the password. Formal Connector with HTTP Resource supports various authentication methods, including `Basic`, `API Key`, and `Bearer Token`.
+
+- [**Basic Authentication**](/using-formal-connector/http#basic): This method is suitable for scenarios where a simple username and password are adequate for authentication. The configuration for Basic Authentication in Formal is as follows:
+
+`{"type": "http", "sub_type": "basic", "http_basic": { "header": "Authorization", "username": "<username>", "password": "<password>"}}`
+
+- [**API Key**](/using-formal-connector/http#api-key): When using an API key for authentication, you can specify the key in the request header. This method is typically used when interacting with APIs that require a secret key for access. The configuration is as follows:
+
+`{"type": "http", "sub_type": "api_key", "http_api_key": { "type": "header", "key": "Authorization", "value": "<value>"}}`
+
+- [**Bearer token**](/using-formal-connector/http#bearer-token): Bearer Token authentication is a common method used in OAuth 2.0 and other authorization frameworks. It involves sending a token in the request header to authenticate requests. The configuration for Bearer Token authentication in Formal is:
+
+`{"type": "http", "sub_type": "bearer_token", "http_bearer_token": { "header": "Authorization", "token": "<token>"}}`
+
+The corresponding authentication details will then be passed to the underlying resource, ensuring that access is securely controlled based on the specified method.
+
+### Types
+
+#### Authentication
+
+| Name              | Type                                                        |
+| ----------------- | ----------------------------------------------------------- |
+| type              | **STRING**                                                  |
+| sub_type          | **ENUM["http_bearer_token", "http_api_key", "http_basic"]** |
+| http_bearer_token | **BearerToken**                                             |
+| http_api_key      | **ApiKey**                                                  |
+| http_basic        | **Basic**                                                   |
+
+#### Api Key
+
+| Name  | Type       |
+| ----- | ---------- |
+| type  | **ENUM["query_params", "header"]** |
+| key   | **STRING** |
+| value | **STRING** |
+
+#### Bearer token
+
+| Name   | Type       |
+| ------ | ---------- |
+| header | **STRING** |
+| token  | **STRING** |
+
+#### Basic
+
+| Name     | Type       |
+| -------- | ---------- |
+| header   | **STRING** |
+| username | **STRING** |
+| password | **STRING** |

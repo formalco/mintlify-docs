@@ -15,11 +15,18 @@
         "groups": [
           {
             "group": "Getting started",
-            "pages": ["docs/guides/getting-started/index", "docs/guides/getting-started/quickstart", "docs/guides/getting-started/development"]
+            "pages": [
+              "docs/guides/getting-started/index",
+              "docs/guides/getting-started/quickstart",
+              "docs/guides/getting-started/development"
+            ]
           },
           {
             "group": "Customization",
-            "pages": ["docs/guides/customization/settings", "docs/guides/customization/navigation"]
+            "pages": [
+              "docs/guides/customization/settings",
+              "docs/guides/customization/navigation"
+            ]
           },
           {
             "group": "Writing content",
@@ -42,19 +49,81 @@
       },
       {
         "tab": "API reference",
+        "openapi": [
+          "docs/api/openapi/connectors_openapi.json",
+          "docs/api/openapi/resource_openapi.json",
+          "docs/api/openapi/sidecar_openapi.json",
+          "docs/api/openapi/satellite_openapi.json",
+          "docs/api/openapi/user_openapi.json",
+          "docs/api/openapi/group_openapi.json",
+          "docs/api/openapi/spaces_openapi.json",
+          "docs/api/openapi/policies_openapi.json",
+          "docs/api/openapi/policy_data_loaders_openapi.json",
+          "docs/api/openapi/sessions_openapi.json",
+          "docs/api/openapi/logs_openapi.json",
+          "docs/api/openapi/inventory_openapi.json",
+          "docs/api/openapi/monitors_openapi.json",
+          "docs/api/openapi/trackers_openapi.json",
+          "docs/api/openapi/integration_bi_openapi.json",
+          "docs/api/openapi/integration_cloud_openapi.json",
+          "docs/api/openapi/integration_data_catalog_openapi.json",
+          "docs/api/openapi/integration_log_openapi.json",
+          "docs/api/openapi/integration_mdm_openapi.json",
+          "docs/api/openapi/integration_mfa_openapi.json"
+        ],
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Getting Started",
             "pages": ["docs/api/introduction"]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Core Services",
             "pages": [
-              "docs/api/endpoint/get",
-              "docs/api/endpoint/create",
-              "docs/api/endpoint/delete",
-              "docs/api/endpoint/webhook"
+              "docs/api/connectors",
+              "docs/api/resources",
+              "docs/api/sidecars",
+              "docs/api/satellites",
+              "docs/api/users",
+              "docs/api/groups",
+              "docs/api/spaces"
             ]
+          },
+          {
+            "group": "Security & Policies",
+            "pages": [
+              "docs/api/policies",
+              "docs/api/policy-data-loaders",
+              "docs/api/sessions"
+            ]
+          },
+          {
+            "group": "Data & Monitoring",
+            "pages": [
+              "docs/api/logs",
+              "docs/api/inventory",
+              "docs/api/monitors",
+              "docs/api/trackers"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "docs/api/integrations-bi",
+              "docs/api/integrations-cloud",
+              "docs/api/integrations-data-catalog",
+              "docs/api/integrations-log",
+              "docs/api/integrations-mdm",
+              "docs/api/integrations-mfa"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Glossary",
+        "groups": [
+          {
+            "group": "Glossary",
+            "pages": ["docs/glossary/index"]
           }
         ]
       },
@@ -63,15 +132,79 @@
         "groups": [
           {
             "group": "Changelog",
-            "pages": ["changelog/index"]
+            "pages": [
+              "changelog/index",
+              "changelog/connector",
+              "changelog/api",
+              "changelog/desktop-app",
+              "changelog/terraform-provider"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Legacy Docs",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "legacy-docs/getting-started-with-Formal",
+              "legacy-docs/formal's-architecture",
+              "legacy-docs/application-permission-system",
+              "legacy-docs/chrome-extension",
+              "legacy-docs/using-terraform"
+            ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Deployment",
             "pages": [
-              "docs/api/endpoint/get",
-              "docs/api/endpoint/create",
-              "docs/api/endpoint/delete",
-              "docs/api/endpoint/webhook"
+              "legacy-docs/deploying-a-connector/introduction",
+              "legacy-docs/deploying-a-connector/deployment",
+              "legacy-docs/deploying-a-connector/deployment-on-kubernetes-helm",
+              "legacy-docs/deploying-a-connector/control-plane-configuration",
+              "legacy-docs/deploying-a-satellite/introduction",
+              "legacy-docs/deploying-a-satellite/deployment"
+            ]
+          },
+          {
+            "group": "Using Connectors",
+            "pages": [
+              "legacy-docs/using-formal-connector/index",
+              "legacy-docs/using-formal-connector/postgres",
+              "legacy-docs/using-formal-connector/mongodb",
+              "legacy-docs/using-formal-connector/snowflake",
+              "legacy-docs/using-formal-connector/bigquery",
+              "legacy-docs/using-formal-connector/dynamodb",
+              "legacy-docs/using-formal-connector/s3",
+              "legacy-docs/using-formal-connector/ssh",
+              "legacy-docs/using-formal-connector/http",
+              "legacy-docs/using-formal-connector/kubernetes"
+            ]
+          },
+          {
+            "group": "Security",
+            "pages": [
+              "legacy-docs/security/policies/introduction",
+              "legacy-docs/security/policies/policy-structure",
+              "legacy-docs/security/policies/policy-evaluation",
+              "legacy-docs/security/policies/policy-enforcement",
+              "legacy-docs/security/policies/examples",
+              "legacy-docs/security/logs",
+              "legacy-docs/security/sessions",
+              "legacy-docs/security/access"
+            ]
+          },
+          {
+            "group": "Settings",
+            "pages": [
+              "legacy-docs/settings/resources",
+              "legacy-docs/settings/users",
+              "legacy-docs/settings/groups",
+              "legacy-docs/settings/spaces",
+              "legacy-docs/settings/satellites",
+              "legacy-docs/settings/sso",
+              "legacy-docs/settings/directory-sync",
+              "legacy-docs/settings/policy-data-loaders"
             ]
           }
         ]
@@ -86,7 +219,7 @@
         },
         {
           "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
+          "href": "https://www.joinformal.com/blog/",
           "icon": "newspaper"
         }
       ]
@@ -100,7 +233,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@joinformal.com"
       }
     ],
     "primary": {

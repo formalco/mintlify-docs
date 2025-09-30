@@ -1,0 +1,49 @@
+---
+title: "MongoDB"
+---
+
+
+The Formal Connector can streamline access and control of MongoDB databases.
+
+## Requirements
+
+### Networking
+
+Certain ports must be accessible to connect to Formal Resources. You can listen on multiple ports simultaneously for various Resources.
+
+For accessing MongoDB, you may assign any port except 8080 (Connector's health check port). Ensure your security groups are configured to allow traffic on the designated port.
+
+### Database health check
+
+Formal periodically assesses the health of the database. We test the connection to the `admin` database (`authSource` and `defaultauthdb` [are not specified by default in our generated URI](https://www.mongodb.com/docs/manual/reference/connection-string/)).
+
+## Connect to MongoDB
+
+### mongosh
+
+To connect using `mongosh`, execute the following command:
+
+```
+mongosh --host HOSTNAME_OF_CONNECTOR:PORT -u 'idp:formal:human:john@joinformal.com'
+```
+
+You can also specify a MONGO_URI directly:
+
+```
+mongosh 'mongodb://HOSTNAME_OF_CONNECTOR:PORT/' -u 'FORMAL_USERNAME'
+```
+
+Make sure to replace HOSTNAME_OF_THE_CONNECTOR, PORT, DATABASE_NAME, AND FORMAL_USERNAME with the right values. To learn more about users, check out [Native Users](/adding-resource/native-users).
+
+<CardInfo>You can access your Formal Credentials in [Formal Console](/security/access).</CardInfo>
+<CardInfo>You are free to use any preferred client.</CardInfo>
+
+## Smart Routing
+
+Formal MongoDB features Smart Routing, allowing the linkage of an unlimited number of Resources over the same port (e.g. 27017).
+
+Provide the name of the resource following the database name:
+
+```
+mongosh 'mongodb://HOSTNAME_OF_CONNECTOR:PORT/?appName=formal_resource_name=RESOURCE_NAME'
+```

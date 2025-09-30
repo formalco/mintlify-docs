@@ -1,0 +1,88 @@
+---
+title: "Datahub"
+---
+
+
+How does Formal integrate with Datahub?
+
+Formal's DataHub integration allows seamless synchronization of data labeling changes between your Formal Data Inventory and DataHub systems, streamlining your data management process.
+
+## Enabling integration
+
+To enable the integration, follow these steps:
+<Steps>
+<Step title="First Step">
+Navigate to the Datahub application.
+</Step>
+<Step title="Second Step">
+Click on `Set up Datahub Integration` button.
+</Step>
+<Step title="Third Step">
+A modal will appear, presenting synchronization options:
+**Sync Direction**: - **Bidirectional**: Enables synchronization between Formal and DataHub, regardless of where the modifications were made. - **Formal to DataHub**: Changes made in Formal will be reflected in DataHub. - **DataHub to Formal**: Updates in DataHub will only affect Formal.
+
+    **Generalized Metadata Service URL**:
+    Specify the `GeneralizedMetadataService URL` (GSM), which is the URL of your DataHub instance. For example: http://datahub.example.com/api/graphql.
+
+    **API Key**:
+    If you have an API key for the GSM instance, provide it. This will be used when Formal communicates with the GSM server.
+
+    **Integration Status (Active):**
+    Select Yes under 'Active' to set the integration to currently active.
+
+    **Synced Entities**:
+    Specify the 'Synced Entities' to define the types of entities you wish to synchronize. Options include Tags and DataLabels.
+
+  </Step>
+</Steps>
+
+<CardInfo>
+For our workers to reach your Datahub server, you will need to allow-list the following ip addresses:
+- 52.18.34.8
+- 52.51.88.92
+- 54.72.150.112
+</CardInfo>
+
+## Setting up the DataHub Formal action
+
+Follow these steps to set up the DataHub Formal action:
+
+1. Install the formal-datahub package by running the following command in your terminal:
+   `pip install formal-datahub backoff`
+2. Create your action file. The file should be structured as follows:
+
+   ```yaml
+   name: "datahubToFormal"
+   source:
+   type: "kafka"
+   config:
+       connection:
+       bootstrap: ${KAFKA_BOOTSTRAP_SERVER:-localhost:9092}
+       schema_registry_url: ${SCHEMA_REGISTRY_URL:-http://localhost:8081}
+
+   action:
+   type: "formal-datahub.action:FormalAction"
+   config:
+       webhook_secret: "secret"
+       org_id: "org_id"
+   ```
+
+   Replace "secret" and "org_id" with the respective values provided in the Formal console.
+
+3. Run the following command to allow Formal to receive updates from your DataHub instance:
+   `datahub actions -c action.yaml`
+
+Now, your setup is complete, and Formal will be able to integrate and synchronize with DataHub as needed.
+
+<CardInfo>Examples are provided with the [formal-datahub package](https://github.com/formalco/formal-datahub).</CardInfo>
+<CardInfo>To set up the CLI to interact, please refer to [DataHub's documentation](https://datahubproject.io/docs/cli/).</CardInfo>
+
+## Troubleshooting
+
+If you encounter any issues during the setup process, consider the following:
+
+- Verify that the provided GSM URL is correct and follows the DataHub documentation format.
+- Double-check your API key for the GSM instance to ensure it is accurate and valid.
+- Ensure that all configuration values in the action file are correctly filled in.
+
+If you need further assistance, please refer to our support documentation or reach out to our customer support team.
