@@ -1,13 +1,13 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Formal",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#3D6EFF",
+    "light": "#345DD9",
+    "dark": "#2847A6"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/assets/favicon.svg",
   "navigation": {
     "tabs": [
       {
@@ -15,34 +15,27 @@
         "groups": [
           {
             "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
+            "pages": ["docs/guides/getting-started/index", "docs/guides/getting-started/quickstart", "docs/guides/getting-started/development"]
           },
           {
             "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
+            "pages": ["docs/guides/customization/settings", "docs/guides/customization/navigation"]
           },
           {
             "group": "Writing content",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "docs/guides/writing-content/markdown",
+              "docs/guides/writing-content/code",
+              "docs/guides/writing-content/images",
+              "docs/guides/writing-content/reusable-snippets"
             ]
           },
           {
             "group": "AI tools",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "docs/guides/ai-tools/cursor",
+              "docs/guides/ai-tools/claude-code",
+              "docs/guides/ai-tools/windsurf"
             ]
           }
         ]
@@ -52,17 +45,33 @@
         "groups": [
           {
             "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
+            "pages": ["docs/api/introduction"]
           },
           {
             "group": "Endpoint examples",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "docs/api/endpoint/get",
+              "docs/api/endpoint/create",
+              "docs/api/endpoint/delete",
+              "docs/api/endpoint/webhook"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Changelog",
+        "groups": [
+          {
+            "group": "Changelog",
+            "pages": ["changelog/index"]
+          },
+          {
+            "group": "Endpoint examples",
+            "pages": [
+              "docs/api/endpoint/get",
+              "docs/api/endpoint/create",
+              "docs/api/endpoint/delete",
+              "docs/api/endpoint/webhook"
             ]
           }
         ]
@@ -84,8 +93,8 @@
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/assets/logos/light.svg",
+    "dark": "/assets/logos/dark.svg"
   },
   "navbar": {
     "links": [
@@ -97,26 +106,26 @@
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://app.joinformal.com"
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/joinformal",
+      "github": "https://github.com/formalco",
+      "linkedin": "https://linkedin.com/company/formalhq"
     }
   }
 }
