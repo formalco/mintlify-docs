@@ -1,0 +1,132 @@
+---
+title: "Introduction"
+---
+
+import {
+  ParamField,
+  ParamFieldItem,
+} from "@site/src/components/param-field/param-field";
+
+<span className="page-description">Introduction to Formal API endpoints</span>
+
+Welcome to the Formal API! You can use our API to access Formal API endpoints
+
+## Base URL
+
+```bash Base URL
+https://api.joinformal.com
+```
+
+## Formal client libraries
+
+- Python: [Python-SDK](https://pypi.org/project/formal-sdk/)
+- Go: [Go-SDK](https://github.com/formalco/go-sdk)
+
+## Overview
+
+Formal API is built using [gRPC](https://grpc.io/), a highly performant and open source universal Remote Procedure Call (RPC) framework.
+
+gRPC requires inputs and outputs to be formatted as protocol buffers (protobufs), Google’s mature open source mechanism for serializing structured data. To leverage gRPC, Formal implements a protocol-buffer-based API. gRPC ensures that both the client and server agree on the same data structures and interfaces.
+
+For more information about gRPC, see [the official gRPC documentation](http://www.grpc.io/docs/guides/).
+
+## Authentication
+
+The Formal API uses API keys to authenticate requests. You can view and manage your API keys in the [Formal Dashboard](https://app.joinformal.com/dashboard/sources).
+
+Keep your API keys secure! Do not share your secret API keys in publicly accessible areas like GitHub, Google Drive, and so forth.
+
+To authenticate use `-H x-api-key: {your_api_key}` in your curl command
+
+All API requests must be made over HTTPS. Calls made over plain HTTP will fail. API requests without authentication will also fail.
+
+```bash Authenticate
+curl 'https://api.joinformal.com/' \
+-H 'x-api-key: {your_api_key}'
+```
+
+## Errors
+
+In general: Codes in the 2xx range indicate success. Code in the 4xx range indicate an error that failed given the information provided. Codes in the 5xx range indicate error with Formal's servers.
+
+### HTTP
+
+**Formal API HTTP error codes:**
+| Code | HTTP Status | Meaning |
+|---------------------|---------------------------|-----------------------------------------------------------------------------------------------|
+| invalid_argument | 400 Bad Request | Request is invalid, regardless of system state. |
+| out_of_range | 400 Bad Request | The operation was attempted past the valid range. |
+| unauthenticated | 401 Unauthorized | Caller doesn't have valid authentication credentials for the operation. |
+| permission_denied | 403 Forbidden | Caller isn't authorized to perform the operation. |
+| not_found | 404 Not Found | User requested a resource (for example, a file or directory) that can't be found. |
+| unimplemented | 404 Not Found | The operation isn't implemented, supported, or enabled. |
+| canceled | 408 Request Timeout | RPC canceled, usually by the caller. |
+| deadline_exceeded | 408 Request Timeout | Deadline expired before RPC could complete or before the client received the response. |
+| already_exists | 409 Conflict | Caller attempted to create a resource that already exists. |
+| aborted | 409 Conflict | The operation was aborted, often because of concurrency issues like a database transaction abort. |
+| failed_precondition | 412 Precondition Failed | Operation can't be completed because the system isn't in the required state. |
+| resource_exhausted | 429 Too Many Requests | Operation can't be completed because some resource is exhausted. |
+| internal | 500 Internal Server Error | An invariant expected by the underlying system has been broken. Reserved for serious errors. |
+| unknown | 500 Internal Server Error | Catch-all for errors of unclear origin and errors without a more appropriate code. |
+| data_loss | 500 Internal Server Error | Unrecoverable data loss or corruption. |
+| unavailable | 503 Service Unavailable | The service is currently unavailable, usually transiently. Clients should back off and retry. |
+
+### Python-SDK
+
+Formal [Python-SDK](https://pypi.org/project/formal-sdk/) gRPC error codes:
+| Code | Number | Description |
+|--------------------|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| OK | 0 | Not an error; returned on success. |
+| CANCELLED | 1 | The operation was cancelled, typically by the caller. |
+| UNKNOWN | 2 | Unknown error. For example, this error may be returned when a Status value received from another address space belongs to an error space that is not known in this address space. Also errors raised by APIs that do not return enough error information may be converted to this error. |
+| INVALID_ARGUMENT | 3 | The client specified an invalid argument. Note that this differs from FAILED_PRECONDITION. INVALID_ARGUMENT indicates arguments that are problematic regardless of the state of the system (e.g., a malformed file name). |
+| DEADLINE_EXCEEDED | 4 | The deadline expired before the operation could complete. For operations that change the state of the system, this error may be returned even if the operation has completed successfully. For example, a successful response from a server could have been delayed long |
+| NOT_FOUND | 5 | Some requested entity (e.g., file or directory) was not found. Note to server developers: if a request is denied for an entire class of users, such as gradual feature rollout or undocumented allowlist, NOT_FOUND may be used. If a request is denied for some users within a class of users, PERMISSION_DENIED must be used. |
+| ALREADY_EXISTS | 6 | The entity that a client attempted to create (e.g., file or directory) already exists. |
+| PERMISSION_DENIED | 7 | The caller does not have permission to execute the specified operation. PERMISSION_DENIED must not be used for rejections caused by exhausting some resource (use RESOURCE_EXHAUSTED instead for those errors). PERMISSION_DENIED must not be used if the caller cannot be identified (use UNAUTHENTICATED instead for those errors). |
+| RESOURCE_EXHAUSTED | 8 | Some resource has been exhausted, perhaps a per-user quota, or perhaps the entire file system is out of space. |
+| FAILED_PRECONDITION| 9 | The operation was rejected because the system is not in a state required for the operation's execution. For example, the directory to be deleted is non-empty, an rmdir operation is applied to a non-directory, etc. |
+| ABORTED | 10 | The operation was aborted, typically due to a concurrency issue such as a sequencer check failure or transaction abort. |
+| OUT_OF_RANGE | 11 | The operation was attempted past the valid range. E.g., seeking or reading past end-of-file. |
+| UNIMPLEMENTED | 12 | The operation is not implemented or is not supported/enabled in this service. |
+| INTERNAL | 13 | Internal errors. This means that some invariants expected by the underlying system have been broken. This error code is reserved for serious errors. |
+| UNAVAILABLE | 14 | The service is currently unavailable. This is most likely a transient condition, which can be corrected by retrying with a backoff. Note that it is not always safe to retry non-idempotent operations. |
+| DATA_LOSS | 15 | Unrecoverable data loss or corruption. |
+| UNAUTHENTICATED | 16 | The request does not have valid authentication credentials for the operation. |
+
+## Pagination
+
+All top-level API resources have support for bulk fetches through “list” API methods. For example, you can [list resources](/api-reference/resourceservice/resource-service-list-resources) and [list sidecars](/api-reference/sidecarservice/sidecar-service-list-sidecars). These list API methods share a common structure and accept, at a minimum, the following parameters: `limit`, `cursor`, and `order`.
+
+Formal's list API methods use cursor-based pagination through the `cursor` parameter. The parameter accepts an existing object ID value (see below) and return objects in specified chronological `order`.
+
+### Parameters
+
+<ParamField>
+  <ParamFieldItem title="limit" isRequired tags={["integer"]}>
+This specifies a limit on the number of objects to return, ranging between 1 and 100.
+  </ParamFieldItem>
+  <ParamFieldItem title="cursor" tags={["string"]}>
+A cursor to use in pagination.
+  </ParamFieldItem>
+  <ParamFieldItem title="order" tags={["string", 'default: "asc"']} default="asc">
+This specifies in which chronological order the list should be sorted.
+
+Potential values:
+
+    - `ASC`
+    - `DESC`
+
+  </ParamFieldItem>
+</ParamField>
+
+### List Response Format
+
+<ParamField>
+  <ParamFieldItem title="count" isRequired tags={["integer"]}>
+    Number of objects returned.
+  </ParamFieldItem>
+  <ParamFieldItem title="next_cursor" isRequired tags={["string"]}>
+    Next cursor in the list.
+  </ParamFieldItem>
+</ParamField>

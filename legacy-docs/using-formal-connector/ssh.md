@@ -1,0 +1,227 @@
+---
+title: "SSH"
+---
+
+import { CardLink, Card } from '@site/src/components/card/card';
+
+<span className="page-description">Formal Connector supports SSH and AWS SSM protocols enabling your team to streamline access and control for any instances that support an SSH connection or the AWS SSM protocol (like EC2 or AWS Fargate).</span>
+
+## Requirements for SSH
+
+Create a Native User with [the appropriate permissions](#required-permissions-for-your-iam-role) that will automatically pull your configuration every minute. Please refer to the [Native Users](../adding-resource/native-users) section for instructions on creating a Native User.
+
+## Requirements for AWS SSM
+
+Formal streamlines user access to instances using the AWS SSM protocol (AWS EC2 and ECS Fargate instances) through the Connector.
+
+- **For AWS EC2 instances**:
+  To utilize AWS SSM with EC2 instances, ensure the following:
+
+  - SSM Agent Installation: The AWS Systems Manager Agent (SSM Agent) must be installed and running on the instance. While the SSM Agent comes pre-installed on certain Amazon Machine Images (AMIs), it may need to be manually installed or updated on others. For detailed guidance on verifying installation and performing manual installations, refer to [the SSM Agent documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html).
+  - IAM Role Configuration: The EC2 instance must be associated with an IAM Role that includes the `AmazonSSMManagedInstanceCore` policy. This policy grants the necessary permissions to enable AWS Systems Manager service core functionality.
+
+  For a list of AMIs with the SSM Agent pre-installed and additional setup information, visit [the official documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/ami-preinstalled-agent.html).
+
+- **For ECS Fargate instances**:
+  For applications running on ECS Fargate, AWS SSM access requires enabling the ECS Exec feature. This feature allows you to interact with your containers in real-time for tasks such as executing commands within a container or obtaining container logs.
+
+  - ECS Exec Enablement: To use AWS SSM with ECS Fargate, the ECS Exec feature must be enabled for your services and standalone tasks. This setup allows secure and interactive access to your Fargate containers.
+
+  For comprehensive steps on activating and using ECS Exec, consult [the ECS Exec documentation.](https://docs.aws.amazon.com/AmazonECS/latest/userguide/ecs-exec.html).
+
+## Permissions
+
+In order to discover and connect to the EC2 and ECS instances, the Formal Connector requires some permissions. You can give those permissions in two ways:
+
+### IAM Role of the EC2 or ECS Service running the Formal Connector
+
+You can configure an IAM role for the Formal Connector [with the necessary permissions](#required-permissions-for-your-iam-role); the Connector will be able to load the credentials automatically from the AWS context.
+
+## Required IAM permissions
+
+The IAM Role requires the following permissions:
+
+### Session Manager
+
+```
+- ssm:StartSession
+- ssm:DescribeInstanceInformation
+```
+
+### Amazon Elastic Container Service (Amazon ECS)
+
+```
+- ecs:ExecuteCommand
+- ecs:ListClusters
+- ecs:DescribeClusters
+- ecs:ListServices
+- ecs:DescribeServices
+- ecs:ListTasks
+- ecs:DescribeTasks
+- ecs:ListResourceTags
+```
+
+### Amazon EC2
+
+```
+- ec2:DescribeRegions
+- ec2:DescribeInstances
+```
+
+### AWS Security Token Service (AWS STS)
+
+```
+- sts:GetCallerIdentity
+```
+
+## Connect to the Connector
+
+Once the Connector is set up, your team can connect to it by utilizing the credentials accessible on [Formal console](https://app.joinformal.com/). The connection process is similar to connecting to a regular SSH instance.
+
+### Direct Connections (by pass the UI)
+
+If you want to establish a direct connection to your instances, you can execute one of the following commands:
+
+The command below specify the ECS cluster `--cluster`, the service `--service` the task id `--task-id` and the container name `--container`:
+
+```ssh
+ssh -p [PORT] [FORMAL_USER_USERNAME]@[SSH_CONNECTOR_HOSTNAME] -t formal connect ecs --cluster <CLUSTER-NAME> --service <SERVICE-NAME> --task-id <TASK-ID> --container <CONTAINER-NAME>
+```
+
+You can also directly specify the task id and omit the service name. This is useful in the context of standalone ECS Tasks:
+
+```ssh
+ssh -p [PORT] [FORMAL_USER_USERNAME]@[SSH_CONNECTOR_HOSTNAME] -t formal connect ecs --cluster <CLUSTER-NAME> --task-id <TASK-ID> --container <CONTAINER-NAME>
+```
+
+To connect to an EC2 instance you will need to pass the instance id flag --instance-id
+
+```ssh
+ssh -p [PORT] [FORMAL_USER_USERNAME]@[SSH_CONNECTOR_HOSTNAME] -t formal connect ec2 --instance-id <INSTANCE-ID>
+```
+
+### Via the UI
+
+<CardLink href="../desktop-app/usage">
+<Card title="SSH Selection UI">
+  As of connector v1.17.0, the SSH selection UI has been moved to the desktop app.
+</Card>
+</CardLink>
+
+## Policies
+
+Additionally, you can apply access restrictions to SSH Resources, similar to any other Resource. This includes the implementation of four additional filters, among others:
+
+1. **AWS Region**: allow or block access to a specific AWS Region
+2. **Account ID**: allow or block access to a specific AWS Account ID
+3. **Cluster Name**: allow or block access to a specific AWS ECS Cluster Name
+4. **Container Name**: allow or block access to a specific AWS ECS Container Name
+
+<CardLink href="../security/policies">
+<Card title="Policies">
+  For more specific instructions on policies, you can find additional information in our documentation.
+</Card>
+</CardLink>
+
+## Recordings
+
+The Formal Connector records every session. These session recordings can be accessed and reviewed in the Session application.
+
+<CardLink href="../security/sessions">
+<Card title="Sessions">
+  For more detailed information on accessing and utilizing the Sessions, please refer to the Sessions documentation.
+</Card>
+</CardLink>
+
+## Using VSCode Remote SSH
+
+The Formal Connector supports the VSCode Remote SSH extension for SSH and SSM remotes. To do so, we recommend adding configuration in the `~/.ssh/config` file, which VSCode will read to render a menu of hosts to connect to.
+
+For hosts that you would like to use VSCode Remote SSH with, we recommend configuring your SSH client to:
+
+- Refrain from requesting a TTY (`RequestTTY no`)
+- Use the `formal` command to request a remote host to connect to from the connector (see Direct Connections above)
+- For ECS Fargate remotes, use `--shell /bin/bash` to avoid breaking VSCode Remote SSH's setup script.
+
+Additionally,
+
+- For SSH remotes, ensure the `AllowTcpForwarding` directive is set to `yes` in your SSH server configuration.
+- For EC2 remotes, set the SSM agent to `exec /bin/bash` at startup in the AWS Session Manager console's Preferences section.
+
+In the VSCode Remote SSH extension, you should also configure
+
+- Remote.SSH: Enable Dynamic Forwarding (enabled)
+- Remote.SSH: Use Local Server (enabled)
+- Remote.SSH: Enable Remote Command (enabled)
+- Remote.SSH: Permit Pty Allocation (disabled)
+- Remote.SSH: Use Curl And Wget Configuration Files (enabled)
+- Remote.SSH: Use Exec Server (enabled for ECS Fargate remotes, disabled for EC2 remotes)
+
+Note that you'll need to configure additional IAM permissions for the Formal Connector to work with VSCode Remote SSH with SSM remotes. You'll need to allow the following permissions:
+
+- `ssm:StartSession` on `AWS-StartPortForwardingSession`
+- `ssm:TerminateSession`
+
+For ECS Fargate remotes, AWS requires a "runtime ID" of the specific container to start a port forwarding session with. The Formal Connector will automatically fill this parameter if the `ENABLE_ECS_AUTO_DISCOVERY` is set to `true`; otherwise, you'll need to manually fill it yourself, e.g. with
+
+```
+ssh ... formal connect ecs ... --runtime-id $(aws ecs describe-tasks --cluster [CLUSTER_NAME] --tasks [TASK_ID] | jq .tasks[].containers[].runtimeId)
+```
+
+### Using Cursor Remote SSH
+
+As a VS Code fork, Cursor's Remote SSH extension works similarly to that of VS Code. However, the way it sets up the remote server binary is a bit different and requires additional configuration against ECS Fargate remotes.
+
+First, create an `.ssh_inputrc` file in the home directory of the remote native user with the following content:
+
+```
+set enable-bracketed-paste off
+set completion-query-items 0
+set page-completions off
+```
+
+Then, in your Formal connection string, use `--shell "/bin/bash -c 'exec env INPUTRC=/path/to/.ssh_inputrc /bin/bash'"` to ensure that the `~/.ssh_inputrc` file is used when connecting to the remote host.
+
+## Using rsync
+
+The Formal Connector supports rsync over SSH for SSH and SSM remotes.
+
+For SSH remotes, note that the `rsync` command will not work with the `RemoteCommand` SSH directive, which is used by the Formal Connector to connect to the remote host. Instead, you can include the resource name in the user identity string, such as `idp:human:example@example.com+resource-name` (i.e., the resource name is the last part of the identity string after the `+` character). For example, the following SSH config file will allow you to use `rsync` to copy files to an SSH remote (note the `RequestTTY no` directive):
+
+```
+Host rsync-demo-connector
+	StrictHostKeyChecking no
+	Port 2022
+	User idp:formal:human:example@example.com+ssh-demo-resource
+	HostName connector-demo.proxy.formalcloud.net
+	RequestTTY no
+	IdentityFile ~/.formal/id_rsa
+```
+
+For SSM remotes, the Formal Connector does not support `rsync` using the normal SSH channel due to [AWS limitations](https://github.com/aws/containers-roadmap/issues/1536). Instead, you can run `rsync` as a daemon on the remote host and then use `rsync://` to connect to it. Note that the rsync daemon needs to run on a port greater than 1000 (e.g., 8873) for permissions reasons. For EC2 remotes, ensure that the receiving directory is writable by the `ssm-user` user and for ECS Fargate remotes, ensure that the receiving directory is writable by the container user. For example, you can configure `/etc/rsyncd.conf` on the remote host as follows:
+
+```
+port = 8873
+
+# EC2
+[ec2-upload]
+path = /home/ssm-user/upload
+uid = ssm-user
+
+# ECS Fargate
+[ecs-upload]
+path = /root/upload
+uid = root
+```
+
+Then, port-forward the rsync daemon to your local machine:
+
+```
+ssh -L 8873:localhost:8873 -i ~/.formal/id_rsa -p 2022 'idp:human:example@example.com' formal connect ec2 --instance-id i-01234567890abcdef0
+```
+
+Then, you can use the following command to copy files to the remote host:
+
+```
+rsync -r target-dir rsync://localhost:8873/ec2-upload/
+```

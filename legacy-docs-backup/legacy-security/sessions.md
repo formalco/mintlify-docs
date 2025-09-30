@@ -1,0 +1,55 @@
+---
+title: "Sessions"
+---
+
+import { CardInfo } from '@site/src/components/card/card';
+
+<span className="page-description">How can you monitor Users sessions in real-time?</span>
+
+[Formal Session](https://app.joinformal.com/sessions) application allows you to monitor user sessions in real-time, providing insights into how users are accessing your data. Understanding user activity is crucial for maintaining security and ensuring efficient data access within your system. Sessions in Formal are categorized into two states: Completed and Active, allowing for detailed oversight of user interactions.
+
+## Session States
+
+### Completed Sessions
+Completed sessions have concluded, and all associated activities are recorded for review. This state allows administrators to audit past activities, understand user behavior, and identify potential security concerns after the fact.
+
+### Active Sessions
+Active sessions are currently in progress, offering real-time monitoring capabilities. This allows for immediate oversight and the ability to respond swiftly to any suspicious activities as they occur.
+
+# Monitoring Sessions
+## Postgres Session
+For sessions that involve interactions with Postgres databases, Formal provides the functionality to view all queries made during a specific session. To access these details, users need to click on a particular session from the UI. This feature is instrumental in understanding data access patterns and the specific queries executed by users, thus enhancing oversight and potentially optimizing database use.
+
+<img src="/img/completed_session_postgres.png" />
+
+## Session Recordings
+
+Formal provides a recording of all SSH and Kubernetes sessions. You can seamlessly  pause the recording or navigate to any desired point within the session.
+
+To view these session recordings, users must click on a specific session from the UI. This functionality captures the command-line interactions of users, offering a comprehensive audit trail of the activities performed during the session.
+
+<img src="/img/recordings.png" />
+
+1. **SSH**:
+Formal captures the command-line interactions of users, offering a comprehensive audit trail of the activities performed during the session.
+
+2. **Kubernetes**:
+Formal captures all the command-line interactions of users in `kubeexec` sessions, offering a comprehensive audit trail of the activities performed during the session.
+
+### Analyze sessions
+
+Formal can analyze the session recordings and provide insights into the activities performed during the session such as a summary of the session, a list of all the commands executed during the session and a risk level for the session.
+
+<img src="/img/analyze_session.png" />
+
+<CardInfo>
+The risk level is determined by evaluating the commands executed and the actions performed during the session, with levels ranging from 1 (lowest risk) to 5 (highest risk).The risk level is determined by evaluating the commands executed and the actions performed during the session, with levels ranging from 1 (lowest risk) to 5 (highest risk).
+</CardInfo>
+
+## Filtering
+Sessions can be filtered by various parameters using the menu on the left side of the page or by crafting a more sophisticated Quickwit query. This flexibility allows for targeted monitoring and analysis of user sessions based on specific criteria.
+
+## Terminate a Session
+If a session is identified as active and there's a need to immediately halt the user's access or activities, Formal allows administrators to terminate the session directly from the UI. This immediate action can be crucial in preventing unauthorized data access or mitigating potential security breaches in real-time.
+
+Formal's Session application is a powerful tool for real-time monitoring and analysis of user sessions, providing essential insights into how data is accessed and managed. By enabling detailed oversight of both active and completed sessions, along with functionalities for advanced filtering, viewing detailed session queries, and terminating sessions, Formal equips administrators with the necessary tools to maintain high security and efficiency standards in data management.

@@ -1,0 +1,1418 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Policy Service",
+        "version": "1.0",
+        "contact": {
+            "name": "Formal",
+            "url": "https://docs.private.joinformal.com/",
+            "email": "info@joinformal.com"
+        }
+    },
+    "tags": [
+        {
+            "name": "PoliciesService"
+        }
+    ],
+    "paths": {
+        "/core.v1.PoliciesService/CreateExternalDataLoader": {
+            "post": {
+                "summary": "Create external data loader",
+                "description": "Create an external data loader",
+                "operationId": "PoliciesService_CreateExternalDataLoader",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1CreateExternalDataLoaderResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1CreateExternalDataLoaderRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "PoliciesService"
+                ]
+            }
+        },
+        "/core.v1.PoliciesService/CreatePolicy": {
+            "post": {
+                "summary": "Create policy",
+                "description": "Create a policy",
+                "operationId": "PoliciesService_CreatePolicy",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1CreatePolicyResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1CreatePolicyRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "PoliciesService"
+                ]
+            }
+        },
+        "/core.v1.PoliciesService/DeleteExternalDataLoader": {
+            "post": {
+                "summary": "Delete external data loader",
+                "description": "Delete an external data loader",
+                "operationId": "PoliciesService_DeleteExternalDataLoader",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1DeleteExternalDataLoaderResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1DeleteExternalDataLoaderRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "PoliciesService"
+                ]
+            }
+        },
+        "/core.v1.PoliciesService/DeletePolicy": {
+            "post": {
+                "summary": "Delete policy",
+                "description": "Delete a policy",
+                "operationId": "PoliciesService_DeletePolicy",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1DeletePolicyResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1DeletePolicyRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "PoliciesService"
+                ]
+            }
+        },
+        "/core.v1.PoliciesService/GetExternalDataLoader": {
+            "post": {
+                "summary": "Get external data loader",
+                "description": "Get an external data loader",
+                "operationId": "PoliciesService_GetExternalDataLoader",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetExternalDataLoaderResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1GetExternalDataLoaderRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "PoliciesService"
+                ]
+            }
+        },
+        "/core.v1.PoliciesService/GetPolicy": {
+            "post": {
+                "summary": "Get policy",
+                "description": "Get a policy",
+                "operationId": "PoliciesService_GetPolicy",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetPolicyResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1GetPolicyRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "PoliciesService"
+                ]
+            }
+        },
+        "/core.v1.PoliciesService/GetPolicyCodeValidity": {
+            "post": {
+                "summary": "Get policy code validity",
+                "description": "Get the validity of a policy code",
+                "operationId": "PoliciesService_GetPolicyCodeValidity",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetPolicyCodeValidityResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1GetPolicyCodeValidityRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "PoliciesService"
+                ]
+            }
+        },
+        "/core.v1.PoliciesService/GetPolicySuggestions": {
+            "post": {
+                "summary": "Get policy suggestions",
+                "description": "Get policy suggestions",
+                "operationId": "PoliciesService_GetPolicySuggestions",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetPolicySuggestionsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1GetPolicySuggestionsRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "PoliciesService"
+                ]
+            }
+        },
+        "/core.v1.PoliciesService/ListExternalDataLoaders": {
+            "post": {
+                "summary": "List external data loaders",
+                "description": "List all external data loaders",
+                "operationId": "PoliciesService_ListExternalDataLoaders",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ListExternalDataLoadersResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1ListExternalDataLoadersRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "PoliciesService"
+                ]
+            }
+        },
+        "/core.v1.PoliciesService/ListPolicies": {
+            "post": {
+                "summary": "List policies",
+                "description": "List all policies",
+                "operationId": "PoliciesService_ListPolicies",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ListPoliciesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1ListPoliciesRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "PoliciesService"
+                ]
+            }
+        },
+        "/core.v1.PoliciesService/UpdatePolicy": {
+            "post": {
+                "summary": "Update policy",
+                "description": "Update a policy",
+                "operationId": "PoliciesService_UpdatePolicy",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1UpdatePolicyResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1UpdatePolicyRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "PoliciesService"
+                ]
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiKeyAuth": []
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "name": "X-API-Key",
+                "in": "header"
+            }
+        },
+        "schemas": {
+            "AuthBasic": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserHuman": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserMachine": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "corev1User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "dbUsername": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "human": {
+                        "$ref": "#/components/schemas/UserHuman"
+                    },
+                    "machine": {
+                        "$ref": "#/components/schemas/UserMachine"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    },
+                    "expireAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "protobufAny": {
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "type": "string",
+                        "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+                    }
+                },
+                "additionalProperties": {},
+                "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+            },
+            "rpcStatus": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/protobufAny"
+                        }
+                    }
+                }
+            },
+            "v1Auth": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                    "basic": {
+                        "$ref": "#/components/schemas/AuthBasic"
+                    }
+                }
+            },
+            "v1CreateExternalDataLoaderRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "host": {
+                        "type": "string"
+                    },
+                    "port": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "auth": {
+                        "$ref": "#/components/schemas/v1Auth"
+                    }
+                }
+            },
+            "v1CreateExternalDataLoaderResponse": {
+                "type": "object",
+                "properties": {
+                    "externalDataLoader": {
+                        "$ref": "#/components/schemas/v1ExternalDataLoader"
+                    }
+                }
+            },
+            "v1CreatePolicyRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "notification": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "title": "repeated Owner owners = 5;"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    },
+                    "userEmail": {
+                        "type": "string"
+                    },
+                    "groupName": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1CreatePolicyResponse": {
+                "type": "object",
+                "properties": {
+                    "policy": {
+                        "$ref": "#/components/schemas/v1Policy"
+                    }
+                }
+            },
+            "v1DeleteExternalDataLoaderRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1DeleteExternalDataLoaderResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1DeletePolicyRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1DeletePolicyResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1ErrorObject": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1ExternalDataLoader": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "host": {
+                        "type": "string"
+                    },
+                    "port": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "auth": {
+                        "$ref": "#/components/schemas/v1Auth"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "v1Field": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "string"
+                    },
+                    "operator": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "$ref": "#/components/schemas/protobufAny"
+                    }
+                }
+            },
+            "v1FieldGroup": {
+                "type": "object",
+                "properties": {
+                    "operator": {
+                        "type": "string"
+                    },
+                    "filters": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1Filter"
+                        }
+                    }
+                }
+            },
+            "v1Filter": {
+                "type": "object",
+                "properties": {
+                    "field": {
+                        "$ref": "#/components/schemas/v1Field"
+                    },
+                    "group": {
+                        "$ref": "#/components/schemas/v1FieldGroup"
+                    }
+                }
+            },
+            "v1GetCodeFromRegoObjectResponse": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetExternalDataLoaderRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetExternalDataLoaderResponse": {
+                "type": "object",
+                "properties": {
+                    "externalDataLoader": {
+                        "$ref": "#/components/schemas/v1ExternalDataLoader"
+                    }
+                }
+            },
+            "v1GetPolicyCodeValidityRequest": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetPolicyCodeValidityResponse": {
+                "type": "object",
+                "properties": {
+                    "valid": {
+                        "type": "boolean"
+                    },
+                    "ast": {
+                        "type": "string"
+                    },
+                    "error": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetPolicyExplanationResponse": {
+                "type": "object",
+                "properties": {
+                    "explanation": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetPolicyRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetPolicyResponse": {
+                "type": "object",
+                "properties": {
+                    "policy": {
+                        "$ref": "#/components/schemas/v1Policy"
+                    }
+                }
+            },
+            "v1GetPolicySuggestionsRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetPolicySuggestionsResponse": {
+                "type": "object",
+                "properties": {
+                    "suggestion": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetRegoObjectFromCodeResponse": {
+                "type": "object",
+                "properties": {
+                    "regoObject": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1Group": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "dsyncGroupId": {
+                        "type": "string"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "v1ListExternalDataLoadersRequest": {
+                "type": "object",
+                "properties": {
+                    "limit": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "cursor": {
+                        "type": "string"
+                    },
+                    "order": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1ListExternalDataLoadersResponse": {
+                "type": "object",
+                "properties": {
+                    "integrations": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1ExternalDataLoader"
+                        }
+                    },
+                    "listMetadata": {
+                        "$ref": "#/components/schemas/v1ListMetadata"
+                    }
+                }
+            },
+            "v1ListMetadata": {
+                "type": "object",
+                "properties": {
+                    "after": {
+                        "type": "string"
+                    },
+                    "before": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "nextCursor": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1ListPoliciesRequest": {
+                "type": "object",
+                "properties": {
+                    "limit": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "cursor": {
+                        "type": "string"
+                    },
+                    "order": {
+                        "type": "string"
+                    },
+                    "search": {
+                        "type": "string"
+                    },
+                    "searchFields": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "filter": {
+                        "$ref": "#/components/schemas/v1Filter"
+                    }
+                }
+            },
+            "v1ListPoliciesResponse": {
+                "type": "object",
+                "properties": {
+                    "policies": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1Policy"
+                        }
+                    },
+                    "listMetadata": {
+                        "$ref": "#/components/schemas/v1ListMetadata"
+                    }
+                }
+            },
+            "v1Owner": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/corev1User"
+                    },
+                    "group": {
+                        "$ref": "#/components/schemas/v1Group"
+                    }
+                }
+            },
+            "v1Policy": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "ast": {
+                        "type": "string"
+                    },
+                    "notification": {
+                        "type": "string"
+                    },
+                    "owners": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1Owner"
+                        }
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "v1UpdatePolicyRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "notification": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "title": "repeated Owner owners = 7;"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    },
+                    "userEmail": {
+                        "type": "string"
+                    },
+                    "groupName": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1UpdatePolicyResponse": {
+                "type": "object",
+                "properties": {
+                    "policy": {
+                        "$ref": "#/components/schemas/v1Policy"
+                    }
+                }
+            }
+        }
+    }
+}

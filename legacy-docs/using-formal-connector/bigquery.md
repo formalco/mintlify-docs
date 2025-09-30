@@ -1,0 +1,105 @@
+---
+title: "BigQuery"
+---
+
+import { CardInfo, CardWarning } from '@site/src/components/card/card';
+
+<span className="page-description">How to connect to BigQuery using the Formal Connector.</span>
+
+## Overview
+
+The Formal Connector enables secure access to BigQuery. It uses domain-wide delegation to impersonate users in your organization, ensuring proper access control and audit logging of all BigQuery operations.
+
+### Differences with other technologies
+
+The connection to BigQuery differs from other technologies in two important ways:
+
+- **No Native Users**: Unlike Postgres or HTTP, Formal native users are not supported for BigQuery currently. Instead, the connector uses [Google ADC](https://cloud.google.com/docs/authentication/application-default-credentials) to connect to BigQuery.
+- **Mandatory Impersonation**: Unlike other technologies where impersonation is optional, the connector will always impersonate the end user for BigQuery requests, thus requiring the domain-wide delegation.
+
+## Setup
+
+<CardInfo>
+The steps outlined here provide a general overview of the process. For a complete working example that you can deploy as-is in your GKE cluster, or use as a starting point to integrate our Connector in your existing deployment pipeline, please refer to our [Terraform example on GitHub](https://github.com/formalco/terraform-provider-formal/tree/main/examples/deployments/gcp/gke-bigquery-connector).
+</CardInfo>
+
+### 1. Configure Domain-wide Delegation
+
+Before creating a BigQuery resource in Formal, you'll need a service account with domain-wide delegation enabled in your Google Workspace. This step must be done by an admin user of your Google organization.
+
+Start by creating a service account in your Google Cloud Console if you don't have one already, then enable domain-wide delegation:
+
+- Go to your [Google Workspace Admin Console](https://admin.google.com)
+- Navigate to **Security** > **Access and data control** > **API Controls** > **Manage domain-wide delegation**.
+- Click **Add New**:
+  - **Client ID**: Your service account's client ID
+  - **OAuth Scopes**:
+    - `https://www.googleapis.com/auth/bigquery`
+    - `https://www.googleapis.com/auth/cloud-platform`
+- Click **Authorize**
+
+### 2. Create a BigQuery Resource
+
+To create a BigQuery Resource in Formal, follow these steps:
+
+1. Navigate to the Resources page.
+2. Click on the "Create Resource" button.
+3. Fill in the required fields:
+   - **Technology**: Select `BigQuery` from the dropdown
+   - **Resource Friendly Name**: Enter a name of your choice to identify this resource
+   - **Hostname**: Enter `bigquery.googleapis.com`
+   - **Port**: Enter `443` if your Connector has [TLS certificates](/deploying-a-connector/tls-configuration) enabled, anything else otherwise (e.g. `7777`)
+4. Click on the `Create` button to complete the resource creation.
+
+### 3. Connect to BigQuery
+
+The last step before querying BigQuery is to deploy your Formal Connector using your service account credentials. The connector uses [Google ADC](https://cloud.google.com/docs/authentication/application-default-credentials) to detect the service account credentials and connect to BigQuery.
+
+Once your Formal Connector is set up, you can connect to BigQuery through the Formal Connector using the `bq` command line tool:
+
+```bash
+bq --api ${PROTOCOL}://${HOSTNAME}:${PORT} query "SELECT 1"
+```
+
+<CardInfo>
+Use `https` or `http` for `${PROTOCOL}` depending on whether your connector has been configured for TLS or not. Replace `${HOSTNAME}` with your actual Formal Connector hostname and `${PORT}` with your actual listener port.
+</CardInfo>
+
+Here's another example of how to connect to BigQuery through the Formal Connector using Python:
+
+```python
+from google.cloud import bigquery  # requires google-cloud-bigquery
+
+PROTOCOL = "..."  # "http" or "https", depending on your connector setup
+HOSTNAME = "..."  # Your connector hostname
+PORT = "..."  # Your connector listener port
+
+client = bigquery.Client(
+    client_options={"api_endpoint": f"{PROTOCOL}://{HOSTNAME}:{PORT}"}
+)
+
+query = "SELECT word FROM `bigquery-public-data.samples.shakespeare` LIMIT 10"
+for row in client.query(query):
+    print(row.word)
+```
+
+## Monitoring and Logging
+
+The Connector provides detailed logs of all BigQuery operations, including:
+
+- Query execution
+- Data access patterns
+- User identity
+- Evaluated / triggered policies
+
+These logs can be accessed through the Formal Console for audit and compliance purposes.
+
+## Troubleshooting
+
+Common issues include:
+
+- TLS errors: Google SDK is strict when using a TLS certificate, and will fail if it isn't signed by a trusted certificate authority.
+- Service account credentials: The Formal Connector doesn't use the correct service account credentials
+- Permissions: The service account does not have the necessary permissions, especially domain-wide delegation
+
+If you feel stuck, please reach out to us on Slack!

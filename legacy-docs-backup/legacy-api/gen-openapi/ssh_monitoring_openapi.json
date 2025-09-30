@@ -1,0 +1,462 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "SSH Monitoring Service",
+        "version": "1.0",
+        "contact": {
+            "name": "Formal",
+            "url": "https://docs.private.joinformal.com/",
+            "email": "info@joinformal.com"
+        }
+    },
+    "tags": [
+        {
+            "name": "SSHMonitoringService"
+        }
+    ],
+    "paths": {
+        "/core.v1.SSHMonitoringService/CreateSSHScenarioMonitor": {
+            "post": {
+                "summary": "Add a scenario for LLM SSH Monitoring",
+                "operationId": "SSHMonitoringService_CreateSSHScenarioMonitor",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1CreateSSHScenarioMonitorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1CreateSSHScenarioMonitorRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SSHMonitoringService"
+                ]
+            }
+        },
+        "/core.v1.SSHMonitoringService/DeleteSSHScenarioMonitor": {
+            "post": {
+                "summary": "Delete a scenario from LLM SSH Monitoring",
+                "operationId": "SSHMonitoringService_DeleteSSHScenarioMonitor",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1DeleteSSHScenarioMonitorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1DeleteSSHScenarioMonitorRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SSHMonitoringService"
+                ]
+            }
+        },
+        "/core.v1.SSHMonitoringService/GetSSHScenarioMonitors": {
+            "post": {
+                "summary": "Retrieve all LLM session monitoring scenarios and their statuses",
+                "operationId": "SSHMonitoringService_GetSSHScenarioMonitors",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetSSHScenarioMonitorsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1GetSSHScenarioMonitorsRequest"
+                            }
+                        }
+                    },
+                    "description": "Empty request",
+                    "required": true
+                },
+                "tags": [
+                    "SSHMonitoringService"
+                ]
+            }
+        },
+        "/core.v1.SSHMonitoringService/UpdateSSHScenarioMonitor": {
+            "post": {
+                "summary": "Update the status of a scenario used for LLM session monitoring",
+                "operationId": "SSHMonitoringService_UpdateSSHScenarioMonitor",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1UpdateSSHScenarioMonitorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1UpdateSSHScenarioMonitorRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SSHMonitoringService"
+                ]
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiKeyAuth": []
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "name": "X-API-Key",
+                "in": "header"
+            }
+        },
+        "schemas": {
+            "protobufAny": {
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "type": "string",
+                        "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+                    }
+                },
+                "additionalProperties": {},
+                "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+            },
+            "rpcStatus": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/protobufAny"
+                        }
+                    }
+                }
+            },
+            "v1CreateSSHScenarioMonitorRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "scenario": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                },
+                "title": "Request message for creating an SSH scenario monitor"
+            },
+            "v1CreateSSHScenarioMonitorResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "title": "Response message for creating an SSH scenario monitor"
+            },
+            "v1DeleteSSHScenarioMonitorRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "title": "Request message for deleting an SSH scenario monitor"
+            },
+            "v1DeleteSSHScenarioMonitorResponse": {
+                "type": "object",
+                "description": "Empty response",
+                "title": "Response message for deleting an SSH scenario monitor"
+            },
+            "v1ErrorObject": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetSSHScenarioMonitorsRequest": {
+                "type": "object",
+                "description": "Empty request",
+                "title": "Request message for getting all SSH scenario monitors"
+            },
+            "v1GetSSHScenarioMonitorsResponse": {
+                "type": "object",
+                "properties": {
+                    "monitors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1SSHMonitor"
+                        }
+                    }
+                },
+                "title": "Response message for getting all SSH scenario monitors"
+            },
+            "v1SSHMonitor": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "scenario": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    }
+                },
+                "title": "SSH Monitor entity"
+            },
+            "v1UpdateSSHScenarioMonitorRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "scenario": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                },
+                "title": "Request message for updating an SSH scenario monitor"
+            },
+            "v1UpdateSSHScenarioMonitorResponse": {
+                "type": "object",
+                "description": "Empty response",
+                "title": "Response message for updating an SSH scenario monitor"
+            }
+        }
+    }
+}

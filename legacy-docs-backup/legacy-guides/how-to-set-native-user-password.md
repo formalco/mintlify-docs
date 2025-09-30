@@ -1,0 +1,27 @@
+---
+title: "Different methods for setting native users' passwords"
+---
+
+<span className="page-description">Formal offers three distinct methods for configuring the password of a native user.</span>
+
+When setting the password for a native user in Formal, you can choose from three methods:
+
+## Direct password setting
+You can directly set the user's password. Formal securely encrypts this password in the control plane and includes it in the configuration of the Connectors.
+
+## Setting it via environment variable
+Alternatively, set the password through an environment variable. In the secret configuration, specify the following value: 
+`ENV:NAME_OF_THE_ENV_VARIABLE_WITH_THE_PASSWORD_OF_THE_USER`
+
+## Setting it via AWS IAM
+You can also use IAM for password setting. Set the secret's value to `iam`, and ensure that the Connector connects using its IAM role. It's important to verify that the Connector has the necessary permissions for this operation.
+
+## Setting it via a custom AWS IAM Role
+You can also use a custom IAM Role for password setting. Set the secret's value to the ARN of the IAM Role, the Connector will assume the specified IAM role to connect to the resource.
+
+## Terraform resource
+For configuring through Terraform, refer to the [Formal Terraform resource documentation](https://registry.terraform.io/providers/formalco/formal/latest/docs/resources/native_role).
+
+## Example
+An implementation example is available [here](https://github.com/formalco/terraform-provider-formal/blob/e99a12f4b1d71a70ec93b2d[…]loyements/aws/onprem/postgres/internal/postgres_proxy/formal.tf
+).

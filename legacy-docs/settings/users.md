@@ -1,0 +1,55 @@
+---
+title: "Users"
+---
+
+import { CardInfo } from '@site/src/components/card/card';
+import { Steps, Step } from '@site/src/components/steps/steps';
+
+<span className="page-description">How does Formal manage users?</span>
+
+Formal differentiates an admin that has access to the full Console from data consumers who, using their provisioned Formal user, will only be able to connect to a limited part of the Console.
+
+If you want to give someone in your organization access to Resources protected by Connectors, you need to create a user for them. There are two types of users:
+1. **Human Users**: For employees needing access to Resources.
+2. **Machine Users**: For internal applications/BI tools to connect to Resources.
+
+## Create a Human user
+<Steps>
+  <Step title="First Step">
+    Navigate to the Users application.
+  </Step>
+  <Step title="Second Step">
+    Click on `New User` button.
+  </Step>
+  <Step title="Third Step">
+    Select `Human` as the Identity Type.
+  </Step>
+  <Step title="Fourth Step">
+    Provide the information relative to the new user.
+  </Step>
+</Steps>
+
+Once the User is created, the user will receive an email with a temporary password that will be changed upon the first login.
+
+When the user wants to access Resources protected by Connectors, the user will need to go to the Console to retrieve their username and access token.
+
+<CardInfo>You can also create a temporary user, where the user will be deleted after a given time</CardInfo>
+
+### External IDs for Human Users
+When a data consumer is using an internal application or BI Software that is connected to the Formal Connector, by default the queries will be attributed to the application's credentials (e.g. the Machine User) rather than the end user.
+
+You can solve this by adding an External ID to a Human user. By mapping the data consumer's User ID within those tools to the correct Formal User as an External ID, the data consumer's queries will be properly attributed to their Formal User.
+
+You can integrate some common Enterprise applications (such as Metabase and Looker) with Formal to automatically link External IDs to the right Formal User. Custom internal tooling may require modification; Formal supplies some SDKs for this such as [our plugin for Psycopg2 and Django](https://pypi.org/project/formal-sqlcommenter/).
+
+You can reach out to the Formal team for customized guidance related to integrating your tooling and External IDs.
+
+## Create a Machine user
+To create a machine user, select `Machine` in the Identity Type dropdown instead of `Human`.
+
+Optionally, you can link an integrated App with a Machine user. This supplies Formal Data Flows with additional context on where your users are querying.
+
+You can reach out to the Formal team for support or questions.
+
+## Service account authentication via IAM
+Having service accounts authenticated via IAM (GCP or AWS) is on our product roadmap. If you are interested in this feature, please send a note to the Formal team so we can prioritize its release for you.

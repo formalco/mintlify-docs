@@ -1,0 +1,1235 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Integration Cloud Service",
+        "version": "1.0",
+        "contact": {
+            "name": "Formal",
+            "url": "https://docs.private.joinformal.com/",
+            "email": "info@joinformal.com"
+        }
+    },
+    "tags": [
+        {
+            "name": "IntegrationCloudService"
+        }
+    ],
+    "paths": {
+        "/core.v1.IntegrationCloudService/CreateCloudIntegration": {
+            "post": {
+                "summary": "Create cloud integration",
+                "description": "Create a cloud integration",
+                "operationId": "IntegrationCloudService_CreateCloudIntegration",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1CreateCloudIntegrationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1CreateCloudIntegrationRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "IntegrationCloudService"
+                ]
+            }
+        },
+        "/core.v1.IntegrationCloudService/CreateGCPCloudIntegration": {
+            "post": {
+                "summary": "Create GCP cloud integration",
+                "description": "Create a GCP cloud integration",
+                "operationId": "IntegrationCloudService_CreateGCPCloudIntegration",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1CreateGCPCloudIntegrationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1CreateGCPCloudIntegrationRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "IntegrationCloudService"
+                ]
+            }
+        },
+        "/core.v1.IntegrationCloudService/DeleteCloudIntegration": {
+            "post": {
+                "summary": "Delete cloud integration",
+                "description": "Delete a cloud integration",
+                "operationId": "IntegrationCloudService_DeleteCloudIntegration",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1DeleteCloudIntegrationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1DeleteCloudIntegrationRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "IntegrationCloudService"
+                ]
+            }
+        },
+        "/core.v1.IntegrationCloudService/DeleteGCPCloudIntegration": {
+            "post": {
+                "summary": "Delete GCP cloud integration",
+                "description": "Delete a GCP cloud integration",
+                "operationId": "IntegrationCloudService_DeleteGCPCloudIntegration",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1DeleteGCPCloudIntegrationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1DeleteGCPCloudIntegrationRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "IntegrationCloudService"
+                ]
+            }
+        },
+        "/core.v1.IntegrationCloudService/GetGCPCloudIntegration": {
+            "post": {
+                "summary": "Get GCP cloud integration",
+                "description": "Get a GCP cloud integration by ID",
+                "operationId": "IntegrationCloudService_GetGCPCloudIntegration",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetGCPCloudIntegrationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1GetGCPCloudIntegrationRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "IntegrationCloudService"
+                ]
+            }
+        },
+        "/core.v1.IntegrationCloudService/GetIntegrationCloud": {
+            "post": {
+                "summary": "Get cloud integration",
+                "description": "Get a cloud integration",
+                "operationId": "IntegrationCloudService_GetIntegrationCloud",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetIntegrationCloudResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1GetIntegrationCloudRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "IntegrationCloudService"
+                ]
+            }
+        },
+        "/core.v1.IntegrationCloudService/ListGCPCloudIntegrations": {
+            "post": {
+                "summary": "List GCP cloud integrations",
+                "description": "List all GCP cloud integrations",
+                "operationId": "IntegrationCloudService_ListGCPCloudIntegrations",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ListGCPCloudIntegrationsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1ListGCPCloudIntegrationsRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "IntegrationCloudService"
+                ]
+            }
+        },
+        "/core.v1.IntegrationCloudService/ListIntegrationClouds": {
+            "post": {
+                "summary": "List cloud integrations",
+                "description": "List all cloud integrations",
+                "operationId": "IntegrationCloudService_ListIntegrationClouds",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ListIntegrationCloudsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1ListIntegrationCloudsRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "IntegrationCloudService"
+                ]
+            }
+        },
+        "/core.v1.IntegrationCloudService/UpdateCloudIntegration": {
+            "post": {
+                "summary": "Update cloud integration",
+                "description": "Update a cloud integration",
+                "operationId": "IntegrationCloudService_UpdateCloudIntegration",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1UpdateCloudIntegrationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1UpdateCloudIntegrationRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "IntegrationCloudService"
+                ]
+            }
+        },
+        "/core.v1.IntegrationCloudService/UpdateGCPCloudIntegration": {
+            "post": {
+                "summary": "Update GCP cloud integration",
+                "description": "Update a GCP cloud integration",
+                "operationId": "IntegrationCloudService_UpdateGCPCloudIntegration",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1UpdateGCPCloudIntegrationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1UpdateGCPCloudIntegrationRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "IntegrationCloudService"
+                ]
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiKeyAuth": []
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "name": "X-API-Key",
+                "in": "header"
+            }
+        },
+        "schemas": {
+            "corev1AWS": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string"
+                    },
+                    "awsFormalId": {
+                        "type": "string"
+                    },
+                    "awsAccountId": {
+                        "type": "string"
+                    },
+                    "awsFormalIamRole": {
+                        "type": "string"
+                    },
+                    "awsFormalHandshakeId": {
+                        "type": "string"
+                    },
+                    "templateBody": {
+                        "type": "string"
+                    },
+                    "awsFormalUserName": {
+                        "type": "string"
+                    },
+                    "awsFormalPingbackArn": {
+                        "type": "string"
+                    },
+                    "awsFormalStackName": {
+                        "type": "string"
+                    },
+                    "awsCloudRegion": {
+                        "type": "string"
+                    },
+                    "awsTemplateVersion": {
+                        "type": "string"
+                    },
+                    "awsS3BucketArn": {
+                        "type": "string"
+                    },
+                    "awsEnableEksAutodiscovery": {
+                        "type": "boolean"
+                    },
+                    "awsEnableRdsAutodiscovery": {
+                        "type": "boolean"
+                    },
+                    "awsEnableRedshiftAutodiscovery": {
+                        "type": "boolean"
+                    },
+                    "awsAllowS3Access": {
+                        "type": "boolean"
+                    },
+                    "awsEnableEc2Autodiscovery": {
+                        "type": "boolean"
+                    },
+                    "awsEnableEcsAutodiscovery": {
+                        "type": "boolean"
+                    },
+                    "awsCustomerRoleArn": {
+                        "type": "string"
+                    }
+                }
+            },
+            "protobufAny": {
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "type": "string",
+                        "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+                    }
+                },
+                "additionalProperties": {},
+                "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+            },
+            "rpcStatus": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/protobufAny"
+                        }
+                    }
+                }
+            },
+            "v1CloudIntegration": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "aws": {
+                        "$ref": "#/components/schemas/corev1AWS"
+                    },
+                    "gcp": {
+                        "$ref": "#/components/schemas/v1GCP"
+                    }
+                }
+            },
+            "v1CreateCloudIntegrationRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "cloudRegion": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "TODO: remove, deprecated by oneof cloud (2025-02-24)"
+                    },
+                    "aws": {
+                        "$ref": "#/components/schemas/v1CreateCloudIntegrationRequestAWS"
+                    }
+                }
+            },
+            "v1CreateCloudIntegrationRequestAWS": {
+                "type": "object",
+                "properties": {
+                    "templateVersion": {
+                        "type": "string"
+                    },
+                    "s3BucketArn": {
+                        "type": "string"
+                    },
+                    "enableEksAutodiscovery": {
+                        "type": "boolean"
+                    },
+                    "enableRdsAutodiscovery": {
+                        "type": "boolean"
+                    },
+                    "enableRedshiftAutodiscovery": {
+                        "type": "boolean"
+                    },
+                    "allowS3Access": {
+                        "type": "boolean"
+                    },
+                    "enableEc2Autodiscovery": {
+                        "type": "boolean"
+                    },
+                    "enableEcsAutodiscovery": {
+                        "type": "boolean"
+                    },
+                    "customerRoleArn": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1CreateCloudIntegrationResponse": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1CreateGCPCloudIntegrationRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "projectId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1CreateGCPCloudIntegrationResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1DeleteCloudIntegrationRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1DeleteCloudIntegrationResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1DeleteGCPCloudIntegrationRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1DeleteGCPCloudIntegrationResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1ErrorObject": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1Field": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "string"
+                    },
+                    "operator": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "$ref": "#/components/schemas/protobufAny"
+                    }
+                }
+            },
+            "v1FieldGroup": {
+                "type": "object",
+                "properties": {
+                    "operator": {
+                        "type": "string"
+                    },
+                    "filters": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1Filter"
+                        }
+                    }
+                }
+            },
+            "v1Filter": {
+                "type": "object",
+                "properties": {
+                    "field": {
+                        "$ref": "#/components/schemas/v1Field"
+                    },
+                    "group": {
+                        "$ref": "#/components/schemas/v1FieldGroup"
+                    }
+                }
+            },
+            "v1GCP": {
+                "type": "object",
+                "properties": {
+                    "projectId": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetGCPCloudIntegrationRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetGCPCloudIntegrationResponse": {
+                "type": "object",
+                "properties": {
+                    "integration": {
+                        "$ref": "#/components/schemas/v1CloudIntegration"
+                    }
+                }
+            },
+            "v1GetIntegrationCloudRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetIntegrationCloudResponse": {
+                "type": "object",
+                "properties": {
+                    "cloud": {
+                        "$ref": "#/components/schemas/v1CloudIntegration"
+                    }
+                }
+            },
+            "v1ListGCPCloudIntegrationsRequest": {
+                "type": "object",
+                "properties": {
+                    "limit": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "offset": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "v1ListGCPCloudIntegrationsResponse": {
+                "type": "object",
+                "properties": {
+                    "integrations": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1CloudIntegration"
+                        }
+                    }
+                }
+            },
+            "v1ListIntegrationCloudsRequest": {
+                "type": "object",
+                "properties": {
+                    "limit": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "cursor": {
+                        "type": "string"
+                    },
+                    "order": {
+                        "type": "string"
+                    },
+                    "search": {
+                        "type": "string"
+                    },
+                    "searchFields": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "filter": {
+                        "$ref": "#/components/schemas/v1Filter"
+                    }
+                }
+            },
+            "v1ListIntegrationCloudsResponse": {
+                "type": "object",
+                "properties": {
+                    "clouds": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1CloudIntegration"
+                        }
+                    },
+                    "listMetadata": {
+                        "$ref": "#/components/schemas/v1ListMetadata"
+                    }
+                }
+            },
+            "v1ListMetadata": {
+                "type": "object",
+                "properties": {
+                    "after": {
+                        "type": "string"
+                    },
+                    "before": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "nextCursor": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1UpdateCloudIntegrationRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "aws": {
+                        "$ref": "#/components/schemas/v1UpdateCloudIntegrationRequestAWS"
+                    }
+                }
+            },
+            "v1UpdateCloudIntegrationRequestAWS": {
+                "type": "object",
+                "properties": {
+                    "templateVersion": {
+                        "type": "string"
+                    },
+                    "s3BucketArn": {
+                        "type": "string"
+                    },
+                    "enableEksAutodiscovery": {
+                        "type": "boolean"
+                    },
+                    "enableRdsAutodiscovery": {
+                        "type": "boolean"
+                    },
+                    "enableRedshiftAutodiscovery": {
+                        "type": "boolean"
+                    },
+                    "allowS3Access": {
+                        "type": "boolean"
+                    },
+                    "enableEc2Autodiscovery": {
+                        "type": "boolean"
+                    },
+                    "enableEcsAutodiscovery": {
+                        "type": "boolean"
+                    },
+                    "customerRoleArn": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1UpdateCloudIntegrationResponse": {
+                "type": "object",
+                "properties": {
+                    "cloud": {
+                        "$ref": "#/components/schemas/v1CloudIntegration"
+                    }
+                }
+            },
+            "v1UpdateGCPCloudIntegrationRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "projectId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1UpdateGCPCloudIntegrationResponse": {
+                "type": "object",
+                "properties": {
+                    "integration": {
+                        "$ref": "#/components/schemas/v1CloudIntegration"
+                    }
+                }
+            }
+        }
+    }
+}

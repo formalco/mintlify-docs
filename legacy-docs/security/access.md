@@ -1,0 +1,29 @@
+---
+title: "Access"
+---
+
+<span className="page-description">How users can access Formal-protected Resources using Formal credentials?</span>
+Formal decouples credentials from the underlying database, enabling each user to have their own set of credentials. Formal credentials are short-lived and rotate periodically.
+
+## Default validity period for Formal Access Tokens 
+
+The default value is 14 days.
+
+## Configure validity period for Formal Access Tokens
+
+Customers have the ability to specify the duration for which Formal access tokens remain valid. This setting can be adjusted by contacting the Formal support team directly, and administrators are authorized to make this request.
+
+## How to access Formal credentials?
+
+In the bottom right corner of [the Application menu on the console](https://app.joinformal.com), click on the `Access Token` button.
+
+<img src="/img/credentials.png" />
+
+Alternatively, you can access the credentials from the [Desktop App](/desktop-app/introduction) using the command `formal auth credentials`.
+
+## How to use native credentials?
+
+Users have the option to access Connectors using their native credentials, unless restricted by a specific policy. To do this, append the native username after the Formal username in the following format:
+```
+idp:formal:human:john@joinformal.com@master
+```

@@ -1,0 +1,1823 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Satellite Service",
+        "version": "1.0",
+        "contact": {
+            "name": "Formal",
+            "url": "https://docs.private.joinformal.com/",
+            "email": "info@joinformal.com"
+        }
+    },
+    "tags": [
+        {
+            "name": "SatelliteService"
+        }
+    ],
+    "paths": {
+        "/core.v1.SatelliteService/CreateSatellite": {
+            "post": {
+                "summary": "Create satellite",
+                "description": "Create a new satellite",
+                "operationId": "SatelliteService_CreateSatellite",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1CreateSatelliteResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1CreateSatelliteRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/CreateSatelliteHostname": {
+            "post": {
+                "summary": "Create satellite hostname",
+                "description": "Create a new satellite hostname",
+                "operationId": "SatelliteService_CreateSatelliteHostname",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1CreateSatelliteHostnameResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1CreateSatelliteHostnameRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/CreateSatelliteOwner": {
+            "post": {
+                "summary": "Create satellite owner",
+                "description": "Create a satellite owner",
+                "operationId": "SatelliteService_CreateSatelliteOwner",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1CreateSatelliteOwnerResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1CreateSatelliteOwnerRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/DeleteSatellite": {
+            "post": {
+                "summary": "Delete satellite",
+                "description": "Delete a satellite",
+                "operationId": "SatelliteService_DeleteSatellite",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1DeleteSatelliteResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1DeleteSatelliteRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/DeleteSatelliteHostname": {
+            "post": {
+                "summary": "Delete satellite hostname",
+                "description": "Delete a satellite hostname",
+                "operationId": "SatelliteService_DeleteSatelliteHostname",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1DeleteSatelliteHostnameResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1DeleteSatelliteHostnameRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/DeleteSatelliteOwner": {
+            "post": {
+                "summary": "Delete satellite owner",
+                "description": "Delete a satellite owner",
+                "operationId": "SatelliteService_DeleteSatelliteOwner",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1DeleteSatelliteOwnerResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1DeleteSatelliteOwnerRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/GetSatellite": {
+            "post": {
+                "summary": "Get satellite",
+                "description": "Get a satellite",
+                "operationId": "SatelliteService_GetSatellite",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetSatelliteResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1GetSatelliteRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/GetSatelliteApiKey": {
+            "post": {
+                "summary": "Get satellite api key",
+                "description": "Get a satellite api key",
+                "operationId": "SatelliteService_GetSatelliteApiKey",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetSatelliteApiKeyResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1GetSatelliteApiKeyRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/GetSatelliteHostname": {
+            "post": {
+                "summary": "Get satellite hostname",
+                "description": "Get a satellite hostname",
+                "operationId": "SatelliteService_GetSatelliteHostname",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetSatelliteHostnameResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1GetSatelliteHostnameRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/GetSatelliteHostnameBySatelliteId": {
+            "post": {
+                "summary": "Get satellite hostname by satellite id",
+                "description": "Get a satellite hostname by satellite id",
+                "operationId": "SatelliteService_GetSatelliteHostnameBySatelliteId",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetSatelliteHostnameBySatelliteIdResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1GetSatelliteHostnameBySatelliteIdRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/GetSatelliteOwner": {
+            "post": {
+                "summary": "Get satellite owner",
+                "description": "Get a satellite owner",
+                "operationId": "SatelliteService_GetSatelliteOwner",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetSatelliteOwnerResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1GetSatelliteOwnerRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/ListSatelliteInstances": {
+            "post": {
+                "summary": "List satellite instances",
+                "description": "List all satellite instances",
+                "operationId": "SatelliteService_ListSatelliteInstances",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ListSatelliteInstancesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1ListSatelliteInstancesRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/ListSatelliteOwners": {
+            "post": {
+                "summary": "List satellite owners",
+                "description": "List all satellite owners",
+                "operationId": "SatelliteService_ListSatelliteOwners",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ListSatelliteOwnersResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1ListSatelliteOwnersRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/ListSatellites": {
+            "post": {
+                "summary": "List satellites",
+                "description": "List all satellites",
+                "operationId": "SatelliteService_ListSatellites",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ListSatellitesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1ListSatellitesRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/UpdateSatellite": {
+            "post": {
+                "summary": "Update satellite",
+                "description": "Update a satellite",
+                "operationId": "SatelliteService_UpdateSatellite",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1UpdateSatelliteResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1UpdateSatelliteRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        },
+        "/core.v1.SatelliteService/UpdateSatelliteHostname": {
+            "post": {
+                "summary": "Update satellite hostname",
+                "description": "Update a satellite hostname",
+                "operationId": "SatelliteService_UpdateSatelliteHostname",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1UpdateSatelliteHostnameResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Caller isn't authorized to perform the operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ErrorObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1UpdateSatelliteHostnameRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SatelliteService"
+                ]
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiKeyAuth": []
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "name": "X-API-Key",
+                "in": "header"
+            }
+        },
+        "schemas": {
+            "UserHuman": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserMachine": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "corev1User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "dbUsername": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "human": {
+                        "$ref": "#/components/schemas/UserHuman"
+                    },
+                    "machine": {
+                        "$ref": "#/components/schemas/UserMachine"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    },
+                    "expireAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "protobufAny": {
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "type": "string",
+                        "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+                    }
+                },
+                "additionalProperties": {},
+                "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+            },
+            "rpcStatus": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/protobufAny"
+                        }
+                    }
+                }
+            },
+            "v1CreateSatelliteHostnameRequest": {
+                "type": "object",
+                "properties": {
+                    "satelliteId": {
+                        "type": "string"
+                    },
+                    "hostname": {
+                        "type": "string"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "v1CreateSatelliteHostnameResponse": {
+                "type": "object",
+                "properties": {
+                    "satelliteHostname": {
+                        "$ref": "#/components/schemas/v1SatelliteHostname"
+                    }
+                }
+            },
+            "v1CreateSatelliteOwnerRequest": {
+                "type": "object",
+                "properties": {
+                    "satelliteId": {
+                        "type": "string"
+                    },
+                    "owner": {
+                        "$ref": "#/components/schemas/v1Owner"
+                    }
+                }
+            },
+            "v1CreateSatelliteOwnerResponse": {
+                "type": "object",
+                "properties": {
+                    "satelliteOwner": {
+                        "$ref": "#/components/schemas/v1SatelliteOwner"
+                    }
+                }
+            },
+            "v1CreateSatelliteRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    },
+                    "spaceId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1CreateSatelliteResponse": {
+                "type": "object",
+                "properties": {
+                    "satellite": {
+                        "$ref": "#/components/schemas/v1Satellite"
+                    }
+                }
+            },
+            "v1DeleteSatelliteHostnameRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1DeleteSatelliteHostnameResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1DeleteSatelliteOwnerRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1DeleteSatelliteOwnerResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1DeleteSatelliteRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1DeleteSatelliteResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1ErrorObject": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1Field": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "string"
+                    },
+                    "operator": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "$ref": "#/components/schemas/protobufAny"
+                    }
+                }
+            },
+            "v1FieldGroup": {
+                "type": "object",
+                "properties": {
+                    "operator": {
+                        "type": "string"
+                    },
+                    "filters": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1Filter"
+                        }
+                    }
+                }
+            },
+            "v1Filter": {
+                "type": "object",
+                "properties": {
+                    "field": {
+                        "$ref": "#/components/schemas/v1Field"
+                    },
+                    "group": {
+                        "$ref": "#/components/schemas/v1FieldGroup"
+                    }
+                }
+            },
+            "v1GetSatelliteApiKeyRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetSatelliteApiKeyResponse": {
+                "type": "object",
+                "properties": {
+                    "apiKey": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetSatelliteHostnameBySatelliteIdRequest": {
+                "type": "object",
+                "properties": {
+                    "satelliteId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetSatelliteHostnameBySatelliteIdResponse": {
+                "type": "object",
+                "properties": {
+                    "satelliteHostname": {
+                        "$ref": "#/components/schemas/v1SatelliteHostname"
+                    }
+                }
+            },
+            "v1GetSatelliteHostnameRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetSatelliteHostnameResponse": {
+                "type": "object",
+                "properties": {
+                    "satelliteHostname": {
+                        "$ref": "#/components/schemas/v1SatelliteHostname"
+                    }
+                }
+            },
+            "v1GetSatelliteOwnerRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetSatelliteOwnerResponse": {
+                "type": "object",
+                "properties": {
+                    "satelliteOwner": {
+                        "$ref": "#/components/schemas/v1SatelliteOwner"
+                    }
+                }
+            },
+            "v1GetSatelliteRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1GetSatelliteResponse": {
+                "type": "object",
+                "properties": {
+                    "satellite": {
+                        "$ref": "#/components/schemas/v1Satellite"
+                    }
+                }
+            },
+            "v1Group": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "dsyncGroupId": {
+                        "type": "string"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "v1ListMetadata": {
+                "type": "object",
+                "properties": {
+                    "after": {
+                        "type": "string"
+                    },
+                    "before": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "nextCursor": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1ListSatelliteInstancesRequest": {
+                "type": "object",
+                "properties": {
+                    "satelliteId": {
+                        "type": "string"
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "cursor": {
+                        "type": "string"
+                    },
+                    "order": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1ListSatelliteInstancesResponse": {
+                "type": "object",
+                "properties": {
+                    "instances": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1SatelliteInstance"
+                        }
+                    },
+                    "listMetadata": {
+                        "$ref": "#/components/schemas/v1ListMetadata"
+                    }
+                }
+            },
+            "v1ListSatelliteOwnersRequest": {
+                "type": "object",
+                "properties": {
+                    "satelliteId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1ListSatelliteOwnersResponse": {
+                "type": "object",
+                "properties": {
+                    "satelliteOwners": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1SatelliteOwner"
+                        }
+                    }
+                }
+            },
+            "v1ListSatellitesRequest": {
+                "type": "object",
+                "properties": {
+                    "limit": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "cursor": {
+                        "type": "string"
+                    },
+                    "order": {
+                        "type": "string"
+                    },
+                    "search": {
+                        "type": "string"
+                    },
+                    "searchFields": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "spaceId": {
+                        "type": "string"
+                    },
+                    "filter": {
+                        "$ref": "#/components/schemas/v1Filter"
+                    }
+                }
+            },
+            "v1ListSatellitesResponse": {
+                "type": "object",
+                "properties": {
+                    "satellites": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1Satellite"
+                        }
+                    },
+                    "listMetadata": {
+                        "$ref": "#/components/schemas/v1ListMetadata"
+                    }
+                }
+            },
+            "v1Owner": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/corev1User"
+                    },
+                    "group": {
+                        "$ref": "#/components/schemas/v1Group"
+                    }
+                }
+            },
+            "v1Satellite": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    },
+                    "spaceId": {
+                        "type": "string"
+                    },
+                    "space": {
+                        "$ref": "#/components/schemas/v1Space"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "v1SatelliteHostname": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "satelliteId": {
+                        "type": "string"
+                    },
+                    "hostname": {
+                        "type": "string"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "title": "Satellite Hostnames"
+            },
+            "v1SatelliteInstance": {
+                "type": "object",
+                "properties": {
+                    "instanceId": {
+                        "type": "string"
+                    },
+                    "version": {
+                        "type": "string"
+                    },
+                    "startTime": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastPing": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "v1SatelliteOwner": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "satelliteId": {
+                        "type": "string"
+                    },
+                    "owner": {
+                        "$ref": "#/components/schemas/v1Owner"
+                    }
+                },
+                "title": "Owners"
+            },
+            "v1Space": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "v1UpdateSatelliteHostnameRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "v1UpdateSatelliteHostnameResponse": {
+                "type": "object",
+                "properties": {
+                    "satelliteHostname": {
+                        "$ref": "#/components/schemas/v1SatelliteHostname"
+                    }
+                }
+            },
+            "v1UpdateSatelliteRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "terminationProtection": {
+                        "type": "boolean"
+                    },
+                    "spaceId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1UpdateSatelliteResponse": {
+                "type": "object",
+                "properties": {
+                    "satellite": {
+                        "$ref": "#/components/schemas/v1Satellite"
+                    }
+                }
+            }
+        }
+    }
+}

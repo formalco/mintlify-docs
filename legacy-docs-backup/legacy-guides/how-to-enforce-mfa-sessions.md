@@ -1,0 +1,67 @@
+---
+title: "How to enforce MFA Sessions on Formal Connectors?"
+---
+
+import { CardInfo } from '@site/src/components/card/card';
+import { Steps, Step } from '@site/src/components/steps/steps';
+
+<span className="page-description">Formal Desktop App supports DNS filtering, enabling you to enforce that users cannot connect directly to databases.</span>
+
+## Overview
+
+This guide outlines the steps to enforce Multi-Factor Authentication (MFA) sessions, enhancing security by verifying user identities through additional authentication methods.
+
+## Supported MFA Solutions
+Formal supports the following MFA solutions for secure user verification:
+- Okta
+- Google Authenticator
+- Duo Mobile
+
+<CardInfo>
+For integration with MFA solutions not listed, please contact Formal support for guidance.
+</CardInfo>
+
+## Configuration
+
+### Duo Mobile
+For integrating Duo Mobile with your Formal Connector, set the following environment variables:
+
+<!-- cSpell:ignore IKEY, SKEY -->
+1. `DUO_IKEY`
+2. `DUO_SKEY`
+3. `DUO_HOST`
+
+These variables enable the Duo Mobile service to communicate with your Connector, ensuring secure MFA challenges are processed effectively.
+
+### Okta / Google Authenticator
+Please contact Formal Support for guidance.
+
+## Enforcing MFA Policy
+To require MFA sessions on Formal Connectors, you'll need to implement a specific policy configuration. Here's an example of how to define such a policy:
+
+```rego
+package formal.v2
+
+session := { "action": "mfa" }
+```
+
+This configuration mandates that all user sessions must pass through MFA verification, enhancing the security level of your operations.
+
+<Steps>
+  <Step title="Select an MFA Solution">
+    Choose an MFA method from the supported options, or consult Formal support for guidance on integrating other solutions.
+  </Step>
+  <Step title="Configure your Connectors">
+    Apply the necessary configurations for your chosen MFA solution to your Connectors by setting the appropriate environment variables.
+  </Step>
+  <Step title="Define Formal Policy">
+    Use the example policy provided to enforce MFA requirements on user sessions.
+  </Step>
+  <Step title="Deploy">
+    Implement the policy across your Formal infrastructure to activate the MFA enforcement.
+  </Step>
+</Steps>
+
+By following these steps, you ensure that all user sessions are securely authenticated with MFA, significantly increasing the protection of your resources and data.
+
+For further assistance or to learn more about the features of Formal, please consult our support documentation or reach out to our support team.

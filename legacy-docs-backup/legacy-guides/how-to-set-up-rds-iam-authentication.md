@@ -1,0 +1,70 @@
+---
+title: "How to set up IAM RDS Authentication to connect to a AWS RDS instance?"
+---
+
+import { CardWarning } from '@site/src/components/card/card';
+
+<span className="page-description">Formal Connectors support IAM RDS Authentication for connecting to RDS instances, offering a secure alternative to password authentication.</span>
+
+<CardWarning>Currently, only the Postgres Connector supports IAM RDS Authentication.</CardWarning>
+
+## Requirements
+
+### RDS
+Ensure the following settings are configured on your RDS instance:
+
+- Enable IAM database authentication by setting `iam_database_authentication_enabled` to `true`
+- Create a role for the database access. Execute the following SQL commands on the RDS instance:
+```
+CREATE USER formal_iam;
+GRANT rds_iam TO formal_iam;
+```
+
+### ECS Task
+
+
+Include a policy in the ECS task role that permits RDS IAM authentication, as shown in the following Terraform configuration:
+
+- Policy added to the `ecs_task_role`
+```hcl
+resource "aws_iam_policy" "rds_iam_policy" {
+  name        = "rds-connect-policy"
+  description = "Policy to allow RDS IAM"
+  policy      = <<EOF
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Effect": "Allow",
+         "Action": [
+             "rds-db:connect"
+         ],
+         "Resource": [
+             "arn:aws:rds-db:*:*:dbuser:*/*"
+         ]
+      }
+   ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "rds_connect_policy_attachment" {
+  role       = aws_iam_role.ecs_task_role.name
+  policy_arn = aws_iam_policy.rds_iam_policy.arn
+}
+
+```
+
+## Required Versions
+
+Ensure you are using the latest versions of the necessary technologies for compatibility with IAM RDS Authentication:
+
+| Name               | Technology                  | Latest Version     |
+| ------------------ | --------------------------- | ------------------ | 
+| pg-wire-postgres   | Postgres, CockroachDB       | 1.6.32             |
+
+## Set up Native User
+
+When setting up a Native User, use the `db-user-name` created in your RDS instance as the username (for example, `formal_iam` from the SQL command above) and `iam` as the password.
+
+For more information on how to connect to a Postgres Database, please refer to [this documentation](/using-formal-connector/postgres)

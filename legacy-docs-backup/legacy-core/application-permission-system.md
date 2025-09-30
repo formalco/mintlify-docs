@@ -1,0 +1,91 @@
+---
+title: "Application Permission System"
+---
+
+<span className="page-description">Learn how to configure user permissions for Formal applications using Open Policy Agent.</span>
+
+## Introduction
+
+Our permission system is built on the [Open Policy Agent (OPA)](https://www.openpolicyagent.org/), allowing you to restrict user access to specific applications through Rego policies. By defining granular permissions, you can ensure users have access only to the applications necessary for their roles and responsibilities.
+
+For example, a member of the data team might require access to certain applications but not others, ensuring that they have the tools needed for their tasks while maintaining overall system security.
+
+## List of inputs
+
+You can block or allow requests based on the following user and application inputs:
+
+### User inputs
+
+- `input.user.id`
+- `input.user.name`
+- `input.user.first­_name`
+- `input.user.last­_name`
+- `input.user.email`
+- `input.user.groups`
+- `input.user.ip­_address`
+
+### Application inputs
+
+- `input.app.name`
+- `input.app.command.name`
+- `input.app.command.type`
+
+#### List of command types
+
+Here is a table listing all command types that can be used. If the API call contains the operation, then it is categorized as the corresponding type.
+| Type | Operations |
+| ------------------ | ------------------------- |
+| read | `Get`, `List` |
+| create | `Create` |
+| update | `Update` |
+| delete | `Delete` |
+| login | `Login` |
+
+#### List of applications
+
+Here is a table listing all applications that can be configured for access permissions:
+
+| Name             | Description                                                           |
+| ---------------- | --------------------------------------------------------------------- |
+| Access           | Application responsible for the retrieval of users credentials.       |
+| Sessions         | Give access to user session recordings.                               |
+| Logs             | Give access to all Connector queries.                                 |
+| Permission       | Determine to which application a user can access.                     |
+| Inventory        | Give access to Formal Data Inventory.                                 |
+| Trackers         | Give access to Trackers application.                                  |
+| Policies         | Give access to Formal Policy Engine.                                  |
+| IntegrationCloud | Give access to all cloud integrations (e.g. AWS).                     |
+| IntegrationsLog  | Give access to all log integrations (e.g. Splunk).                    |
+| Slack            | Give access to Slack integration.                                     |
+| Datahub          | Give access to Datahub integration.                                   |
+| Developer        | Give access to Developer Applications (e.g. the Desktop Application). |
+| Workflow         | Give access to Workflows.                                             |
+| Connectors       | Give access to Formal Connectors.                                     |
+| Resource         | Give access to Formal Resources.                                      |
+| Satellite        | Give access to Satellite application for data classification.         |
+| Sso              | Give access to Single Sign-On (SSO) management.                       |
+| DirectorySync    | Give access to synchronization of user directories.                   |
+| Users            | Give access to user management and administration.                    |
+| Group            | Give access to group management and permissions.                      |
+| IntegrationBI    | Give access to Business Intelligence integration (e.g. Metabase)      |
+
+## Example
+
+Below is an example of a Rego policy that grants access to the Sessions application exclusively for users in the admin group.
+
+```Rego
+
+package formal.app
+
+import future.keywords.in
+
+default allow = false
+
+allow := true {
+    input.app.name == "Sessions"
+    "admin" in input.user.groups
+}
+
+```
+
+This policy sets the default access to false, meaning no access is granted unless specified by a rule. The allow rule checks if the application requested is Sessions and if the user belongs to the admin group. If both conditions are met, access is granted.
