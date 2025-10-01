@@ -1,0 +1,284 @@
+---
+title: "Permissions"
+description: "Understand Formal's permission model for users, credentials, and access control"
+icon: "key"
+---
+
+## Access Tokens
+
+Formal decouples credentials from underlying resources, enabling each user to have their own set of short-lived, rotating credentials.
+
+### Default Validity Period
+
+**14 days** - Access tokens automatically expire and must be refreshed.
+
+### Configuring Token Validity
+
+To adjust the validity period for your organization, contact Formal support. Organization administrators are authorized to make this request.
+
+## Accessing Formal Credentials
+
+<Tabs>
+  <Tab title="Web Console">
+    1. Navigate to [the Formal console](https://app.joinformal.com)
+    2. Click the **Access Token** button in the bottom right corner
+    3. Copy your credentials (username and access token)
+  </Tab>
+  
+  <Tab title="Desktop App">
+    ```bash
+    formal auth credentials
+    ```
+    
+    This displays your Formal username and access token for connecting through Connectors.
+  </Tab>
+</Tabs>
+
+<img src="/img/credentials.png" alt="Access credentials in console" />
+
+## Using Credentials
+
+### Formal Credentials (Recommended)
+
+Connect to resources using your Formal credentials:
+
+```bash
+# PostgreSQL example
+psql -h connector.joinformal.com -p 5432 \
+  -U "idp:formal:human:alice@example.com" \
+  -d production_db
+
+# Password: <your access token from console>
+```
+
+Benefits:
+- ✅ Short-lived, rotating tokens
+- ✅ Per-user audit trails
+- ✅ Policy enforcement based on your identity
+- ✅ No shared credentials
+
+### Native Credentials
+
+<Warning>
+Using native credentials bypasses Formal's identity-based access control. This may be restricted by policy.
+</Warning>
+
+If allowed, append the native username after your Formal username:
+
+```
+idp:formal:human:alice@example.com@native_username
+```
+
+Example:
+```bash
+psql -h connector.joinformal.com -p 5432 \
+  -U "idp:formal:human:alice@example.com@postgres_readonly" \
+  -d production_db
+```
+
+Formal still logs the connection, but uses the native credentials to connect to the database.
+
+## Native User Mapping
+
+The Connector authenticates to resources using [native users](/docs/guides/core-concepts/resources#native-users) configured per resource.
+
+### Assignment Hierarchy
+
+Native user selection follows this precedence:
+
+1. **User-specific assignment**: Formal User → Native User
+2. **Group assignment**: Formal Group → Native User
+3. **Default**: Default native user for the resource
+
+<Note>
+A Formal User can have at most ONE native user assignment. If assigned directly, they cannot be in a group that also has a native user assignment.
+</Note>
+
+## Permission Policies
+
+Control who can access what using policies based on:
+
+### User Attributes
+
+```rego
+package formal.v2
+
+import future.keywords.if
+import future.keywords.in
+
+# Engineers can read, but not write
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "reason": "Engineers cannot write to production"
+} if {
+  "engineering" in input.user.groups
+  input.query.statement_type in ["INSERT", "UPDATE", "DELETE"]
+  input.resource.environment == "production"
+}
+```
+
+### Resource Attributes
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Block access to specific tables
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "reason": "PII table access restricted"
+} if {
+  "public.users_pii" in input.table_paths
+  not "pii_access" in input.user.groups
+}
+```
+
+### Native User Context
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Only allow read-only native users for analysts
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "reason": "Analysts must use readonly native user"
+} if {
+  "analyst" in input.user.groups
+  not input.native_user == "readonly"
+}
+```
+
+## End-User Identity Propagation
+
+When users connect through BI tools or internal applications, Formal can extract end-user identity to enforce per-user policies.
+
+### How It Works
+
+1. **Direct Connection**: Alice uses `psql` → User and End-User are both Alice
+2. **Via Application**: Katie uses Tableau → User is `machine:tableau`, End-User is Katie
+
+### Configuring External IDs
+
+Map end-user IDs from external systems to Formal users:
+
+<Steps>
+  <Step title="Add External ID to Formal User">
+    In the user details page, add the user's ID from your BI tool (e.g., Looker user ID `12345`)
+  </Step>
+  <Step title="Configure Application">
+    Update your application to propagate end-user ID when connecting
+    
+    Use Formal SDKs:
+    - [formal-sqlcommenter (Python/Django)](https://pypi.org/project/formal-sqlcommenter/)
+    - Built-in integrations for Looker, Metabase, Tableau
+  </Step>
+  <Step title="Write Policies for End-Users">
+    Reference `input.end_user` in policies to enforce per-user rules
+  </Step>
+</Steps>
+
+### Example: End-User Policy
+
+```rego
+package formal.v2
+
+import future.keywords.if
+import future.keywords.in
+
+# Block if end-user (not machine user) is not in admin group
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "reason": "End-user must be in admin group"
+} if {
+  input.user.type == "machine"
+  not "admin" in input.end_user.groups
+}
+```
+
+## Device-Based Access Control
+
+<Warning>
+This feature requires the [Formal Desktop App](/docs/guides/client-tools/desktop-app).
+</Warning>
+
+Enforce policies based on device attributes:
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Block if device is not running latest macOS
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "reason": "Device must run macOS 14 or later"
+} if {
+  input.device.software.system_version < "14.0"
+}
+
+# Require secure boot
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "reason": "Secure boot required"
+} if {
+  not input.device.software.system_integrity_protection == "enabled"
+}
+```
+
+Available device fields include:
+- `device.hardware.model_name`
+- `device.hardware.serial_number`
+- `device.software.system_version`
+- `device.software.system_integrity_protection`
+- And more (see [Policy Evaluation](/docs/guides/policies/enforcement#device-context))
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Formal Credentials" icon="check">
+    Always prefer Formal credentials over native credentials for better security and audit trails.
+  </Accordion>
+  
+  <Accordion title="Group-Based Permissions" icon="users">
+    Assign permissions to groups rather than individual users. Add users to groups to grant access.
+  </Accordion>
+  
+  <Accordion title="Leverage Native User Mapping" icon="database">
+    Use different native users (readonly, readwrite, admin) and assign them to groups based on required privileges.
+  </Accordion>
+  
+  <Accordion title="Implement External IDs for BI Tools" icon="chart-line">
+    Enable end-user attribution for BI tools to ensure queries are tracked to the right person, not just the application.
+  </Accordion>
+  
+  <Accordion title="Rotate Tokens Regularly" icon="arrows-rotate">
+    Even though tokens are short-lived, establish a process for users to refresh credentials periodically.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Write Policies" icon="shield-check" href="/docs/guides/policies/policies">
+    Create access control policies
+  </Card>
+  <Card title="Configure Native Users" icon="key" href="/docs/guides/core-concepts/resources#native-users">
+    Set up database credentials
+  </Card>
+  <Card title="Set Up External IDs" icon="link" href="/docs/guides/core-concepts/identities#external-ids-and-identity-propagation">
+    Enable end-user tracking for BI tools
+  </Card>
+  <Card title="Desktop App" icon="desktop" href="/docs/guides/client-tools/desktop-app">
+    Install the Formal Desktop App
+  </Card>
+</CardGroup>
+

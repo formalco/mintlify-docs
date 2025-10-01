@@ -1,0 +1,302 @@
+---
+title: "Satellites"
+description: "Specialized tools for advanced policy enforcement, data discovery, and classification"
+icon: "satellite"
+---
+
+## What are Satellites?
+
+Formal Satellites are optional specialized containers you deploy alongside Connectors to enable advanced capabilities like PII detection, schema discovery, and custom policy data loading.
+
+Satellites extend Formal's core functionality without adding complexity to the Connector itself. They're deployed in your infrastructure and communicate with Connectors and the Control Plane.
+
+## Satellite Types
+
+<CardGroup cols={3}>
+  <Card title="Data Classifier" icon="magnifying-glass">
+    Detects PII and sensitive data in real-time for automatic redaction and classification
+  </Card>
+  <Card title="Data Discovery" icon="map">
+    Catalogs database schemas, tables, and columns across your data infrastructure
+  </Card>
+  <Card title="Policy Data Loader" icon="code">
+    Loads external data into policies using custom code in Python or Node.js
+  </Card>
+</CardGroup>
+
+## Data Classifier Satellite
+
+Predicts and identifies Personally Identifiable Information (PII) in database responses, enabling automatic data masking and classification policies.
+
+### Features
+
+- **Real-time PII detection** on query responses
+- **Multiple detection modes**:
+  - `formal`: Custom Formal ML model (fast, optimized)
+  - `formal_llm`: ML model + LLM classification (higher accuracy)
+  - `formal_llm_only`: LLM-only classification (highest accuracy, slower)
+- **Automatic labeling** of columns and fields with PII types
+- **Integration with policies** for conditional masking
+
+### Use Cases
+
+```javascript
+// Policy using Data Classifier results
+if (data.pii_classifier.column_contains_email) {
+  mask(response, "email_column");
+}
+```
+
+### Configuration
+
+Environment variables:
+- `FORMAL_CONTROL_PLANE_API_KEY`: Satellite authentication token
+- `PII_DETECTION`: Detection mode (`formal`, `formal_llm`, `formal_llm_only`)
+- `SATELLITE_TLS_CERT`: TLS certificate for secure communication (recommended)
+
+## Data Discovery Satellite
+
+Automatically discovers and catalogs your database schemas, tables, columns, and relationships.
+
+### Features
+
+- **Scheduled schema discovery** across all resources
+- **PII classification** integration (requires Data Classifier)
+- **Schema change tracking** with deletion policies
+- **Metadata catalog** for data governance
+
+### Configuration
+
+Environment variables:
+- `FORMAL_CONTROL_PLANE_API_KEY`: Satellite authentication token
+- `DATA_CLASSIFIER_SATELLITE_URI`: URI of Data Classifier (e.g., `localhost:50055`)
+- `PII_SAMPLING_RATE`: Sampling rate for PII analysis (1-100)
+- `SERVER_CONNECT_TLS`: Enable TLS to resources (`true`/`false`)
+- `SATELLITE_TLS_CERT_PRIVATE_KEY`: TLS private key
+- `SATELLITE_TLS_CERT_FULLCHAIN`: TLS certificate chain
+
+### Schema Discovery Jobs
+
+Configure discovery schedules per resource:
+- **Frequency**: None, every 6/12/18/24 hours, or custom cron
+- **Deletion policy**: Mark for deletion or auto-delete removed schemas
+- **Native user**: Which credentials to use for discovery
+
+## Policy Data Loader Satellite
+
+Enables custom code to load data from external sources into your policies, extending policy evaluation with dynamic business logic.
+
+### Features
+
+- **Custom code execution** in Python 3.11 or Node.js 18
+- **Scheduled runs** with cron expressions
+- **External API calls** to fetch data
+- **JSON output** accessible in policies via `data` object
+
+### Supported Runtimes
+
+| Runtime | Identifier | Available Libraries |
+|---------|------------|---------------------|
+| Python 3.11 | `python3.11` | `requests`, `httpx` |
+| Node.js 18 | `nodejs18.x` | `lodash`, `axios` |
+
+### Example: Load Approved Users from API
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import requests
+    import json
+    
+    # Fetch approved users from internal API
+    response = requests.get('https://api.internal.com/approved-users')
+    users = response.json()
+    
+    # Output as JSON for policies
+    print(json.dumps({
+        "approved_user_ids": [u["id"] for u in users],
+        "last_updated": users["timestamp"]
+    }))
+    ```
+  </Tab>
+  
+  <Tab title="Node.js">
+    ```javascript
+    const axios = require('axios');
+    
+    async function loadApprovedUsers() {
+      const response = await axios.get('https://api.internal.com/approved-users');
+      const users = response.data;
+      
+      // Output as JSON for policies
+      console.log(JSON.stringify({
+        approved_user_ids: users.map(u => u.id),
+        last_updated: users.timestamp
+      }));
+    }
+    
+    loadApprovedUsers();
+    ```
+  </Tab>
+</Tabs>
+
+### Using in Policies
+
+```javascript
+// Access loaded data in policies via the key you defined
+if (data.approved_users.approved_user_ids.includes(user.id)) {
+  allow();
+} else {
+  deny();
+}
+```
+
+### Schedule Format
+
+Policy Data Loaders use second-based cron expressions:
+
+| Expression | Description |
+|------------|-------------|
+| `* * * * * *` | Every second |
+| `*/30 * * * * *` | Every 30 seconds |
+| `0 * * * * *` | Every minute |
+| `0 */5 * * * *` | Every 5 minutes |
+| `0 30 8 * * *` | Daily at 8:30 AM |
+
+Format: `second minute hour day month year`
+
+### Configuration
+
+Environment variables:
+- `FORMAL_CONTROL_PLANE_API_KEY`: Satellite authentication token
+- `SATELLITE_TLS_CERT_PRIVATE_KEY`: TLS private key
+- `SATELLITE_TLS_CERT_FULLCHAIN`: TLS certificate chain
+- **Custom variables**: Available to your code
+
+<Note>
+The Satellite passes all its environment variables to worker processes, so you can use environment variables in your code (e.g., API keys, endpoints).
+</Note>
+
+## Deployment
+
+Satellites are Docker containers deployed in your infrastructure, similar to Connectors.
+
+### Prerequisites
+
+1. Create the Satellite in the Formal console
+2. Copy the API token
+3. Deploy the container with appropriate environment variables
+
+### Recommended Deployment
+
+<Tabs>
+  <Tab title="AWS ECS Fargate">
+    See the [AWS Satellite deployment example](https://github.com/formalco/terraform-provider-formal/tree/main/examples/deployments/aws/satellites/data-discovery-satellite) for Terraform configuration.
+  </Tab>
+  
+  <Tab title="Kubernetes">
+    ```yaml
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: formal-data-classifier
+    spec:
+      replicas: 1
+      template:
+        spec:
+          containers:
+          - name: satellite
+            image: <formal-satellite-image>
+            env:
+            - name: FORMAL_CONTROL_PLANE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: formal-satellite
+                  key: api-key
+            - name: PII_DETECTION
+              value: "formal_llm"
+    ```
+  </Tab>
+  
+  <Tab title="Docker">
+    ```bash
+    docker run -d \
+      --name formal-data-classifier \
+      -e FORMAL_CONTROL_PLANE_API_KEY=satellite_abc123 \
+      -e PII_DETECTION=formal_llm \
+      <formal-satellite-image>
+    ```
+  </Tab>
+</Tabs>
+
+### TLS Configuration (Recommended)
+
+Secure communication between Satellites and Connectors with TLS:
+
+```bash
+# Generate certificate (example with OpenSSL)
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+
+# Set environment variables
+SATELLITE_TLS_CERT_PRIVATE_KEY="$(cat key.pem)"
+SATELLITE_TLS_CERT_FULLCHAIN="$(cat cert.pem)"
+```
+
+## Spaces and Satellites
+
+Like Connectors and Resources, Satellites can be assigned to [Spaces](/docs/guides/core-concepts/spaces):
+
+- **Satellite with a Space**: Only communicates with Connectors and Resources in the same Space
+- **Satellite without a Space**: Can communicate with any Connector or Resource
+
+<Warning>
+Changing a Satellite's Space requires restarting the Satellite container.
+</Warning>
+
+## Managing Satellites
+
+### Creating a Satellite
+
+<Steps>
+  <Step title="Navigate to Satellites">
+    Go to [Satellites](https://app.joinformal.com/satellites) in the console
+  </Step>
+  <Step title="Select type">
+    Choose Data Classifier, Data Discovery, or Policy Data Loader
+  </Step>
+  <Step title="Configure settings">
+    - **Name**: Friendly identifier
+    - **Space**: (Optional) Logical grouping
+  </Step>
+  <Step title="Copy API token">
+    Save the token for deployment
+  </Step>
+  <Step title="Deploy container">
+    Use the token in your deployment (ECS, Kubernetes, Docker)
+  </Step>
+</Steps>
+
+### Policy Data Loader Status
+
+- **Draft**: Not running; code is being edited
+- **Active**: Running and loading data on schedule
+
+Activate after testing your code to make data available to policies.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Deploy a Satellite" icon="rocket" href="#deployment">
+    Run Satellites in your infrastructure
+  </Card>
+  <Card title="Use in Policies" icon="shield-check" href="/docs/guides/policies/policies">
+    Reference Satellite data in policy rules
+  </Card>
+  <Card title="Configure Spaces" icon="layer-group" href="/docs/guides/core-concepts/spaces">
+    Segment Satellite access
+  </Card>
+  <Card title="Schema Discovery" icon="map" href="/docs/guides/observability/logs">
+    Catalog your data infrastructure
+  </Card>
+</CardGroup>
+

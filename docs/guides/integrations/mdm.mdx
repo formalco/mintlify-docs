@@ -1,0 +1,394 @@
+---
+title: "Mobile Device Management"
+description: "Enforce device security policies with MDM integration"
+icon: "mobile"
+---
+
+## Overview
+
+Formal's Mobile Device Management (MDM) integration allows you to enforce device-based security policies on user connections. By integrating with your organization's MDM solution, you can ensure that only compliant, managed devices can access protected resources through Formal.
+
+<Warning>
+  MDM-based policies require users to connect through the [Formal Desktop
+  App](/docs/guides/client-tools/desktop-app), which collects and reports device
+  information.
+</Warning>
+
+## How It Works
+
+When users connect through the Formal Desktop App:
+
+1. The app collects device information (hardware, software, security settings)
+2. This information is sent to the Connector along with the connection request
+3. Policies evaluate device attributes via `input.device`
+4. Connections are allowed or blocked based on device compliance
+
+## Device Information Available
+
+Formal collects comprehensive device metadata that can be used in policies:
+
+### Hardware Information
+
+| Field                    | Description                               |
+| ------------------------ | ----------------------------------------- |
+| `model_name`             | Device model name (e.g., "MacBook Pro")   |
+| `model_identifier`       | Model identifier (e.g., "MacBookPro18,1") |
+| `serial_number`          | Hardware serial number                    |
+| `hardware_uuid`          | Unique hardware identifier                |
+| `activation_lock_status` | Activation lock status (macOS)            |
+
+### Software Information
+
+| Field                         | Description                     |
+| ----------------------------- | ------------------------------- |
+| `system_version`              | OS version (e.g., "14.2")       |
+| `kernel_version`              | Kernel version                  |
+| `computer_name`               | Computer/hostname               |
+| `user_name`                   | Local user account name         |
+| `system_integrity_protection` | SIP status (macOS)              |
+| `secure_virtual_memory`       | Encrypted virtual memory status |
+| `boot_mode`                   | Secure boot status              |
+
+## Example Policies
+
+### Require Secure Boot
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Device must have secure boot enabled",
+  "reason": "Device security policy violation"
+} if {
+  not input.device.software.boot_mode == "secure"
+}
+```
+
+### Block Jailbroken/Modified Devices
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "System Integrity Protection must be enabled",
+  "reason": "Device tampering detected"
+} if {
+  not input.device.software.system_integrity_protection == "enabled"
+}
+```
+
+### Require Minimum OS Version
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Device must run macOS 14 or later",
+  "reason": "Outdated operating system"
+} if {
+  # Parse version string and compare
+  version_parts := split(input.device.software.system_version, ".")
+  major_version := to_number(version_parts[0])
+
+  major_version < 14
+}
+```
+
+### Enforce Activation Lock (macOS)
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Activation Lock must be enabled",
+  "reason": "Device theft protection required"
+} if {
+  input.device.hardware.activation_lock_status == "disabled"
+}
+```
+
+### Require Encrypted Virtual Memory
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Encrypted virtual memory required",
+  "reason": "Data protection policy"
+} if {
+  not input.device.software.secure_virtual_memory == "enabled"
+}
+```
+
+### Allow Only Corporate Devices
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Only corporate-issued devices allowed",
+  "reason": "Device not in approved list"
+} if {
+  # Check against list of approved serial numbers (Policy Data Loader)
+  approved_serials := data.approved_devices.serial_numbers
+
+  not input.device.hardware.serial_number in approved_serials
+}
+```
+
+### Conditional Access Based on Device
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Require MFA if device is not fully compliant
+session := {
+  "action": "mfa",
+  "reason": "MFA required for non-compliant devices"
+} if {
+  # Check multiple compliance factors
+  version_parts := split(input.device.software.system_version, ".")
+  major_version := to_number(version_parts[0])
+
+  # Device is "marginally compliant" - allow with MFA
+  major_version >= 13
+  major_version < 14
+  input.device.software.system_integrity_protection == "enabled"
+}
+
+# Block if device is completely non-compliant
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Device does not meet minimum security requirements",
+  "reason": "Critical compliance violations"
+} if {
+  # OS too old OR SIP disabled
+  version_parts := split(input.device.software.system_version, ".")
+  major_version := to_number(version_parts[0])
+
+  major_version < 13
+}
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Device does not meet minimum security requirements",
+  "reason": "Critical compliance violations"
+} if {
+  not input.device.software.system_integrity_protection == "enabled"
+}
+```
+
+## MDM Integration (Third-Party)
+
+While Formal doesn't directly integrate with specific MDM platforms (Jamf, Intune, etc.), you can sync MDM compliance data using Policy Data Loaders:
+
+### Example: Jamf Compliance
+
+```python
+# Policy Data Loader to fetch Jamf compliance data
+import requests
+import json
+
+jamf_url = "https://your-org.jamfcloud.com/JSSResource/computers"
+api_token = os.environ['JAMF_API_TOKEN']
+
+response = requests.get(
+    jamf_url,
+    headers={"Authorization": f"Bearer {api_token}"}
+)
+
+computers = response.json()
+
+# Build list of compliant devices
+compliant_devices = {
+    "serial_numbers": [
+        c["serial_number"]
+        for c in computers
+        if c["compliant"] == True
+    ]
+}
+
+print(json.dumps(compliant_devices))
+```
+
+Then reference in policies:
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Device not compliant with corporate policies",
+  "reason": "Jamf MDM compliance check failed"
+} if {
+  not input.device.hardware.serial_number in data.jamf_compliance.serial_numbers
+}
+```
+
+## Device Trust Levels
+
+Implement a tiered access model based on device trust:
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Helper function to calculate device trust score
+device_trust_score(device) := score if {
+  checks := [
+    device.software.system_integrity_protection == "enabled",
+    device.software.secure_virtual_memory == "enabled",
+    device.software.boot_mode == "secure",
+    device.hardware.activation_lock_status == "enabled",
+  ]
+
+  # Count how many checks pass
+  score := count([c | c := checks[_]; c == true])
+}
+
+# High trust: Allow all access
+session := {
+  "action": "allow",
+  "reason": "High trust device"
+} if {
+  device_trust_score(input.device) == 4
+}
+
+# Medium trust: Allow with MFA
+session := {
+  "action": "mfa",
+  "reason": "Medium trust device requires MFA"
+} if {
+  score := device_trust_score(input.device)
+  score >= 2
+  score < 4
+}
+
+# Low trust: Block
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Device does not meet minimum security requirements",
+  "reason": "Low trust device"
+} if {
+  device_trust_score(input.device) < 2
+}
+```
+
+## Monitoring Device Compliance
+
+View device information in session logs:
+
+1. Navigate to [Sessions](https://app.joinformal.com/sessions)
+2. Click on any session
+3. Review device information in session details
+4. Filter sessions by device attributes
+
+This allows you to:
+
+- Audit which devices are accessing resources
+- Identify non-compliant devices attempting connections
+- Track OS versions and security settings across your fleet
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Require Desktop App" icon="desktop">
+    Enforce use of the Formal Desktop App for connections that require device
+    compliance checks. Block direct connections that bypass device verification.
+  </Accordion>
+
+  <Accordion title="Layer Security" icon="layer-group">
+    Combine device-based policies with user-based and resource-based policies
+    for defense in depth.
+  </Accordion>
+
+  <Accordion title="Grace Periods" icon="clock">
+    When implementing new device requirements, use dry-run mode first and give
+    users time to update their devices.
+  </Accordion>
+
+  <Accordion title="Sync with MDM" icon="arrows-rotate">
+    Use Policy Data Loaders to regularly sync device compliance status from your
+    MDM platform.
+  </Accordion>
+
+  <Accordion title="Audit Regularly" icon="magnifying-glass">
+    Review session logs to identify devices that frequently fail compliance
+    checks.
+  </Accordion>
+</AccordionGroup>
+
+## Compliance
+
+Device-based access control supports compliance requirements for:
+
+- **SOC 2**: Demonstrates technical safeguards and access controls
+- **NIST**: Aligns with device integrity verification requirements
+- **Zero Trust**: Validates device security posture before granting access
+- **HIPAA**: Technical safeguards for devices accessing ePHI
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Desktop App"
+    icon="desktop"
+    href="/docs/guides/client-tools/desktop-app"
+  >
+    Install the Formal Desktop App
+  </Card>
+  <Card
+    title="Write Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
+    Create device-based policies
+  </Card>
+  <Card
+    title="Satellites"
+    icon="satellite"
+    href="/docs/guides/core-concepts/satellites"
+  >
+    Set up Policy Data Loaders for MDM sync
+  </Card>
+  <Card
+    title="Monitor Sessions"
+    icon="radar"
+    href="/docs/guides/observability/sessions"
+  >
+    Audit device compliance
+  </Card>
+</CardGroup>

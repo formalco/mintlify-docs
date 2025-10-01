@@ -1,0 +1,134 @@
+---
+title: "Authentication & Secret Management"
+description: "Manage credentials, native users, and access tokens with Formal"
+icon: "key"
+---
+
+## Overview
+
+Formal decouples user authentication from database credentials, enabling short-lived tokens, per-user audit trails, and centralized secret management.
+
+## User Authentication
+
+### Formal Access Tokens
+
+Users authenticate to Connectors with Formal credentials:
+
+1. User logs into [Formal Console](https://app.joinformal.com)
+2. Retrieves access token (valid for 14 days by default)
+3. Uses Formal username + token to connect through Connectors
+
+**Benefits:**
+
+- Short-lived, rotating credentials
+- Per-user attribution
+- Centralized revocation
+
+See [Permissions](/docs/guides/policies/permissions) for details.
+
+### SSO Integration
+
+Enable single sign-on for seamless authentication:
+
+1. Configure [SSO](/docs/guides/integrations/sso)
+2. Users authenticate with corporate credentials
+3. Formal creates/updates user accounts automatically
+
+## Secret Management
+
+### Native User Credentials
+
+Connectors authenticate to resources using native credentials you configure:
+
+<Tabs>
+  <Tab title="Direct Password">
+    Store password encrypted in Formal: ``` Username: postgres_readonly
+    Password: •••••••••••• ```
+  </Tab>
+
+  <Tab title="Environment Variable">
+    Reference env var in Connector: ``` Password: ENV:DB_PASSWORD ``` Set in
+    Connector deployment: ```bash export DB_PASSWORD="actual-password" ```
+  </Tab>
+
+  <Tab title="IAM Authentication">
+    Use AWS IAM for RDS: ``` Password: iam ``` Connector assumes its IAM role to
+    connect.
+  </Tab>
+
+  <Tab title="Custom IAM Role">
+    Assume specific role: ``` Password: arn:aws:iam::123456789:role/MyDBRole ```
+  </Tab>
+</Tabs>
+
+### Native User Assignment
+
+Map Formal users/groups to native users:
+
+```
+Formal Group: "engineering"
+→ Native User: "postgres_readwrite"
+
+Formal Group: "analytics"
+→ Native User: "postgres_readonly"
+
+Default: "postgres_limited"
+```
+
+See [Resources](/docs/guides/core-concepts/resources#native-users) for configuration.
+
+## Dynamic Secrets (Coming Soon)
+
+Formal will support dynamic secret generation:
+
+- Generate temporary database credentials per session
+- Auto-rotate after session ends
+- No long-lived credentials
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use IAM When Possible" icon="aws">
+    For AWS RDS, use IAM authentication instead of passwords. Credentials rotate
+    automatically.
+  </Accordion>
+
+  <Accordion title="Environment Variables for Connectors" icon="lock">
+    Store sensitive passwords in env vars or secret managers (AWS Secrets
+    Manager, Kubernetes Secrets).
+  </Accordion>
+
+  <Accordion title="Least Privilege Native Users" icon="shield">
+    Create multiple native users with different permissions (readonly,
+    readwrite, admin) and assign to groups.
+  </Accordion>
+
+  <Accordion title="Rotate Formal Tokens" icon="arrows-rotate">
+    Establish a process for users to refresh access tokens before expiration.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Configure Native Users"
+    icon="database"
+    href="/docs/guides/core-concepts/resources#native-users"
+  >
+    Set up database credentials
+  </Card>
+  <Card
+    title="SSO Setup"
+    icon="right-to-bracket"
+    href="/docs/guides/integrations/sso"
+  >
+    Enable single sign-on
+  </Card>
+  <Card title="Permissions" icon="key" href="/docs/guides/policies/permissions">
+    Understand access tokens
+  </Card>
+  <Card title="MFA" icon="shield-keyhole" href="/docs/guides/integrations/mfa">
+    Add multi-factor authentication
+  </Card>
+</CardGroup>

@@ -1,0 +1,309 @@
+---
+title: "Infrastructure Access Control"
+description: "Control access to databases, SSH servers, Kubernetes clusters, and APIs with policy-driven security"
+icon: "shield-check"
+---
+
+## Overview
+
+Formal enables you to control access to your entire infrastructure—databases, SSH servers, Kubernetes clusters, and APIs—through a single policy-as-code framework.
+
+## Quick Start
+
+<Steps>
+  <Step title="Add Your Resources">
+    Register databases, servers, and APIs in Formal
+  </Step>
+  <Step title="Deploy Connectors">Route traffic through Formal Connectors</Step>
+  <Step title="Create Users & Groups">
+    Organize your team with groups (Engineering, Analytics, etc.)
+  </Step>
+  <Step title="Write Policies">Define who can access what and when</Step>
+</Steps>
+
+## Common Patterns
+
+### Database Access Control
+
+#### Block All, Allow by Group
+
+```rego
+package formal.v2
+
+import future.keywords.if
+import future.keywords.in
+
+# Default deny
+default session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Access denied"
+}
+
+# Allow engineering team
+session := {
+  "action": "allow"
+} if {
+  "engineering" in input.user.groups
+  input.resource.technology == "postgres"
+}
+```
+
+#### Read-Only Access for Analysts
+
+```rego
+package formal.v2
+
+import future.keywords.if
+import future.keywords.in
+
+# Allow reads
+pre_request := {
+  "action": "allow"
+} if {
+  "analyst" in input.user.groups
+  input.query.statement_type == "SELECT"
+}
+
+# Block writes
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Analysts have read-only access"
+} if {
+  "analyst" in input.user.groups
+  input.query.statement_type in ["INSERT", "UPDATE", "DELETE"]
+}
+```
+
+### SSH Access Control
+
+#### Restrict Production SSH
+
+```rego
+package formal.v2
+
+import future.keywords.if
+import future.keywords.in
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Production SSH requires admin access"
+} if {
+  input.resource.technology == "ssh"
+  input.resource.environment == "production"
+  not "admin" in input.user.groups
+}
+```
+
+#### Block Dangerous Commands
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Dangerous command blocked"
+} if {
+  input.resource.technology == "ssh"
+  regex.match(`rm -rf|dd if=|mkfs|:(){ :|:&}`, input.command)
+}
+```
+
+### Kubernetes Access Control
+
+#### Namespace Isolation
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "You can only access your team's namespace"
+} if {
+  input.resource.technology == "kubernetes"
+
+  # Map users to their allowed namespaces
+  user_namespaces := {
+    "alice@example.com": "team-alpha",
+    "bob@example.com": "team-beta"
+  }
+
+  allowed_namespace := user_namespaces[input.user.email]
+  not input.k8s_namespace == allowed_namespace
+}
+```
+
+### API Access Control
+
+#### Rate Limiting
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Rate limit exceeded"
+} if {
+  input.resource.technology == "http"
+
+  # Check rate limit (requires Policy Data Loader)
+  user_requests := data.api_rate_limits[input.user.username]
+  user_requests > 1000  # 1000 requests per hour
+}
+```
+
+#### Method Restrictions
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "You can only perform GET requests"
+} if {
+  input.resource.technology == "http"
+  not input.user.groups contains "api_write_access"
+  not input.query.method == "GET"
+}
+```
+
+## Advanced Patterns
+
+### Time-Based Access
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Require MFA for after-hours access
+session := {
+  "action": "mfa",
+  "reason": "After-hours access requires MFA"
+} if {
+  hour := time.clock([time.now_ns()])[0]
+  hour >= 22 or hour < 6  # 10 PM - 6 AM
+  input.resource.environment == "production"
+}
+```
+
+### IP-Based Access
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Access only allowed from office network"
+} if {
+  # Check if IP is in allowed ranges
+  office_ips := [
+    "203.0.113.0/24",
+    "198.51.100.0/24"
+  ]
+
+  not cidr_contains(office_ips, input.client_ip_address)
+  input.resource.environment == "production"
+}
+```
+
+### Approval-Based Access
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Production access requires active approval ticket"
+} if {
+  input.resource.environment == "production"
+
+  # Check for approval (Policy Data Loader fetches from Jira/ServiceNow)
+  approvals := [ticket |
+    ticket := data.approval_tickets[_]
+    ticket.user_email == input.user.email
+    ticket.resource_id == input.resource.id
+    ticket.status == "approved"
+    ticket.expires_at > time.now_ns()
+  ]
+
+  count(approvals) == 0
+}
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Start with Default Deny" icon="lock">
+    Begin with `default session := { "action": "block" }` and explicitly allow access. This is more secure than blocking specific cases.
+  </Accordion>
+  
+  <Accordion title="Use Groups, Not Individual Users" icon="users">
+    Manage permissions at the group level. Add/remove users from groups instead of updating policies.
+  </Accordion>
+  
+  <Accordion title="Separate Policies by Environment" icon="layer-group">
+    Use different policies for production, staging, and development. Production should have stricter controls.
+  </Accordion>
+  
+  <Accordion title="Log Everything with Context" icon="file-lines">
+    Include `reason` and `contextual_data` in policy responses for audit trails.
+  </Accordion>
+  
+  <Accordion title="Test in Dry-Run" icon="flask">
+    Always test new policies in dry-run mode before activating to avoid blocking legitimate access.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Write Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
+    Learn policy syntax and structure
+  </Card>
+  <Card
+    title="Threat Detection"
+    icon="triangle-exclamation"
+    href="/docs/guides/how-to/threat-detection"
+  >
+    Block attacks in real-time
+  </Card>
+  <Card
+    title="Data Redaction"
+    icon="eye-slash"
+    href="/docs/guides/how-to/data-redaction"
+  >
+    Mask sensitive data
+  </Card>
+  <Card
+    title="Audit Logs"
+    icon="file-certificate"
+    href="/docs/guides/how-to/log-audits"
+  >
+    Compliance reporting
+  </Card>
+</CardGroup>

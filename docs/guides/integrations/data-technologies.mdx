@@ -1,0 +1,478 @@
+---
+title: "Data Technologies"
+description: "Connect to databases, data warehouses, APIs, and infrastructure through Formal Connectors"
+icon: "database"
+---
+
+## Overview
+
+Formal Connectors support a wide range of data technologies and protocols. This page provides an overview of all supported technologies and links to detailed configuration guides.
+
+## Supported Technologies
+
+<CardGroup cols={3}>
+  <Card title="PostgreSQL" icon="database" href="#postgresql">
+    PostgreSQL, RDS, Aurora, Supabase, AlloyDB
+  </Card>
+  <Card title="MySQL" icon="database" href="#mysql">
+    MySQL, MariaDB, RDS, Aurora
+  </Card>
+  <Card title="MongoDB" icon="leaf" href="#mongodb">
+    Self-hosted and Atlas
+  </Card>
+  <Card title="Snowflake" icon="snowflake" href="#snowflake">
+    Cloud data warehouse
+  </Card>
+  <Card title="BigQuery" icon="google" href="#bigquery">
+    Google Cloud data warehouse
+  </Card>
+  <Card title="ClickHouse" icon="chart-line" href="#clickhouse">
+    OLAP database
+  </Card>
+  <Card title="DynamoDB" icon="aws" href="#dynamodb">
+    AWS NoSQL database
+  </Card>
+  <Card title="S3" icon="aws" href="#s3">
+    Object storage
+  </Card>
+  <Card title="Redshift" icon="aws" href="#redshift">
+    Amazon data warehouse
+  </Card>
+  <Card title="HTTP/REST" icon="globe" href="#http">
+    REST APIs and web services
+  </Card>
+  <Card title="SSH" icon="terminal" href="#ssh">
+    Linux servers and bastions
+  </Card>
+  <Card title="Kubernetes" icon="dharmachakra" href="#kubernetes">
+    K8s clusters (kubectl exec)
+  </Card>
+</CardGroup>
+
+## PostgreSQL
+
+### Supported Variants
+
+- PostgreSQL (self-hosted)
+- AWS RDS PostgreSQL
+- AWS Aurora PostgreSQL
+- Google Cloud AlloyDB
+- Supabase
+- Any PostgreSQL-compatible database
+
+### Connection
+
+```bash
+psql -h connector.joinformal.com -p 5432 \
+  -U "idp:formal:human:user@example.com" \
+  -d production_db
+```
+
+### Features
+
+- ✅ Full SQL query support
+- ✅ Policy enforcement (SELECT, INSERT, UPDATE, DELETE)
+- ✅ Data masking and redaction
+- ✅ Query rewriting
+- ✅ Schema discovery
+- ✅ Native user mapping
+
+### Configuration
+
+Create a PostgreSQL resource:
+
+```hcl
+resource "formal_resource" "postgres" {
+  name       = "production-postgres"
+  technology = "postgres"
+  hostname   = "prod-db.us-east-1.rds.amazonaws.com"
+  port       = 5432
+}
+```
+
+## MySQL
+
+### Supported Variants
+
+- MySQL (self-hosted)
+- MariaDB
+- AWS RDS MySQL
+- AWS Aurora MySQL
+- Any MySQL-compatible database
+
+### Connection
+
+```bash
+mysql -h connector.joinformal.com -P 3306 \
+  -u "idp:formal:human:user@example.com" \
+  -p production_db
+```
+
+### Features
+
+- ✅ Full SQL query support
+- ✅ Policy enforcement
+- ✅ Data masking
+- ✅ Native user mapping
+
+## MongoDB
+
+### Supported Variants
+
+- MongoDB (self-hosted)
+- MongoDB Atlas
+- DocumentDB (AWS)
+
+### Connection
+
+```bash
+mongosh "mongodb://idp:formal:human:user@example.com:token@connector.joinformal.com:27017/production_db"
+```
+
+### Features
+
+- ✅ CRUD operations
+- ✅ Aggregation pipelines
+- ✅ Policy enforcement
+- ✅ Document-level masking
+
+## Snowflake
+
+### Connection
+
+```bash
+snowsql -a your-account -u "idp:formal:human:user@example.com" \
+  -h connector.joinformal.com -p 443
+```
+
+### Configuration
+
+```hcl
+resource "formal_resource" "snowflake" {
+  name       = "production-snowflake"
+  technology = "snowflake"
+  hostname   = "company.snowflakecomputing.com"
+}
+```
+
+### Features
+
+- ✅ Full SQL support
+- ✅ Role-based policies
+- ✅ Data masking
+- ✅ Query history
+
+### Role-Based Policies
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Allow only if using analyst role
+session := {
+  "action": "allow",
+  "reason": "Analyst role approved"
+} if {
+  input.snowflake.role == "ANALYST_ROLE"
+}
+```
+
+## BigQuery
+
+### Connection
+
+Use the Formal Connector as a proxy for BigQuery connections.
+
+### Features
+
+- ✅ Standard SQL support
+- ✅ Policy enforcement
+- ✅ Data masking
+- ✅ Job monitoring
+
+## ClickHouse
+
+### Connection
+
+```bash
+clickhouse-client --host connector.joinformal.com --port 9000 \
+  --user "idp:formal:human:user@example.com" \
+  --password token
+```
+
+### Features
+
+- ✅ OLAP queries
+- ✅ Policy enforcement
+- ✅ Real-time data masking
+
+## DynamoDB
+
+### Connection
+
+Configure AWS SDK to route through the Formal Connector.
+
+### Features
+
+- ✅ GetItem, PutItem, Query, Scan operations
+- ✅ Policy enforcement on table access
+- ✅ Item-level filtering
+
+## S3
+
+### Connection
+
+Configure AWS SDK to route S3 requests through the Formal Connector.
+
+### Features
+
+- ✅ Object listing and retrieval
+- ✅ Policy enforcement on buckets and keys
+- ✅ Pre-signed URL generation
+
+### Example Policy
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Block access to sensitive S3 paths
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Access to /pii/ paths is restricted"
+} if {
+  contains(input.path, "/pii/")
+  not "pii_access" in input.user.groups
+}
+```
+
+## Redshift
+
+### Connection
+
+```bash
+psql -h connector.joinformal.com -p 5439 \
+  -U "idp:formal:human:user@example.com" \
+  -d production_warehouse
+```
+
+### Features
+
+- ✅ PostgreSQL-compatible interface
+- ✅ Policy enforcement
+- ✅ Data masking
+- ✅ Query monitoring
+
+## HTTP
+
+### Supported Use Cases
+
+- REST APIs
+- Internal microservices
+- Third-party APIs
+- Webhooks
+
+### Connection
+
+Route HTTP requests through the Connector:
+
+```bash
+curl -H "Authorization: Bearer token" \
+  https://connector.joinformal.com/api/users
+```
+
+### Features
+
+- ✅ GET, POST, PUT, DELETE, PATCH
+- ✅ Header inspection and modification
+- ✅ Request/response body filtering
+- ✅ Rate limiting
+
+### Example Policy
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Allow only GET requests for analysts
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Analysts can only perform GET requests"
+} if {
+  "analyst" in input.user.groups
+  not input.query.method == "GET"
+}
+```
+
+## SSH
+
+### Supported Use Cases
+
+- EC2 instances
+- Bastion hosts
+- On-premise servers
+- ECS containers
+
+### Connection
+
+```bash
+ssh idp:formal:human:user@example.com@connector.joinformal.com
+```
+
+### Features
+
+- ✅ Full terminal emulation
+- ✅ Session recording
+- ✅ Command monitoring
+- ✅ AI-powered risk analysis
+- ✅ Real-time session termination
+
+### AWS Resource Policies
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Restrict SSH to specific EC2 instances by tag
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Access to production instances restricted"
+} if {
+  input.resource.technology == "ssh"
+  "env:production" in input.aws.ec2.tags
+  not "ssh_prod_access" in input.user.groups
+}
+```
+
+## Kubernetes
+
+### Supported Operations
+
+- kubectl exec
+- Pod access
+- Container shell access
+
+### Connection
+
+```bash
+kubectl exec -it pod-name -- /bin/bash
+# Routes through Formal Connector
+```
+
+### Features
+
+- ✅ Pod and container access control
+- ✅ Session recording
+- ✅ Command monitoring
+- ✅ Namespace isolation
+
+### Example Policy
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Restrict access to production namespace
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Production namespace access restricted"
+} if {
+  input.resource.technology == "kubernetes"
+  input.aws.eks.cluster_name == "production-cluster"
+  not "k8s_prod_access" in input.user.groups
+}
+```
+
+## Smart Routing
+
+When using **Technology** or **Any** listener rules, the Connector automatically routes connections to the correct resource.
+
+### How It Works
+
+1. **Technology Rules**: Connector matches the protocol and uses the connection string to identify the resource
+2. **Any Rules**: Connector uses deep packet inspection to detect the protocol, then routes accordingly
+
+### Example
+
+With a single listener on port 5432 and an "Any" rule:
+
+```bash
+# Automatically routes to the correct PostgreSQL database
+psql -h connector.joinformal.com -p 5432 -U user -d prod_db
+
+# Same port, different database - automatically routed
+psql -h connector.joinformal.com -p 5432 -U user -d staging_db
+```
+
+The Connector inspects the connection request and routes to the appropriate resource based on the database name in the connection string.
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Native User Mapping" icon="key">
+    Configure different native users (readonly, readwrite, admin) and map them
+    to Formal groups for least-privilege access.
+  </Accordion>
+
+  <Accordion title="Enable TLS" icon="lock">
+    Always encrypt connections between the Connector and your resources,
+    especially for databases containing sensitive data.
+  </Accordion>
+
+  <Accordion title="Leverage Smart Routing" icon="route">
+    Use Technology or Any listener rules to simplify client configuration—users
+    connect to one endpoint for all resources.
+  </Accordion>
+
+  <Accordion title="Monitor Session Recordings" icon="video">
+    Regularly review SSH and Kubernetes session recordings, especially for
+    high-risk sessions flagged by AI analysis.
+  </Accordion>
+
+  <Accordion title="Schema Discovery" icon="map">
+    Enable automatic schema discovery to keep your data catalog up-to-date and
+    support data classification policies.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Deploy a Connector"
+    icon="server"
+    href="/docs/guides/core-concepts/connectors"
+  >
+    Set up a Connector for your technologies
+  </Card>
+  <Card
+    title="Add Resources"
+    icon="database"
+    href="/docs/guides/core-concepts/resources"
+  >
+    Register databases and infrastructure
+  </Card>
+  <Card
+    title="Write Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
+    Control access to your data technologies
+  </Card>
+  <Card
+    title="Monitor Sessions"
+    icon="radar"
+    href="/docs/guides/observability/sessions"
+  >
+    View connections and session recordings
+  </Card>
+</CardGroup>

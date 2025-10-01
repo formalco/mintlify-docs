@@ -25,35 +25,78 @@
         "url": "docs/guides/getting-started/index",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Getting Started",
             "pages": [
               "docs/guides/getting-started/index",
+              "docs/guides/getting-started/what-is-formal",
+              "docs/guides/getting-started/architecture",
               "docs/guides/getting-started/quickstart",
               "docs/guides/getting-started/development"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Core Concepts",
             "pages": [
-              "docs/guides/customization/settings",
-              "docs/guides/customization/navigation"
+              "docs/guides/core-concepts/connectors",
+              "docs/guides/core-concepts/resources",
+              "docs/guides/core-concepts/identities",
+              "docs/guides/core-concepts/satellites",
+              "docs/guides/core-concepts/spaces",
+              "docs/guides/core-concepts/sessions"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Policy Engine",
             "pages": [
-              "docs/guides/writing-content/markdown",
-              "docs/guides/writing-content/code",
-              "docs/guides/writing-content/images",
-              "docs/guides/writing-content/reusable-snippets"
+              "docs/guides/policies/policies",
+              "docs/guides/policies/permissions",
+              "docs/guides/policies/enforcement",
+              "docs/guides/policies/threat-scenarios"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Integrations",
             "pages": [
-              "docs/guides/ai-tools/cursor",
-              "docs/guides/ai-tools/claude-code",
-              "docs/guides/ai-tools/windsurf"
+              "docs/guides/integrations/data-technologies",
+              "docs/guides/integrations/mfa",
+              "docs/guides/integrations/mdm",
+              "docs/guides/integrations/business-intelligence",
+              "docs/guides/integrations/sso",
+              "docs/guides/integrations/log-drains",
+              "docs/guides/integrations/cloud-accounts"
+            ]
+          },
+          {
+            "group": "Observability",
+            "pages": ["docs/guides/observability/logs"]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "docs/guides/configuration/managing-objects",
+              "docs/guides/configuration/console",
+              "docs/guides/configuration/terraform",
+              "docs/guides/configuration/sdks"
+            ]
+          },
+          {
+            "group": "Client Tools",
+            "pages": [
+              "docs/guides/client-tools/desktop-app",
+              "docs/guides/client-tools/chrome-extension",
+              "docs/guides/client-tools/cli"
+            ]
+          },
+          {
+            "group": "How-To Guides",
+            "pages": [
+              "docs/guides/how-to/infrastructure-access",
+              "docs/guides/how-to/data-graph",
+              "docs/guides/how-to/event-workflows",
+              "docs/guides/how-to/authentication",
+              "docs/guides/how-to/log-audits",
+              "docs/guides/how-to/data-redaction",
+              "docs/guides/how-to/threat-detection"
             ]
           }
         ]
@@ -64,9 +107,7 @@
         "groups": [
           {
             "group": "API Documentation",
-            "pages": [
-              "docs/api/introduction"
-            ]
+            "pages": ["docs/api/introduction"]
           },
           {
             "group": "Connectors",
@@ -172,9 +213,7 @@
         "groups": [
           {
             "group": "Glossary",
-            "pages": [
-              "docs/glossary/index"
-            ]
+            "pages": ["docs/glossary/index"]
           }
         ]
       },
@@ -201,8 +240,7 @@
           {
             "group": "Getting Started",
             "pages": [
-              "legacy-docs/getting-started-with-Formal",
-              "legacy-docs/formal's-architecture",
+              "legacy-docs/index",
               "legacy-docs/application-permission-system",
               "legacy-docs/chrome-extension",
               "legacy-docs/using-terraform"

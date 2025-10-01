@@ -1,0 +1,298 @@
+---
+title: "Desktop App"
+description: "Streamline resource access with the Formal Desktop App and CLI"
+icon: "desktop"
+---
+
+## Overview
+
+The Formal Desktop App simplifies connecting to protected resources by automating authentication and connection management. It's available for macOS and Linux and includes a powerful CLI.
+
+## Installation
+
+Download the app for your platform:
+
+<CardGroup cols={3}>
+  <Card
+    title="macOS"
+    icon="apple"
+    href="https://static-assets.formalcloud.net/desktop-app/darwin/formal.pkg"
+  >
+    Download .pkg installer
+  </Card>
+  <Card
+    title="Ubuntu/Debian (x86_64)"
+    icon="ubuntu"
+    href="https://static-assets.formalcloud.net/desktop-app/linux/formal-desktop_0.1.4_amd64.deb"
+  >
+    Download .deb package
+  </Card>
+  <Card
+    title="Ubuntu/Debian (ARM64)"
+    icon="ubuntu"
+    href="https://static-assets.formalcloud.net/desktop-app/linux/formal-desktop_0.1.4_arm64.deb"
+  >
+    Download .deb package
+  </Card>
+</CardGroup>
+
+### macOS Installation
+
+1. Download the `.pkg` file
+2. Open the package and follow installation instructions
+3. Allow requested permissions
+4. Launch Formal from Spotlight or Applications
+
+### Linux Installation
+
+```bash
+# Ubuntu/Debian
+sudo apt install ./formal-desktop_0.1.4_amd64.deb
+
+# Start the agent
+systemctl start --user formal
+```
+
+### NixOS
+
+Use the Formal overlay:
+
+```bash
+# See instructions at:
+# https://github.com/formalco/formal-overlay
+```
+
+## Setup
+
+<Steps>
+  <Step title="Launch the App">
+    Start Formal - you'll see the logo in your system tray
+  </Step>
+  <Step title="Install CLI (macOS)">
+    Click the tray icon → Preferences → Install in PATH Or manually: ```bash
+    sudo ln -s /Applications/Formal.app/Contents/MacOS/formal
+    /usr/local/bin/formal ```
+  </Step>
+  <Step title="Log In">```bash formal auth login ```</Step>
+  <Step title="Verify">
+    ```bash formal ls ``` You should see all available resources
+  </Step>
+</Steps>
+
+## CLI Reference
+
+### Authentication
+
+```bash
+# Log in
+formal auth login
+
+# Get your credentials (for direct connections)
+formal auth credentials
+
+# Check login status
+formal status
+```
+
+### List Resources
+
+```bash
+formal ls
+```
+
+Interactive TUI with:
+
+- `↑/k` - Move up
+- `↓/j` - Move down
+- `enter` - Connect to resource
+- `/` - Filter resources
+- `q` - Quit
+- `?` - Show help
+
+### Connect to Resources
+
+#### Databases (PostgreSQL, MySQL, MongoDB)
+
+```bash
+# Connect to a database
+formal connect production-postgres
+
+# Output:
+# Connected to production-postgres on localhost:6432
+```
+
+Then connect with your database client:
+
+```bash
+# PostgreSQL
+psql -h localhost -p 6432
+
+# MySQL
+mysql -h localhost -P 6432
+
+# MongoDB
+mongosh "mongodb://localhost:27017/mydb"
+```
+
+**Formal automatically injects your credentials** - no username/password needed!
+
+#### Specify Native User
+
+```bash
+# PostgreSQL with specific native user
+psql -h localhost -p 6432 -U formal@readonly
+```
+
+#### SSH
+
+```bash
+# SSH to a server
+formal ssh --sidecar-name production-connector
+
+# Or configure SSH via interactive UI
+formal ls
+# Select an SSH resource and press enter
+```
+
+This updates your `~/.ssh/config` automatically.
+
+#### Kubernetes
+
+```bash
+# Configure kubectl
+formal ls
+# Select a Kubernetes resource and press enter
+```
+
+This updates your `~/.kube/config` to route through the Connector.
+
+### Disconnect
+
+```bash
+# Disconnect from a resource
+formal disconnect production-postgres
+```
+
+### Policy Evaluation
+
+Test policies locally:
+
+```bash
+formal policy evaluate \
+  --inputs '{"user_id":"abc123"}' \
+  -r session
+```
+
+### Decrypt Data
+
+Decrypt Formal-encrypted data:
+
+```bash
+formal decrypt --ciphertext "formalencrypt:second:third:fourth:fifth"
+```
+
+### S3 Operations
+
+Interact with S3 through Formal:
+
+```bash
+formal s3 [sidecar-name] ls s3://my-bucket
+formal s3 [sidecar-name] cp s3://my-bucket/file.txt .
+```
+
+See [AWS CLI S3 commands](https://docs.aws.amazon.com/cli/latest/userguide/cli-services-s3-commands.html) for more operations.
+
+## MDM Deployment
+
+Deploy the Desktop App organization-wide via your MDM:
+
+1. Download the [macOS .pkg](https://static-assets.formalcloud.net/desktop-app/darwin/formal.pkg)
+2. Add as a custom app in your MDM (Jamf, Intune, etc.)
+3. Push to all user devices
+
+<Note>Need help deploying via MDM? Contact Formal support for assistance.</Note>
+
+## Device Security
+
+The Desktop App reports device information for policy enforcement:
+
+- Hardware model and serial number
+- OS version and security settings
+- System Integrity Protection status
+- Secure boot status
+
+See [MDM Integration](/docs/guides/integrations/mdm) for device-based policies.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="App not running">
+    **Error:** ``` WARNING: CLI cannot connect to the Formal app. Please make
+    sure the Formal app is running. ``` **Solution:** 1. Check that Formal is
+    visible in system tray 2. Restart the Formal app 3. On Linux: `systemctl
+    start --user formal`
+  </Accordion>
+
+  <Accordion title="Command not found">
+    **Error:** ``` bash: formal: command not found ``` **Solution:** 1.
+    Reinstall CLI: Click tray icon → Preferences → Install in PATH 2. Or create
+    symlink manually (see Setup section) 3. Or add alias to `.bashrc`/`.zshrc`
+  </Accordion>
+
+  <Accordion title="Connection fails">
+    **Solution:** 1. Verify you're logged in: `formal status` 2. Check resource
+    exists: `formal ls` 3. Ensure Connector is running 4. Check network
+    connectivity
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Keep App Running" icon="circle-check">
+    The Desktop App must be running for CLI commands to work. Enable "Launch at
+    startup" in preferences.
+  </Accordion>
+
+  <Accordion title="Use Descriptive Resource Names" icon="tag">
+    When connecting via `formal connect`, use tab completion to find resources
+    quickly.
+  </Accordion>
+  <Accordion title="Leverage the TUI" icon="terminal">
+    `formal ls` provides an interactive way to explore and connect to resources
+    without memorizing names.
+  </Accordion>
+
+  <Accordion title="Disconnect When Done" icon="plug">
+    Always disconnect from resources when finished to free up local ports.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Chrome Extension"
+    icon="chrome"
+    href="/docs/guides/client-tools/chrome-extension"
+  >
+    Propagate identity in web apps
+  </Card>
+  <Card title="MDM Policies" icon="mobile" href="/docs/guides/integrations/mdm">
+    Enforce device-based access control
+  </Card>
+  <Card
+    title="SSH Access"
+    icon="terminal"
+    href="/docs/guides/integrations/data-technologies#ssh"
+  >
+    Connect to servers via SSH
+  </Card>
+  <Card
+    title="Kubernetes Access"
+    icon="dharmachakra"
+    href="/docs/guides/integrations/data-technologies#kubernetes"
+  >
+    Access K8s clusters
+  </Card>
+</CardGroup>

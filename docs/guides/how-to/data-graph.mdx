@@ -1,0 +1,61 @@
+---
+title: "Data Access Graph"
+description: "Map and visualize your organization's data access patterns"
+icon: "sitemap"
+---
+
+## Overview
+
+Formal automatically builds a comprehensive graph of data access across your organization, showing who accesses what resources, when, and how.
+
+## Coming Soon
+
+The Data Access Graph visualization feature is currently in development. It will provide:
+
+- **Real-time visibility** into all data access patterns
+- **User-to-resource mappings** showing which users access which databases
+- **Query pattern analysis** identifying common and unusual access patterns
+- **Group-based views** understanding team data usage
+- **Resource popularity metrics** which databases/tables are accessed most
+- **Anomaly detection** spotting unusual access patterns
+
+## Current Capabilities
+
+While the visual graph UI is in development, you can analyze data access using:
+
+### Logs Aggregation
+
+1. Go to [Logs](https://app.joinformal.com/logs)
+2. Switch to **Aggregation Mode**
+3. Group by:
+   - `user.email` - See which users are most active
+   - `resource.name` - Identify hottest resources
+   - `table_names` - Most queried tables
+
+### API Access
+
+Query the Formal API for programmatic access graph analysis:
+
+```bash
+curl -H "Authorization: Bearer $FORMAL_API_KEY" \
+  "https://api.joinformal.com/v1/logs?query=*&group_by=user.email,resource.name"
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="View Logs"
+    icon="file-lines"
+    href="/docs/guides/observability/logs"
+  >
+    Analyze access patterns
+  </Card>
+  <Card
+    title="Sessions"
+    icon="signal-stream"
+    href="/docs/guides/core-concepts/sessions"
+  >
+    Monitor active connections
+  </Card>
+</CardGroup>

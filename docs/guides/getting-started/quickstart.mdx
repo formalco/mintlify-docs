@@ -1,85 +1,339 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+description: "Deploy your first Formal Connector and secure a database in 10 minutes"
 ---
 
-## Get started in three steps
+Get production-ready access controls running in minutes. This guide walks you through deploying your first Connector and connecting to a protected resource.
 
-Get your documentation site running locally and make your first customization.
+## Overview
 
-### Step 1: Set up your local environment
+Deploying Formal consists of three main steps:
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your
-    docs content if you didn't already have one. You can find a link to this
-    repository in your [dashboard](https://app.joinformal.com). To clone the
-    repository locally so that you can make and preview changes to your docs,
-    follow the [Cloning a
-    repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint` 2. Navigate to your docs
-    directory and run: `mint dev` 3. Open `http://localhost:3000` to see your
-    docs live!
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+1. **Add a Resource**: Define the database, API, or infrastructure you want to protect
+2. **Configure a Connector**: Create a Connector with listeners in the Control Plane
+3. **Deploy the Connector**: Run the Connector container in your infrastructure
 
-### Step 2: Deploy your changes
+## Step 1: Add a Resource
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://app.joinformal.com/settings/organization/github-app).
+The first step is to register the resource you want to protect in Formal.
+
+1. Navigate to [Resources](https://app.joinformal.com/resources) in the Formal console
+2. Click **New Resource**
+3. Fill in the connection details:
+
+<Tabs>
+  <Tab title="PostgreSQL/MySQL">
+    - **Name**: A friendly name for your resource - **Type**: Select PostgreSQL,
+    MySQL, Redshift, or MariaDB - **Host**: Your database hostname or IP -
+    **Port**: Database port (e.g., 5432 for PostgreSQL) - **Space**: (Optional)
+    Logical grouping for access control
+  </Tab>
+  <Tab title="MongoDB">
+    - **Name**: A friendly name for your resource - **Type**: MongoDB -
+    **Host**: Your MongoDB hostname or IP - **Port**: MongoDB port (default:
+    27017) - **Space**: (Optional) Logical grouping for access control
+  </Tab>
+  <Tab title="Snowflake">
+    - **Name**: A friendly name for your resource - **Type**: Snowflake -
+    **Host**: Your Snowflake account URL - **Space**: (Optional) Logical
+    grouping for access control
+  </Tab>
+  <Tab title="HTTP/SSH">
+    - **Name**: A friendly name for your resource - **Type**: HTTP or SSH -
+    **Host**: Your service hostname or IP - **Port**: Service port - **Space**:
+    (Optional) Logical grouping for access control
+  </Tab>
+</Tabs>
+
+4. Enable **Termination Protection** to prevent accidental deletion (recommended for production)
+5. Click **Create Resource**
+
+<Tip>
+  Your resource doesn't need to be publicly accessible. The Connector will reach
+  it from within your VPC.
+</Tip>
+
+## Step 2: Configure a Connector
+
+Next, create a Connector in the Control Plane to define how clients will connect.
+
+<Tabs>
+  <Tab title="Web Console">
+    1. Navigate to [Connectors](https://app.joinformal.com/connectors) in the Formal console
+    2. Click **New Connector**
+    3. Enter a **Name** for your Connector
+    4. Add a **Listener**:
+       - **Port**: The port clients will connect to (e.g., 5432 for PostgreSQL)
+       - **Rule Type**: Choose how to route connections:
+         - **Resource**: Route to a specific resource
+         - **Technology**: Route to all resources of a type (e.g., all PostgreSQL databases)
+         - **Any**: Auto-detect protocol and route intelligently
+    5. Click **Create Connector**
+    6. **Save the API Token** that appears—you'll need it for deployment
+  </Tab>
+  <Tab title="Terraform">
+    ```hcl
+    resource "formal_connector" "main" {
+      name = "production-connector"
+      
+      listener {
+        port = 5432
+        
+        rule {
+          type        = "resource"
+          resource_id = formal_resource.postgres.id
+        }
+      }
+    }
+    ```
     
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
-
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
-
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-
-  </Accordion>
-</AccordionGroup>
-
-### Step 3: Go live
-
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes. 2. Your docs will update and be live in
-  moments!
-</Accordion>
-
-## Next steps
-
-Now that you have your docs running, explore these key features:
-
-<CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
-</CardGroup>
+    After applying, retrieve the API token:
+    ```bash
+    terraform output connector_api_token
+    ```
+  </Tab>
+</Tabs>
 
 <Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join
-  our [community](https://mintlify.com/community).
+  The Connector supports **smart routing**: a single listener on one port can
+  handle multiple protocols and automatically route to the correct resource.
+</Note>
+
+## Step 3: Deploy the Connector
+
+Now deploy the Connector container in your infrastructure.
+
+<Tabs>
+  <Tab title="AWS ECS Fargate (Terraform)">
+    The recommended deployment for AWS environments.
+
+    ### Quick Start
+
+    1. Clone the Formal Terraform examples:
+    ```bash
+    git clone https://github.com/formalco/terraform-provider-formal.git
+    cd terraform-provider-formal/examples/deployments/aws/connector
+    ```
+
+    2. Create a `terraform.tfvars` file:
+    ```hcl
+    region             = "us-west-2"
+    availability_zones = ["us-west-2a", "us-west-2b"]
+    formal_api_key     = "your-formal-api-key"
+    formal_org_name    = "your-org-name"
+    ```
+
+    3. Deploy:
+    ```bash
+    terraform init
+    terraform apply
+    ```
+
+    This creates:
+    - ECS Fargate service across multiple availability zones
+    - Network Load Balancer for high availability
+    - CloudWatch logging for monitoring
+    - IAM roles and Secrets Manager for secure key storage
+
+    <Tip>
+    For production, integrate the Connector into your existing VPC and networking setup instead of using the demo VPC.
+    </Tip>
+
+  </Tab>
+  
+  <Tab title="Kubernetes (Helm)">
+    Universal deployment for any Kubernetes cluster (AWS EKS, GCP GKE, Azure AKS, on-prem).
+
+    ### Prerequisites
+
+    For non-AWS clusters, first install ECR credentials:
+    ```bash
+    helm repo add formal https://formalco.github.io/helm-charts
+    helm show values formal/ecr-cred > ecr-values.yaml
+    # Edit ecr-values.yaml with your ECR credentials
+    helm install formal-ecr-cred formal/ecr-cred \
+      --namespace formal \
+      --create-namespace \
+      -f ecr-values.yaml
+    ```
+
+    ### Deploy the Connector
+
+    1. Get the default values:
+    ```bash
+    helm show values formal/connector > values.yaml
+    ```
+
+    2. Edit `values.yaml`:
+    ```yaml
+    apiKey: "your-connector-api-token"
+    ports:
+      - 5432  # Add all listener ports from Step 2
+    pullWithCredentials: true  # If outside AWS
+    ```
+
+    3. Install:
+    ```bash
+    helm install formal-connector formal/connector \
+      --namespace formal \
+      --create-namespace \
+      -f values.yaml
+    ```
+
+    4. Verify deployment:
+    ```bash
+    kubectl get pods -n formal
+    kubectl logs -n formal -l app.kubernetes.io/name=formal-connector
+    ```
+
+  </Tab>
+
+  <Tab title="GCP Cloud Run">
+    Recommended for GCP environments.
+
+    1. Deploy as a Cloud Run service:
+    ```bash
+    gcloud run deploy formal-connector \
+      --image=<formal-connector-image> \
+      --platform=managed \
+      --region=us-central1 \
+      --allow-unauthenticated \
+      --set-env-vars="FORMAL_API_KEY=your-connector-api-token"
+    ```
+
+    2. Add an internal Load Balancer for high availability
+
+    <Note>
+    Contact Formal support for the latest container image URL and GCP-specific deployment guidance.
+    </Note>
+
+  </Tab>
+
+  <Tab title="Docker (Local Testing)">
+    For local testing and development only.
+
+    ```bash
+    docker run -d \
+      --name formal-connector \
+      -p 5432:5432 \
+      -e FORMAL_API_KEY=your-connector-api-token \
+      <formal-connector-image>
+    ```
+
+    <Warning>
+    This is not recommended for production use. Always deploy with proper orchestration (ECS, Kubernetes) and high availability.
+    </Warning>
+
+  </Tab>
+</Tabs>
+
+### Network Requirements
+
+Ensure your Connector can reach:
+
+- **Outbound to Formal Control Plane**: `api.joinformal.com` (gRPC)
+- **Inbound from clients**: Port(s) configured in your listeners
+- **Outbound to resources**: Your database/API endpoints
+
+## Step 4: Configure DNS and TLS (Optional)
+
+For production deployments, add a custom domain and TLS:
+
+1. Create a DNS record pointing to your Connector's load balancer
+2. Configure TLS certificates (recommended: AWS Certificate Manager or Let's Encrypt)
+3. Update your Connector settings in the Formal console to use the custom hostname
+
+## Step 5: Connect Through Formal
+
+You're ready to connect! Route your database connections through the Connector:
+
+<CodeGroup>
+```bash PostgreSQL
+psql -h your-connector-hostname.com -p 5432 -U your-username -d your-database
+```
+
+```bash MongoDB
+mongosh "mongodb://your-connector-hostname.com:27017/your-database"
+```
+
+```bash MySQL
+mysql -h your-connector-hostname.com -P 3306 -u your-username -p
+```
+
+</CodeGroup>
+
+The Connector will:
+
+- ✅ Authenticate your identity
+- ✅ Evaluate policies in real-time
+- ✅ Log all queries and responses
+- ✅ Apply data masking and redaction rules
+- ✅ Route to the correct resource
+
+## Next Steps
+
+Now that your first Connector is running, explore these features:
+
+<CardGroup cols={2}>
+  <Card
+    title="Write Access Policies"
+    icon="shield-check"
+    href="/security/policies/introduction"
+  >
+    Control who can access what with policy-as-code
+  </Card>
+
+{" "}
+<Card
+  title="Configure Smart Routing"
+  icon="route"
+  href="/using-formal-connector/smart-routing"
+>
+  Route to multiple databases through a single listener
+</Card>
+
+{" "}
+<Card title="View Audit Logs" icon="file-lines" href="/security/logs">
+  Monitor all queries and sessions in real-time
+</Card>
+
+  <Card
+    title="Set Up Data Masking"
+    icon="eye-slash"
+    href="/security/policies/data-masking"
+  >
+    Automatically redact PII and sensitive data
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Connector won't start">
+    1. Verify your API token is valid
+    2. Check connectivity to `api.joinformal.com`
+    3. Review logs in CloudWatch (ECS) or kubectl logs (Kubernetes)
+    4. Ensure no port conflicts (port 8080 is reserved for health checks)
+  </Accordion>
+
+{" "}
+<Accordion title="Can't connect to resources">
+  1. Verify the resource is reachable from the Connector's network 2. Check
+  security group rules allow outbound connections 3. Confirm the resource host
+  and port are correct in Formal console 4. Test direct connectivity from the
+  Connector container
+</Accordion>
+
+  <Accordion title="Clients can't reach the Connector">
+    1. Verify DNS is resolving correctly
+    2. Check security group/firewall rules allow inbound traffic
+    3. Confirm the listener port matches your client connection string
+    4. Test the Connector health endpoint: `http://connector:8080/health`
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  Need help? Contact support at
+  [support@joinformal.com](mailto:support@joinformal.com) or check the [full
+  deployment guides](/deploying-a-connector/introduction).
 </Note>

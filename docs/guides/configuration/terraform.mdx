@@ -1,0 +1,340 @@
+---
+title: "Terraform"
+description: "Manage Formal infrastructure as code with the Terraform provider"
+icon: "code"
+---
+
+## Overview
+
+The [Formal Terraform Provider](https://registry.terraform.io/providers/formalco/formal/latest) enables you to manage Connectors, Resources, Policies, Users, and all other Formal objects as infrastructure-as-code.
+
+## Installation
+
+Add the provider to your Terraform configuration:
+
+```hcl
+terraform {
+  required_providers {
+    formal = {
+      source  = "formalco/formal"
+      version = "~> 2.0"
+    }
+  }
+}
+
+provider "formal" {
+  api_key = var.formal_api_key
+}
+```
+
+## Authentication
+
+Create an API key in the [Formal console](https://app.joinformal.com/api-keys):
+
+1. Navigate to [API Keys](https://app.joinformal.com/api-keys)
+2. Click **Create API Key**
+3. Name the key (e.g., "terraform-production")
+4. Copy the key immediately
+
+Set the key as an environment variable or Terraform variable:
+
+```bash
+export FORMAL_API_KEY="your-api-key-here"
+```
+
+Or in Terraform:
+
+```hcl
+variable "formal_api_key" {
+  description = "Formal API key"
+  type        = string
+  sensitive   = true
+}
+```
+
+## Examples
+
+### Full Production Stack
+
+```hcl
+# Create a Space
+resource "formal_space" "production" {
+  name = "production"
+}
+
+# Create a Resource
+resource "formal_resource" "postgres" {
+  name       = "production-postgres"
+  technology = "postgres"
+  hostname   = "prod-db.us-east-1.rds.amazonaws.com"
+  port       = 5432
+  space_id   = formal_space.production.id
+
+  termination_protection = true
+}
+
+# Create a Connector
+resource "formal_connector" "production" {
+  name     = "production-connector"
+  space_id = formal_space.production.id
+
+  listener {
+    port = 5432
+
+    rule {
+      type        = "resource"
+      resource_id = formal_resource.postgres.id
+    }
+  }
+}
+
+# Create Users
+resource "formal_user" "alice" {
+  name  = "Alice Smith"
+  email = "alice@example.com"
+  type  = "human"
+}
+
+resource "formal_user" "looker_app" {
+  name = "Looker Application"
+  type = "machine"
+}
+
+# Create Groups
+resource "formal_group" "engineering" {
+  name = "Engineering Team"
+}
+
+resource "formal_group_membership" "alice_eng" {
+  group_id = formal_group.engineering.id
+  user_id  = formal_user.alice.id
+}
+
+# Create a Policy
+resource "formal_policy" "mask_pii" {
+  name        = "mask-pii-data"
+  description = "Mask PII fields for non-privileged users"
+  status      = "active"
+  owners      = ["admin@example.com"]
+
+  code = <<-EOT
+    package formal.v2
+
+    import future.keywords.if
+    import future.keywords.in
+
+    post_request := {
+      "action": "mask",
+      "type": "nullify",
+      "columns": pii_columns
+    } if {
+      not "pii_access" in input.user.groups
+
+      pii_columns := [col |
+        col := input.row[_]
+        col["data_label"] in ["email", "ssn", "phone"]
+      ]
+
+      count(pii_columns) > 0
+    }
+  EOT
+}
+
+# AWS Integration
+resource "formal_integration_cloud" "aws" {
+  name         = "aws-production"
+  cloud_region = "us-east-1"
+
+  aws {
+    template_version         = "1.2.0"
+    enable_rds_autodiscovery = true
+    allow_s3_access          = true
+    s3_bucket_arn            = "${aws_s3_bucket.logs.arn}/*"
+  }
+}
+
+# Log Integration
+resource "formal_integration_log" "datadog" {
+  name = "datadog-logs"
+
+  datadog {
+    account_id = var.datadog_account_id
+    api_key    = var.datadog_api_key
+    site       = "datadoghq.com"
+  }
+}
+```
+
+## Resource Documentation
+
+Full documentation for all resources:
+
+**Core Objects:**
+
+- [formal_connector](https://registry.terraform.io/providers/formalco/formal/latest/docs/resources/connector)
+- [formal_resource](https://registry.terraform.io/providers/formalco/formal/latest/docs/resources/resource)
+- [formal_user](https://registry.terraform.io/providers/formalco/formal/latest/docs/resources/user)
+- [formal_group](https://registry.terraform.io/providers/formalco/formal/latest/docs/resources/group)
+- [formal_policy](https://registry.terraform.io/providers/formalco/formal/latest/docs/resources/policy)
+- [formal_space](https://registry.terraform.io/providers/formalco/formal/latest/docs/resources/space)
+- [formal_satellite](https://registry.terraform.io/providers/formalco/formal/latest/docs/resources/satellite)
+
+**Integrations:**
+
+- [formal_integration_cloud](https://registry.terraform.io/providers/formalco/formal/latest/docs/resources/integration_cloud)
+- [formal_integration_log](https://registry.terraform.io/providers/formalco/formal/latest/docs/resources/integration_log)
+- [formal_integration_bi](https://registry.terraform.io/providers/formalco/formal/latest/docs/resources/integration_bi)
+
+## Example Repositories
+
+Formal provides complete Terraform examples:
+
+- [AWS Connector Deployment](https://github.com/formalco/terraform-provider-formal/tree/main/examples/deployments/aws/connector)
+- [Kubernetes Connector Deployment](https://github.com/formalco/terraform-provider-formal/tree/main/examples/deployments/kubernetes)
+- [AWS Satellite Deployment](https://github.com/formalco/terraform-provider-formal/tree/main/examples/deployments/aws/satellites)
+- [AWS Integration](https://github.com/formalco/terraform-provider-formal/tree/main/examples/deployments/aws/integrations)
+
+Clone and customize for your needs:
+
+```bash
+git clone https://github.com/formalco/terraform-provider-formal.git
+cd terraform-provider-formal/examples/deployments/aws/connector
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Version Constraints" icon="lock">
+    Pin provider versions to avoid unexpected changes:
+    
+    ```hcl
+    formal = {
+      source  = "formalco/formal"
+      version = "~> 2.0.4"  # Allow patches, not minor versions
+    }
+    ```
+  </Accordion>
+  
+  <Accordion title="Store State Remotely" icon="cloud">
+    Use remote state backends (S3, Terraform Cloud) for team collaboration:
+    
+    ```hcl
+    terraform {
+      backend "s3" {
+        bucket = "my-terraform-state"
+        key    = "formal/production/terraform.tfstate"
+        region = "us-east-1"
+      }
+    }
+    ```
+  </Accordion>
+  
+  <Accordion title="Use Variables" icon="input-text">
+    Parameterize configurations for reusability:
+    
+    ```hcl
+    variable "environment" {
+      type = string
+    }
+    
+    resource "formal_connector" "main" {
+      name = "${var.environment}-connector"
+    }
+    ```
+  </Accordion>
+  
+  <Accordion title="Separate Environments" icon="layer-group">
+    Use workspaces or separate state files for prod/staging/dev:
+    
+    ```bash
+    terraform workspace new production
+    terraform workspace select production
+    ```
+  </Accordion>
+  
+  <Accordion title="Enable Termination Protection" icon="shield">
+    Protect production resources:
+    
+    ```hcl
+    resource "formal_resource" "prod_db" {
+      name                   = "production-postgres"
+      termination_protection = true
+      # ...
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Importing Existing Resources
+
+Bring existing Formal objects under Terraform management:
+
+```bash
+# Import a Resource
+terraform import formal_resource.postgres <resource-id>
+
+# Import a Connector
+terraform import formal_connector.main <connector-id>
+
+# Import a User
+terraform import formal_user.alice <user-id>
+```
+
+Get object IDs from the Formal console or API.
+
+## Outputs
+
+Export useful information:
+
+```hcl
+output "connector_token" {
+  description = "Connector API token for deployment"
+  value       = formal_connector.production.api_key
+  sensitive   = true
+}
+
+output "connector_listeners" {
+  description = "Configured listener ports"
+  value       = [for l in formal_connector.production.listener : l.port]
+}
+
+output "resource_ids" {
+  description = "Map of resource names to IDs"
+  value = {
+    for r in formal_resource : r.name => r.id
+  }
+}
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Provider Docs"
+    icon="book"
+    href="https://registry.terraform.io/providers/formalco/formal/latest/docs"
+  >
+    Complete Terraform provider documentation
+  </Card>
+  <Card
+    title="Examples"
+    icon="code"
+    href="https://github.com/formalco/terraform-provider-formal"
+  >
+    Deployment examples on GitHub
+  </Card>
+  <Card
+    title="Managing Objects"
+    icon="sliders"
+    href="/docs/guides/configuration/managing-objects"
+  >
+    Learn about object lifecycle
+  </Card>
+  <Card
+    title="API Keys"
+    icon="key"
+    href="/docs/guides/configuration/console#api-keys"
+  >
+    Generate Terraform authentication keys
+  </Card>
+</CardGroup>

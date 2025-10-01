@@ -1,0 +1,122 @@
+---
+title: "Event Workflows"
+description: "Automate responses to access events and policy violations"
+icon: "bolt"
+---
+
+## Overview
+
+Formal can trigger workflows in response to access events, policy violations, and security incidents.
+
+## Notification Workflows
+
+### Policy Notifications
+
+Configure policies to send notifications:
+
+<Tabs>
+  <Tab title="Slack">
+    1. Set up [Slack integration](https://app.joinformal.com/integrations) 2.
+    Configure policy notifications: - **None**: No notifications - **Consumer**:
+    Notify the user who triggered the policy - **Owners**: Notify policy owners
+    - **All**: Notify both consumer and owners
+  </Tab>
+
+  <Tab title="Email">
+    Policies automatically send email notifications to: - Policy owners (when
+    violations occur) - Users (when their actions are blocked)
+  </Tab>
+</Tabs>
+
+### Alert on Policy Violations
+
+Create a policy that alerts on suspicious activity:
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+pre_request := {
+  "action": "allow",
+  "reason": "ALERT: Suspicious DELETE query detected",
+  "contextual_data": sprintf(
+    "User %s attempted DELETE on %s",
+    [input.user.email, input.resource.name]
+  )
+} if {
+  input.query.statement_type == "DELETE"
+  input.resource.environment == "production"
+}
+```
+
+Set policy notifications to "Owners" to alert security team.
+
+## Approval Workflows
+
+### Just-In-Time Access
+
+Use Policy Data Loaders to check approval systems:
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Request access via ServiceNow first"
+} if {
+  input.resource.environment == "production"
+
+  # Check ServiceNow (Policy Data Loader)
+  approvals := [ticket |
+    ticket := data.servicenow_approvals[_]
+    ticket.user_email == input.user.email
+    ticket.resource_id == input.resource.id
+    ticket.status == "approved"
+    ticket.expires_at > time.now_ns()
+  ]
+
+  count(approvals) == 0
+}
+```
+
+## SIEM Integration
+
+Forward events to your SIEM for automated response:
+
+1. Set up [Log Drain](/docs/guides/integrations/log-drains) to Splunk/Datadog
+2. Create alerts in your SIEM for:
+   - Policy denials
+   - High-risk sessions
+   - Off-hours access
+   - Failed authentication attempts
+3. Trigger automated workflows (ticket creation, Slack alerts, etc.)
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Policy Enforcement"
+    icon="gavel"
+    href="/docs/guides/policies/enforcement"
+  >
+    Configure policy actions
+  </Card>
+  <Card
+    title="Log Drains"
+    icon="pipe"
+    href="/docs/guides/integrations/log-drains"
+  >
+    Forward events to SIEM
+  </Card>
+  <Card
+    title="Threat Detection"
+    icon="triangle-exclamation"
+    href="/docs/guides/how-to/threat-detection"
+  >
+    Detect and respond to threats
+  </Card>
+</CardGroup>

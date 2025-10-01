@@ -1,0 +1,306 @@
+---
+title: "Spaces"
+description: "Logical groupings for network segmentation and access control"
+icon: "layer-group"
+---
+
+## What are Spaces?
+
+Spaces represent logical groupings of Connectors, Satellites, and Resources that can communicate with each other. They enable network segmentation and access isolation that mirrors your infrastructure's connectivity patterns.
+
+Think of Spaces as virtual network boundaries for Formal objects.
+
+## How Spaces Work
+
+<CardGroup cols={2}>
+  <Card title="Isolation" icon="lock">
+    Objects in different Spaces cannot communicate with each other
+  </Card>
+  <Card title="Segmentation" icon="layer-group">
+    Mirror your production, staging, and dev environments
+  </Card>
+  <Card title="Flexibility" icon="plug">
+    Objects without a Space can access any Resource
+  </Card>
+  <Card title="Simplicity" icon="circle-check">
+    One Space per object (Connector, Satellite, or Resource)
+  </Card>
+</CardGroup>
+
+## Space Rules
+
+### Assignment Rules
+
+- **Each object can belong to at most ONE Space**
+- **Objects without a Space** can access any Resource (with or without a Space)
+- **Objects with a Space** can only access Resources in the same Space
+
+### Connectivity Matrix
+
+| Connector | Resource | Can Connect? |
+|-----------|----------|--------------|
+| No Space | No Space | ✅ Yes |
+| No Space | Space A | ✅ Yes |
+| Space A | No Space | ✅ Yes |
+| Space A | Space A | ✅ Yes |
+| Space A | Space B | ❌ No |
+
+The same rules apply to Satellites and Resources.
+
+## Use Cases
+
+### Environment Segmentation
+
+Create Spaces for each environment to prevent cross-environment access:
+
+```
+Production Space:
+  - production-connector
+  - production-postgres
+  - production-snowflake
+  
+Staging Space:
+  - staging-connector
+  - staging-postgres
+  
+Development Space:
+  - dev-connector
+  - dev-postgres
+```
+
+Now a user connecting through `production-connector` can only reach production databases, even if they have credentials for staging.
+
+### Geographic Isolation
+
+Separate resources by region for compliance or latency requirements:
+
+```
+US-East Space:
+  - us-east-connector
+  - us-east-postgres
+  - us-east-s3
+  
+EU-West Space:
+  - eu-west-connector
+  - eu-west-postgres
+  - eu-west-s3
+```
+
+### Team-Based Access
+
+Create Spaces for different teams or projects:
+
+```
+Engineering Space:
+  - eng-connector
+  - production-db
+  - analytics-warehouse
+  
+Analytics Space:
+  - analytics-connector
+  - analytics-warehouse (shared)
+  - data-lake
+```
+
+## Creating and Managing Spaces
+
+<Tabs>
+  <Tab title="Web Console">
+    <Steps>
+      <Step title="Navigate to Spaces">
+        Go to [Spaces](https://app.joinformal.com/spaces) in the Formal console
+      </Step>
+      <Step title="Create Space">
+        Click **New Space** and provide a name
+      </Step>
+      <Step title="Assign objects">
+        Edit Connectors, Satellites, or Resources to assign them to the Space
+      </Step>
+    </Steps>
+  </Tab>
+  
+  <Tab title="Terraform">
+    ```hcl
+    # Create a Space
+    resource "formal_space" "production" {
+      name = "production"
+    }
+    
+    # Assign Connector to Space
+    resource "formal_connector" "prod_connector" {
+      name     = "production-connector"
+      space_id = formal_space.production.id
+      
+      listener {
+        port = 5432
+        rule {
+          type = "any"
+        }
+      }
+    }
+    
+    # Assign Resource to Space
+    resource "formal_resource" "prod_db" {
+      name       = "production-postgres"
+      technology = "postgres"
+      hostname   = "prod-db.rds.amazonaws.com"
+      port       = 5432
+      space_id   = formal_space.production.id
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Updating Spaces
+
+### Changing an Object's Space
+
+When you change a Connector, Satellite, or Resource's Space assignment:
+
+<Warning>
+You must **restart the Connector or Satellite** for the change to take effect. This is a connectivity change that requires reinitialization.
+</Warning>
+
+For Resources, the change is immediate—new connections will respect the new Space assignment.
+
+### Testing Space Changes
+
+Before applying Space changes in production:
+
+1. Create a test Connector in the new Space
+2. Verify connectivity to intended Resources
+3. Update the production Connector's Space
+4. Restart the Connector
+5. Verify connectivity
+
+## Deleting Spaces
+
+Spaces cannot be deleted if they contain any objects.
+
+<Steps>
+  <Step title="Remove all objects">
+    Reassign or delete all Connectors, Satellites, and Resources in the Space
+  </Step>
+  <Step title="Verify empty">
+    Confirm the Space shows 0 objects
+  </Step>
+  <Step title="Delete Space">
+    Click **Delete** in the Space details page
+  </Step>
+</Steps>
+
+## Example: Production and Staging Isolation
+
+```hcl
+# Create Spaces
+resource "formal_space" "production" {
+  name = "production"
+}
+
+resource "formal_space" "staging" {
+  name = "staging"
+}
+
+# Production Infrastructure
+resource "formal_connector" "prod_connector" {
+  name     = "prod-connector"
+  space_id = formal_space.production.id
+  
+  listener {
+    port = 5432
+    rule { type = "technology", technology = "postgres" }
+  }
+}
+
+resource "formal_resource" "prod_postgres" {
+  name       = "prod-postgres"
+  technology = "postgres"
+  hostname   = "prod.rds.amazonaws.com"
+  port       = 5432
+  space_id   = formal_space.production.id
+}
+
+resource "formal_resource" "prod_snowflake" {
+  name       = "prod-snowflake"
+  technology = "snowflake"
+  hostname   = "company.snowflakecomputing.com"
+  space_id   = formal_space.production.id
+}
+
+# Staging Infrastructure
+resource "formal_connector" "staging_connector" {
+  name     = "staging-connector"
+  space_id = formal_space.staging.id
+  
+  listener {
+    port = 5432
+    rule { type = "technology", technology = "postgres" }
+  }
+}
+
+resource "formal_resource" "staging_postgres" {
+  name       = "staging-postgres"
+  technology = "postgres"
+  hostname   = "staging.rds.amazonaws.com"
+  port       = 5432
+  space_id   = formal_space.staging.id
+}
+```
+
+**Result:**
+- `prod-connector` can only access `prod-postgres` and `prod-snowflake`
+- `staging-connector` can only access `staging-postgres`
+- No cross-environment connectivity possible
+
+## Spaces vs. Policies
+
+| Aspect | Spaces | Policies |
+|--------|--------|----------|
+| **Purpose** | Network segmentation | Access control |
+| **Enforced at** | Infrastructure layer | Request layer |
+| **Granularity** | Connector ↔ Resource | User ↔ Query |
+| **Use for** | Environment isolation | Permission rules |
+
+**Best practice:** Use Spaces for infrastructure segmentation and Policies for user-level access control. They complement each other.
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Mirror Your Infrastructure" icon="sitemap">
+    Create Spaces that match your actual network topology and environment boundaries. This makes Space assignments intuitive.
+  </Accordion>
+  
+  <Accordion title="Start with Environments" icon="layer-group">
+    At minimum, create Spaces for production, staging, and development. This prevents accidental prod access from lower environments.
+  </Accordion>
+  
+  <Accordion title="Use Policies for User Access" icon="shield-halved">
+    Don't create Spaces per user or team. Use Policies for user-level access control and Spaces for infrastructure segmentation.
+  </Accordion>
+  
+  <Accordion title="Test Space Changes" icon="flask">
+    Always test connectivity after changing Space assignments, especially in production. Deploy a test Connector first.
+  </Accordion>
+  
+  <Accordion title="Document Space Purpose" icon="book">
+    Use clear names and maintain documentation of what each Space represents and which teams use it.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Deploy Connectors" icon="server" href="/docs/guides/core-concepts/connectors">
+    Create Connectors in your Spaces
+  </Card>
+  <Card title="Add Resources" icon="database" href="/docs/guides/core-concepts/resources">
+    Assign Resources to Spaces
+  </Card>
+  <Card title="Deploy Satellites" icon="satellite" href="/docs/guides/core-concepts/satellites">
+    Add Satellites to your Spaces
+  </Card>
+  <Card title="Write Policies" icon="shield-check" href="/docs/guides/policies/policies">
+    Control access within Spaces
+  </Card>
+</CardGroup>
+

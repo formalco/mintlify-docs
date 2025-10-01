@@ -1,9 +1,7 @@
 ---
-title: "Formal's Architecture"
+title: "Architecture"
+description: "Understanding Formal's technical architecture with Control Plane, Connectors, and Satellites"
 ---
-
-
-What is the technical architecture of Formal?
 
 ## Overview
 
@@ -28,6 +26,7 @@ architecture-beta
     connector:L -- R:database
     control:B -- T:connector
     ssh:L -- R:connector
+
 `}
 />
 
@@ -35,10 +34,10 @@ The Connector needs to have network access to https://api.joinformal.com (the Co
 
 ## Satellites
 
-Formal has [three Satellite types](deploying-a-satellite/introduction.md): Data Classifiers, Policy Data Loaders, and Data Discovery satellites. These satellites also are deployed in your infrastructure. 
+Formal has [three Satellite types](deploying-a-satellite/introduction.md): Data Classifiers, Policy Data Loaders, and Data Discovery satellites. These satellites also are deployed in your infrastructure.
 You may add these satellites if you want to leverage additional functionality in your Connector.
 You can deploy any mixture of these three satellites: each satellite should be able to operate without the others.
-The data discovery satellite, however, can use the data classifier satellite to be able to perform labelling. 
+The data discovery satellite, however, can use the data classifier satellite to be able to perform labelling.
 
 <Diagram diagram={`
 architecture-beta
@@ -58,6 +57,7 @@ architecture-beta
     loader:L -- R:connector
     database:T -- B:connector
     database:L -- R:discovery
+
 `}
 />
 

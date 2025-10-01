@@ -1,0 +1,383 @@
+---
+title: "Logs"
+description: "Monitor, search, and analyze all queries and commands executed through Formal Connectors"
+icon: "file-lines"
+---
+
+## Overview
+
+Every query, command, and API call that flows through Formal Connectors is logged and stored for auditing, compliance, and security analysis. Formal's log system provides comprehensive visibility into data access across your organization.
+
+<img src="/img/logs.png" alt="Formal logs dashboard" />
+
+## What Gets Logged
+
+<CardGroup cols={2}>
+  <Card title="Database Queries" icon="database">
+    Full SQL/NoSQL queries, execution time, rows affected
+  </Card>
+  <Card title="API Calls" icon="globe">
+    HTTP requests, headers, request/response bodies, status codes
+  </Card>
+  <Card title="SSH Commands" icon="terminal">
+    Every command executed in SSH sessions
+  </Card>
+  <Card title="Kubernetes Exec" icon="dharmachakra">
+    kubectl exec sessions and commands
+  </Card>
+</CardGroup>
+
+## Log Enrichment
+
+Formal automatically enriches each log entry with contextual information:
+
+| Field              | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| **Timestamp**      | When the query/command was executed                |
+| **User**           | Formal user who made the request                   |
+| **End-User**       | Actual end-user (for BI tool queries)              |
+| **Resource**       | Target database, API, or server                    |
+| **Connector**      | Which Connector processed the request              |
+| **Session ID**     | Associated session identifier                      |
+| **Policy Actions** | Any policy enforcement (mask, block, filter, etc.) |
+| **Client IP**      | Source IP address                                  |
+| **Application**    | Client application (psql, Looker, etc.)            |
+| **Duration**       | Query execution time                               |
+| **Rows Affected**  | Number of records touched                          |
+
+## Accessing Logs
+
+Navigate to [Logs](https://app.joinformal.com/logs) in the Formal console to view all logged activity.
+
+### Viewing Modes
+
+<Tabs>
+  <Tab title="Logs Mode">
+    **Default view** that displays all log entries chronologically. - See
+    individual queries/commands - Click any row to open detailed panel - Filter
+    and search across all fields - Export to CSV
+  </Tab>
+
+  <Tab title="Aggregation Mode">
+    **Advanced analytics** with grouping and visualization. - Group by
+    connector, resource, user, etc. - Visualize with charts: - Timeseries - Bar
+    chart - Pie chart - Line chart - Table - Identify trends and patterns - Spot
+    anomalies
+    <img src="/img/logs_aggregation.png" alt="Logs aggregation view" />
+  </Tab>
+</Tabs>
+
+## Log Details Panel
+
+Click any log entry to view comprehensive details:
+
+<img src="/img/logs_side_panel.png" alt="Log details panel" />
+
+### What's Included
+
+- **Full Query/Command**: Complete text of what was executed
+- **User Context**: User, end-user, groups, email
+- **Resource Information**: Database, hostname, port, technology
+- **Policy Evaluation**: Which policies evaluated, actions taken, reasons
+- **Performance Metrics**: Duration, rows affected, data transferred
+- **Network Information**: Client IP, application, connection details
+- **Session Link**: Jump to associated session recording
+
+## Filtering and Search
+
+Formal uses [Quickwit](https://quickwit.io/) query engine for powerful search capabilities.
+
+### Basic Filters
+
+Use the sidebar to filter by:
+
+- Connector
+- Resource
+- User
+- End-user
+- Group
+- Technology (postgres, ssh, http, etc.)
+- Time range
+
+### Advanced Search
+
+Write Quickwit queries for complex searches:
+
+```
+# Find all queries by user Alice
+user:alice@example.com
+
+# Find queries that triggered policies
+policy_actions:* AND NOT policy_actions:allow
+
+# Find slow queries (>1 second)
+duration_ms:[1000 TO *]
+
+# Find DELETE statements in production
+query:"DELETE" AND resource:production-postgres
+
+# Find SSH commands containing "sudo"
+command:"sudo" AND technology:ssh
+
+# Find queries accessing specific table
+query:"FROM users" OR query:"JOIN users"
+
+# Complex: Find non-admin users accessing PII tables
+user.groups:(NOT admin) AND (table:"users_pii" OR table:"customers_sensitive")
+
+# Time-based: Queries in the last 24 hours
+timestamp:[now-24h TO now]
+
+# Failed authentications
+status:denied AND policy_action:block_authentication
+```
+
+## Query Templates
+
+Formal provides pre-built query templates:
+
+| Template               | Description                      | Query                                                    |
+| ---------------------- | -------------------------------- | -------------------------------------------------------- |
+| **Formal Users**       | System-generated users           | `user.type:formal`                                       |
+| **Native Users**       | Queries using native credentials | `user_type:native`                                       |
+| **Triggered Policies** | Logs with policy enforcement     | `policy_actions:* AND NOT policy_actions:allow`          |
+| **Datastore Queries**  | Database queries                 | `technology:(postgres OR mysql OR mongodb OR snowflake)` |
+| **HTTP Requests**      | API calls                        | `technology:http`                                        |
+| **S3 Requests**        | S3 operations                    | `technology:s3`                                          |
+| **Encrypted Requests** | Queries with encryption          | `encrypted:true`                                         |
+| **SSH Sessions**       | Terminal sessions                | `technology:ssh`                                         |
+
+## Quick Actions Menu
+
+<img src="/img/quick_actions.png" alt="Quick actions menu" />
+
+### Save Queries
+
+Save frequently used queries for quick access:
+
+1. Create your query with filters
+2. Click **Save Query** in Quick Actions
+3. Name your query
+4. Access later from **Saved Queries**
+
+### Query History
+
+View all your recent searches:
+
+1. Click **Recent Queries** in Quick Actions
+2. Select a previous query to re-run it
+3. History persists across sessions
+
+## SSH Session Recordings
+
+For SSH and Kubernetes sessions, logs include full session recordings.
+
+<Steps>
+  <Step title="Find SSH Log">Filter logs by `technology:ssh`</Step>
+  <Step title="Open Log Details">Click on an SSH log entry</Step>
+  <Step title="View Recording">
+    Click **View Session Recording** to see the full terminal playback
+  </Step>
+  <Step title="Playback Controls">
+    - Play/Pause - Seek to any point in the session - View command list - See
+    AI-generated risk analysis
+  </Step>
+</Steps>
+
+See [Sessions](/docs/guides/core-concepts/sessions) for more details on session recordings.
+
+## Exporting Logs
+
+### CSV Export
+
+Export search results to CSV for offline analysis:
+
+1. Apply filters or search query
+2. Click **Export to CSV**
+3. Download the file
+
+### Log Drains
+
+Forward all logs to external systems:
+
+- **AWS S3**: Long-term archive, compliance storage
+- **Datadog**: Real-time monitoring and alerting
+- **Splunk**: SIEM integration
+- **Elastic**: Centralized logging
+- **Sumo Logic**: Security analytics
+
+See [Log Drains](/docs/guides/integrations/log-drains) for setup instructions.
+
+## Log Retention
+
+<Note>
+  Formal stores logs indefinitely in AWS S3 Glacier Deep Archive unless you
+  specify custom retention requirements.
+</Note>
+
+### Default Retention
+
+- **Hot storage** (fast access): 90 days
+- **Cold storage** (archive): Indefinite
+
+### Custom Retention
+
+Contact Formal support to configure:
+
+- Shorter retention for cost savings
+- Longer hot storage for frequent access
+- Custom archive policies
+- Regional storage requirements
+
+## Use Cases
+
+### Compliance Auditing
+
+Find all queries accessing PII tables:
+
+```
+table:(users_pii OR customers_sensitive OR employees)
+```
+
+Export to CSV for compliance reports.
+
+### Security Incident Investigation
+
+Trace a user's activity during a specific time:
+
+```
+user:alice@example.com AND timestamp:[2024-01-15T09:00 TO 2024-01-15T17:00]
+```
+
+### Performance Monitoring
+
+Identify slow queries:
+
+```
+duration_ms:[5000 TO *] ORDER BY duration_ms DESC
+```
+
+### Policy Effectiveness
+
+See which policies are triggering:
+
+```
+policy_actions:* AND NOT policy_actions:allow
+```
+
+Group by policy_name to see frequency.
+
+### Data Access Patterns
+
+Analyze which resources are accessed most:
+
+1. Switch to **Aggregation Mode**
+2. Group by `resource.name`
+3. Visualize with bar chart
+4. Identify hot spots
+
+### Anomaly Detection
+
+Find off-hours database access:
+
+```
+timestamp:[now-1d/d+22h TO now-1d/d+6h] AND technology:postgres
+```
+
+(Queries between 10 PM and 6 AM yesterday)
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Save Common Queries" icon="floppy-disk">
+    Save frequently used searches for compliance, security, or operational
+    monitoring.
+  </Accordion>
+
+  <Accordion title="Set Up Log Drains" icon="pipe">
+    Forward logs to your SIEM or data lake for advanced analytics and long-term
+    retention beyond Formal's console.
+  </Accordion>
+
+  <Accordion title="Regular Audits" icon="calendar">
+    Schedule weekly or monthly log reviews to identify unusual patterns, policy
+    gaps, or security incidents.
+  </Accordion>
+
+  <Accordion title="Use Aggregation Mode" icon="chart-bar">
+    Leverage aggregation and visualization to spot trends that aren't obvious in
+    individual log entries.
+  </Accordion>
+
+  <Accordion title="Monitor Policy Triggers" icon="shield-exclamation">
+    Regularly review logs where policies blocked or masked data to ensure
+    policies are working as intended.
+  </Accordion>
+</AccordionGroup>
+
+## Integration with Policies
+
+Policies can enrich logs with contextual information:
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+post_request := {
+  "action": "allow",
+  "reason": "Query approved for analytics team",
+  "contextual_data": sprintf(
+    "Approved query on %s by %s from %s",
+    [input.resource.name, input.user.email, input.client_ip_address]
+  )
+} if {
+  "analytics" in input.user.groups
+}
+```
+
+The `reason` and `contextual_data` fields appear in the log entry, providing audit trail context.
+
+## API Access
+
+Programmatically access logs via the Formal API:
+
+```bash
+curl -X GET "https://api.joinformal.com/v1/logs?query=user:alice@example.com" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+See [API Reference](/docs/api/logs) for details.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Sessions"
+    icon="signal-stream"
+    href="/docs/guides/core-concepts/sessions"
+  >
+    View active and completed sessions
+  </Card>
+  <Card
+    title="Log Drains"
+    icon="pipe"
+    href="/docs/guides/integrations/log-drains"
+  >
+    Forward logs to external systems
+  </Card>
+  <Card
+    title="Write Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
+    Create policies that log contextual data
+  </Card>
+  <Card
+    title="Compliance Audits"
+    icon="file-certificate"
+    href="/docs/guides/how-to/log-audits"
+  >
+    Use logs for compliance reporting
+  </Card>
+</CardGroup>

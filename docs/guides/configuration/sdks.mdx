@@ -1,0 +1,104 @@
+---
+title: "SDKs"
+description: "Programmatic access to Formal with Go and Python SDKs"
+icon: "code-branch"
+---
+
+## Overview
+
+Formal provides SDKs for programmatic access to the platform. Use SDKs to build custom tools, automation, and integrations.
+
+<Note>
+  For most infrastructure management tasks, use the [Terraform
+  provider](/docs/guides/configuration/terraform) instead of SDKs.
+</Note>
+
+## Coming Soon
+
+Official SDKs for Go and Python are in development.
+
+### Planned Features
+
+- Create, read, update, delete Formal objects
+- Query logs and sessions programmatically
+- Manage policies dynamically
+- Integrate Formal into CI/CD pipelines
+- Build custom dashboards and reports
+
+## REST API
+
+In the meantime, use the Formal REST API directly:
+
+### Authentication
+
+```bash
+export FORMAL_API_KEY="your-api-key-here"
+```
+
+### Example Requests
+
+<Tabs>
+  <Tab title="List Resources">
+    ```bash
+    curl -X GET "https://api.joinformal.com/v1/resources" \
+      -H "Authorization: Bearer $FORMAL_API_KEY"
+    ```
+  </Tab>
+  
+  <Tab title="Create User">
+    ```bash
+    curl -X POST "https://api.joinformal.com/v1/users" \
+      -H "Authorization: Bearer $FORMAL_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "name": "Alice Smith",
+        "email": "alice@example.com",
+        "type": "human"
+      }'
+    ```
+  </Tab>
+  
+  <Tab title="Query Logs">
+    ```bash
+    curl -X GET "https://api.joinformal.com/v1/logs?query=user:alice@example.com" \
+      -H "Authorization: Bearer $FORMAL_API_KEY"
+    ```
+  </Tab>
+</Tabs>
+
+## API Documentation
+
+See the [API Reference](/docs/api/introduction) for complete endpoint documentation.
+
+## Community SDKs
+
+If you build an unofficial SDK or integration, let us know! We're happy to feature community contributions.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="API Reference" icon="book" href="/docs/api/introduction">
+    Complete API documentation
+  </Card>
+  <Card
+    title="Terraform"
+    icon="code"
+    href="/docs/guides/configuration/terraform"
+  >
+    Infrastructure-as-code with Terraform
+  </Card>
+  <Card
+    title="Managing Objects"
+    icon="sliders"
+    href="/docs/guides/configuration/managing-objects"
+  >
+    Object lifecycle and operations
+  </Card>
+  <Card
+    title="API Keys"
+    icon="key"
+    href="/docs/guides/configuration/console#api-keys"
+  >
+    Generate API authentication keys
+  </Card>
+</CardGroup>

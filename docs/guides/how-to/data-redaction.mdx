@@ -1,0 +1,270 @@
+---
+title: "Data Redaction & Masking"
+description: "Automatically mask PII and sensitive data with policy-driven redaction"
+icon: "eye-slash"
+---
+
+## Overview
+
+Formal can automatically mask, redact, or replace sensitive data as it leaves databases, ensuring users only see data they're authorized to view.
+
+## Quick Start
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+post_request := {
+  "action": "mask",
+  "type": "nullify",
+  "columns": sensitive_columns
+} if {
+  # Find columns with sensitive labels
+  sensitive_columns := [col |
+    col := input.row[_]
+    col["data_label"] in ["email", "ssn", "phone"]
+  ]
+
+  count(sensitive_columns) > 0
+}
+```
+
+This masks all PII fields to NULL for all users.
+
+## Masking Types
+
+### Nullify (Privacy Level 4)
+
+Replace with NULL:
+
+```rego
+post_request := {
+  "action": "mask",
+  "type": "nullify",
+  "columns": columns
+}
+```
+
+**Result:** `alice@example.com` → `NULL`
+
+### Hash with Salt (Privacy Level 4)
+
+One-way hash with random salt:
+
+```rego
+post_request := {
+  "action": "mask",
+  "type": "hash.with_salt",
+  "columns": columns
+}
+```
+
+**Result:** `alice@example.com` → `a3f9b2c1e8d...`
+
+### Fake Data (Privacy Level 3)
+
+Generate realistic but fake data:
+
+```rego
+post_request := {
+  "action": "mask",
+  "type": "fake",
+  "sub_type": "email_mask_with_fake",
+  "columns": columns
+}
+```
+
+**Result:** `alice@example.com` → `fake.user@example.org`
+
+### Partial Redaction (Privacy Level 1)
+
+Mask part of the value:
+
+```rego
+post_request := {
+  "action": "mask",
+  "type": "redact.partial",
+  "sub_type": "email_mask_username",
+  "columns": columns
+}
+```
+
+**Result:** `alice@example.com` → `****@example.com`
+
+## Common Patterns
+
+### Mask PII for Non-Privileged Users
+
+```rego
+package formal.v2
+
+import future.keywords.if
+import future.keywords.in
+
+post_request := {
+  "action": "mask",
+  "type": "nullify",
+  "columns": pii_columns
+} if {
+  # Only mask if user lacks pii_access
+  not "pii_access" in input.user.groups
+
+  # Find PII columns
+  pii_columns := [col |
+    col := input.row[_]
+    col["data_label"] in ["email", "ssn", "phone", "address"]
+  ]
+
+  count(pii_columns) > 0
+}
+```
+
+### Mask Credit Cards
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+post_request := {
+  "action": "mask",
+  "type": "redact.partial",
+  "sub_type": "mask_everything_except_last",
+  "characters_count": 4,
+  "redact": "*",
+  "columns": cc_columns
+} if {
+  cc_columns := [col |
+    col := input.row[_]
+    col["data_label"] == "credit_card_number"
+  ]
+
+  count(cc_columns) > 0
+}
+```
+
+**Result:** `4532-1234-5678-9010` → `****-****-****-9010`
+
+### Conditional Masking by Environment
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Mask in production
+post_request := {
+  "action": "mask",
+  "type": "hash.with_salt",
+  "columns": sensitive_columns
+} if {
+  input.resource.environment == "production"
+
+  sensitive_columns := [col |
+    col := input.row[_]
+    col["data_label"] in ["ssn", "tax_id"]
+  ]
+
+  count(sensitive_columns) > 0
+}
+
+# No masking in development
+post_request := {
+  "action": "allow"
+} if {
+  input.resource.environment == "development"
+}
+```
+
+## Masking Subtypes
+
+### Email Masking
+
+- `email_mask_username`: `****@example.com`
+- `email_mask_domain_name`: `user@*****.***`
+- `email_mask_with_fake`: `fake.email@example.org`
+
+### Person Data
+
+- `person_full_name_mask_with_fake`
+- `person_ssn_mask_with_fake`
+- `phone_mask_with_fake`
+
+### Location
+
+- `postal_address_mask_with_fake`
+- `city_mask_with_fake`
+- `zip_mask_with_fake`
+
+### Payment
+
+- `payment_credit_card_number_mask_with_fake`
+- `payment_credit_card_cvv_mask_with_fake`
+
+See [Enforcement](/docs/guides/policies/enforcement#masking-subtypes) for complete list.
+
+## Data Classification
+
+Use [Data Classifier Satellite](/docs/guides/core-concepts/satellites#data-classifier-satellite) to automatically label columns:
+
+1. Deploy Data Classifier Satellite
+2. Satellite detects PII in query responses
+3. Columns labeled with `data_label` (e.g., "email", "ssn")
+4. Policies reference labels for masking
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Data Labels" icon="tag">
+    Reference `data_label` in policies instead of column names. Labels persist
+    even if columns are renamed.
+  </Accordion>
+
+  <Accordion title="Match Privacy to Need" icon="balance-scale">
+    Use appropriate masking levels. Nullify for maximum privacy, partial
+    redaction when some context is needed.
+  </Accordion>
+
+  <Accordion title="Test Masking" icon="flask">
+    Use dry-run mode to verify masking works correctly before activating
+    policies.
+  </Accordion>
+
+  <Accordion title="Consider User Experience" icon="user">
+    Fake data maintains data format and usability while protecting privacy.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Policy Enforcement"
+    icon="gavel"
+    href="/docs/guides/policies/enforcement"
+  >
+    Learn all masking types
+  </Card>
+  <Card
+    title="Data Classifier"
+    icon="magnifying-glass"
+    href="/docs/guides/core-concepts/satellites#data-classifier-satellite"
+  >
+    Auto-detect PII
+  </Card>
+  <Card
+    title="Write Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
+    Create masking policies
+  </Card>
+  <Card
+    title="View Logs"
+    icon="file-lines"
+    href="/docs/guides/observability/logs"
+  >
+    Verify masking in logs
+  </Card>
+</CardGroup>

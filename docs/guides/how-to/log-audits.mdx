@@ -1,0 +1,252 @@
+---
+title: "Log Audits & Compliance"
+description: "Use Formal logs for compliance reporting and security audits"
+icon: "file-certificate"
+---
+
+## Overview
+
+Formal provides comprehensive audit logs for compliance with SOC 2, HIPAA, PCI DSS, GDPR, and other regulatory frameworks.
+
+## Compliance Use Cases
+
+### SOC 2
+
+**Required Controls:**
+
+- Access logging
+- User authentication
+- Authorization enforcement
+- Audit trail retention
+
+**Formal Capabilities:**
+
+1. **Query Logs**: Every database query logged with user attribution
+2. **Policy Enforcement**: Audit trail of access control decisions
+3. **Session Recordings**: SSH/Kubernetes sessions with full replay
+4. **Retention**: Logs stored indefinitely (default)
+
+**Generate Reports:**
+
+```
+# All access to sensitive tables in the last year
+table:(users_pii OR customers_sensitive) AND timestamp:[now-1y TO now]
+
+# Policy violations
+policy_actions:block OR policy_actions:mask
+
+# Administrative access
+user.groups:admin
+```
+
+### HIPAA
+
+**ePHI Access Logging:**
+
+```
+# All queries to tables containing ePHI
+table:(patients OR medical_records OR prescriptions)
+
+# Export to CSV for audit
+# Click "Export to CSV"
+```
+
+### PCI DSS
+
+**Requirement 10: Logging and Monitoring**
+
+```
+# All access to cardholder data
+table:credit_cards OR query:"credit_card_number"
+
+# Failed authentication attempts
+status:denied AND policy_action:block_authentication
+
+# Administrative actions
+user.type:admin
+```
+
+### GDPR
+
+**Data Subject Access Requests:**
+
+```
+# All queries involving specific individual
+query:"user_id='12345'" OR query:"email='user@example.com'"
+
+# Export for data subject request response
+```
+
+## Audit Reports
+
+### User Access Report
+
+Who accessed which resources:
+
+1. Go to [Logs](https://app.joinformal.com/logs)
+2. Switch to **Aggregation Mode**
+3. Group by `user.email` and `resource.name`
+4. Set time range (last 30/90 days)
+5. Export to CSV
+
+### Policy Enforcement Report
+
+Which policies triggered:
+
+```
+policy_actions:* AND NOT policy_actions:allow
+```
+
+Group by `policy_name` to see frequency.
+
+### Data Access by Table
+
+Most accessed tables:
+
+1. Aggregation Mode
+2. Group by `table_names`
+3. Visualize with bar chart
+
+### Off-Hours Access
+
+Access outside business hours:
+
+```
+timestamp:[now-1d/d+18h TO now-1d/d+6h]
+```
+
+(6 PM to 6 AM yesterday)
+
+## Log Retention
+
+### Default Retention
+
+- **Hot storage**: 90 days (fast access in console)
+- **Archive**: Indefinite (S3 Glacier)
+
+### Custom Retention
+
+Contact Formal support to configure:
+
+- Longer hot storage (e.g., 1 year for frequent audits)
+- Shorter retention (cost savings)
+- Regional storage requirements
+
+## Export Options
+
+### CSV Export
+
+1. Apply filters in Logs
+2. Click **Export to CSV**
+3. Download for offline analysis
+
+### Log Drains
+
+Forward to long-term storage:
+
+<Tabs>
+  <Tab title="S3">
+    ```hcl
+    resource "formal_integration_log" "compliance" {
+      name = "compliance-archive"
+      s3 {
+        s3_bucket_name       = "formal-compliance-logs"
+        cloud_integration_id = formal_integration_cloud.aws.id
+      }
+    }
+    ```
+    
+    Configure S3 lifecycle:
+    - Transition to Glacier after 90 days
+    - Retain for 7 years (SOC 2, HIPAA)
+  </Tab>
+  
+  <Tab title="Splunk">
+    ```hcl
+    resource "formal_integration_log" "splunk" {
+      name = "splunk-audit-logs"
+      splunk {
+        access_token = var.splunk_hec_token
+        host         = "splunk.example.com"
+        port         = 8088
+      }
+    }
+    ```
+    
+    Create Splunk dashboards for compliance reports.
+  </Tab>
+</Tabs>
+
+See [Log Drains](/docs/guides/integrations/log-drains).
+
+## Audit Trail Integrity
+
+### Immutable Logs
+
+Formal logs are append-only and cannot be modified or deleted by users, ensuring audit trail integrity.
+
+### Timestamps
+
+All log entries include precise timestamps (UTC) for accurate chronological ordering.
+
+### User Attribution
+
+Every query is attributed to:
+
+- **User**: Formal user who executed the query
+- **End-User**: Actual human (for BI tool queries)
+- **Application**: Client application used
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Regular Reviews" icon="calendar">
+    Schedule monthly or quarterly log reviews to identify trends and anomalies.
+  </Accordion>
+
+  <Accordion title="Automate Reports" icon="robot">
+    Use log drains + SIEM to generate automated compliance reports.
+  </Accordion>
+
+  <Accordion title="Document Queries" icon="book">
+    Save common audit queries for reuse during compliance audits.
+  </Accordion>
+
+  <Accordion title="Long-Term Archive" icon="archive">
+    Forward logs to S3 with appropriate retention for your compliance
+    requirements.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="View Logs"
+    icon="file-lines"
+    href="/docs/guides/observability/logs"
+  >
+    Access and search logs
+  </Card>
+  <Card
+    title="Log Drains"
+    icon="pipe"
+    href="/docs/guides/integrations/log-drains"
+  >
+    Forward to SIEM or archive
+  </Card>
+  <Card
+    title="Sessions"
+    icon="signal-stream"
+    href="/docs/guides/core-concepts/sessions"
+  >
+    SSH/K8s session recordings
+  </Card>
+  <Card
+    title="Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
+    Enforce compliance controls
+  </Card>
+</CardGroup>

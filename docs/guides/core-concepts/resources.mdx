@@ -1,0 +1,243 @@
+---
+title: "Resources"
+description: "Define the databases, APIs, and infrastructure that Formal protects"
+icon: "database"
+---
+
+## What is a Resource?
+
+A Resource is any system you want to protect with Formal—databases, APIs, Kubernetes clusters, SSH servers, and more. Resources define the endpoints that Connectors can route traffic to and enforce policies on.
+
+## Supported Resource Types
+
+Formal supports a wide range of technologies:
+
+<CardGroup cols={3}>
+  <Card title="PostgreSQL" icon="database">
+    Including RDS, Aurora, Supabase, AlloyDB
+  </Card>
+  <Card title="MySQL" icon="database">
+    Including MariaDB, RDS, Aurora
+  </Card>
+  <Card title="MongoDB" icon="leaf">
+    Self-hosted and Atlas
+  </Card>
+  <Card title="Snowflake" icon="snowflake">
+    Cloud data warehouse
+  </Card>
+  <Card title="BigQuery" icon="google">
+    Google Cloud data warehouse
+  </Card>
+  <Card title="ClickHouse" icon="database">
+    OLAP database
+  </Card>
+  <Card title="DynamoDB" icon="aws">
+    NoSQL database
+  </Card>
+  <Card title="S3" icon="aws">
+    Object storage
+  </Card>
+  <Card title="HTTP" icon="globe">
+    REST APIs and web services
+  </Card>
+  <Card title="SSH" icon="terminal">
+    Linux servers and bastions
+  </Card>
+  <Card title="Kubernetes" icon="dharmachakra">
+    K8s clusters (kubectl exec)
+  </Card>
+  <Card title="Redshift" icon="aws">
+    Amazon data warehouse
+  </Card>
+</CardGroup>
+
+## Creating a Resource
+
+<Tabs>
+  <Tab title="Web Console">
+    <Steps>
+      <Step title="Navigate to Resources">
+        Go to [Resources](https://app.joinformal.com/resources) in the Formal console
+      </Step>
+      <Step title="Click New Resource">
+        Select the **New Resource** button
+      </Step>
+      <Step title="Fill in connection details">
+        - **Name**: A friendly identifier
+        - **Type**: The technology (PostgreSQL, MongoDB, etc.)
+        - **Host**: Database hostname or IP address
+        - **Port**: Connection port (e.g., 5432 for PostgreSQL)
+        - **Space**: (Optional) Logical grouping for access control
+      </Step>
+      <Step title="Configure advanced options">
+        - Enable **Termination Protection** to prevent accidental deletion
+        - Set up **Native Users** for database authentication
+        - Configure **TLS** if needed
+      </Step>
+    </Steps>
+  </Tab>
+  
+  <Tab title="Terraform">
+    ```hcl
+    resource "formal_resource" "production_postgres" {
+      name       = "production-postgres"
+      technology = "postgres"
+      hostname   = "prod-db.us-east-1.rds.amazonaws.com"
+      port       = 5432
+      space_id   = formal_space.production.id
+      
+      # Optional: Termination protection
+      termination_protection = true
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<Tip>
+Your resource doesn't need to be publicly accessible. The Connector reaches it from within your VPC.
+</Tip>
+
+## Native Users
+
+When users connect through Formal, the Connector authenticates to the underlying resource using **native credentials**. You configure which native user the Connector should use based on who's connecting.
+
+### Native User Assignment
+
+You can assign native users at three levels (in order of precedence):
+
+1. **Per Formal User**: Specific credentials for an individual user
+2. **Per Formal Group**: Shared credentials for all users in a group
+3. **Default**: Fallback credentials for everyone else
+
+<Warning>
+A Formal User can only have ONE native user assignment. If a user is assigned directly, they cannot be added to a group that also has a native user assignment (and vice versa). Remove the user-level assignment first.
+</Warning>
+
+### Creating a Native User
+
+<Steps>
+  <Step title="Navigate to the Resource">
+    Go to the Resource details page and scroll to the **Native Users** section
+  </Step>
+  <Step title="Click New Native User">
+    Create a new native user credential
+  </Step>
+  <Step title="Configure authentication">
+    Choose one of the following methods:
+    
+    **Password-based:**
+    - Enter username and password directly (encrypted at rest)
+    - Or use an environment variable: `ENV:PASSWORD_VAR_NAME`
+    
+    **IAM-based (AWS RDS):**
+    - Set password to `iam` to use the Connector's IAM role
+    - Or specify a custom role ARN to assume
+  </Step>
+  <Step title="Assign to users or groups">
+    - Select Formal Users or Groups to assign this native user
+    - Or set as the default for everyone
+  </Step>
+</Steps>
+
+### Password Configuration Options
+
+| Method | Value | Description |
+|--------|-------|-------------|
+| **Direct Password** | `yourpassword` | Stored encrypted in Formal |
+| **Environment Variable** | `ENV:DB_PASSWORD` | Read from Connector's environment |
+| **IAM Authentication** | `iam` | Use Connector's IAM role |
+| **Custom IAM Role** | `arn:aws:iam::123:role/MyRole` | Assume specified role |
+
+<Note>
+When using environment variables, ensure they're set in your Connector deployment (ECS task definition, Kubernetes secret, etc.).
+</Note>
+
+## Resource Configuration
+
+### Health Checks
+
+Formal periodically checks resource availability. Configure which database to use for health checks to avoid impacting production workloads.
+
+```
+Health Check Database: monitoring_db
+```
+
+### Schema Discovery
+
+Formal can automatically discover and catalog your database schema:
+
+<AccordionGroup>
+  <Accordion title="Discovery Frequency" icon="clock">
+    - None (manual only)
+    - Every 6, 12, 18, or 24 hours
+    - Custom cron expression
+  </Accordion>
+  
+  <Accordion title="Native User" icon="user">
+    Select which native user credentials to use for discovery jobs
+  </Accordion>
+  
+  <Accordion title="Deletion Policy" icon="trash">
+    - **Mark for deletion**: Flag removed schemas for manual review
+    - **Delete**: Automatically remove schemas no longer present
+  </Accordion>
+</AccordionGroup>
+
+You can also trigger discovery manually from the Resource details page.
+
+### TLS Configuration
+
+Encrypt connections between the Connector and your resource:
+
+- **TLS Mode**: Disable, allow, prefer, require, verify-ca, verify-full
+- **TLS Version**: Minimum version (1.0, 1.1, 1.2, 1.3)
+- **Certificate Truststore**: Custom CA certificates
+
+<Tip>
+For AWS RDS, use the [AWS RDS CA bundle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) as your truststore.
+</Tip>
+
+## Managing Resources
+
+### Updating Resources
+
+Changes to resources (hostname, port, space, etc.) take effect immediately for new connections. Active sessions continue using old settings until they reconnect.
+
+### Deleting Resources
+
+<Warning>
+Resources with **Termination Protection** enabled cannot be deleted until protection is disabled.
+</Warning>
+
+Before deleting a resource:
+1. Check for active sessions
+2. Remove it from any Connector listener rules
+3. Disable termination protection if enabled
+4. Confirm deletion
+
+## Spaces and Resources
+
+Resources can be assigned to a [Space](/docs/guides/core-concepts/spaces) to limit which Connectors can access them:
+
+- **Resource with a Space**: Only Connectors in the same Space can access it
+- **Resource without a Space**: Any Connector can access it
+
+This allows you to create network segmentation and isolation patterns that match your infrastructure.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Configure Native Users" icon="key" href="#native-users">
+    Set up authentication for database access
+  </Card>
+  <Card title="Deploy a Connector" icon="server" href="/docs/guides/core-concepts/connectors">
+    Route traffic through Formal
+  </Card>
+  <Card title="Organize with Spaces" icon="layer-group" href="/docs/guides/core-concepts/spaces">
+    Segment resources logically
+  </Card>
+  <Card title="Write Access Policies" icon="shield-check" href="/docs/guides/policies/policies">
+    Control who can access what
+  </Card>
+</CardGroup>
+

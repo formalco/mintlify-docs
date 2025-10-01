@@ -1,0 +1,378 @@
+---
+title: "Policies"
+description: "Write policy-as-code to control data access, mask sensitive information, and enforce compliance"
+icon: "shield-check"
+---
+
+## What are Policies?
+
+Formal's policy system uses [Open Policy Agent (OPA)](https://www.openpolicyagent.org/), an open-source policy engine that enables you to express access control rules as code. Policies are evaluated in real-time as users connect to resources and execute queries.
+
+Policies can:
+- ✅ **Block** connections to resources or specific tables/schemas
+- ✅ **Redact** query results automatically
+- ✅ **Encrypt and decrypt** data fields
+- ✅ **Rewrite** queries before they reach the database
+- ✅ **Filter and limit** result sets
+- ✅ **Enforce MFA** for sensitive operations
+
+## Policy Structure
+
+Every policy consists of these essential components:
+
+<AccordionGroup>
+  <Accordion title="Name" icon="tag">
+    A **unique identifier** for the policy. No two policies can share the same name.
+  </Accordion>
+  
+  <Accordion title="Description" icon="file-text">
+    A **clear explanation** of the policy's purpose and scope. This helps other admins understand what the policy does.
+  </Accordion>
+  
+  <Accordion title="Owners" icon="users">
+    The **administrators responsible** for maintaining and enforcing the policy. Owners receive notifications when policies are triggered (if configured).
+  </Accordion>
+  
+  <Accordion title="Code" icon="code">
+    The **policy logic**, written in [Rego](https://www.openpolicyagent.org/docs/latest/policy-language/), OPA's purpose-built language for access control.
+  </Accordion>
+</AccordionGroup>
+
+## Policy Status
+
+Policies can be in one of three states:
+
+| Status | Description | Use Case |
+|--------|-------------|----------|
+| **Draft** | Under development, not enforced | Writing and testing new policies |
+| **Dry-run** | Logs violations without enforcing | Testing policies with real traffic before enforcement |
+| **Active** | Fully enforced and monitoring | Production enforcement |
+
+<Tip>
+Use **dry-run** mode to test policies against real traffic without impacting users. Review the logs to ensure the policy works as intended before activating it.
+</Tip>
+
+## Policy Scope
+
+By default, policies apply universally to:
+- All users (human and machine)
+- All resources
+- All data locations
+
+You can narrow the scope within each policy using conditions on:
+
+### User Context
+
+Access user information via `input.user` and `input.end_user`:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `username` | **String** | Unique username |
+| `email` | **String** | Email address (human users only) |
+| `groups` | **[]String** | Groups the user belongs to |
+| `type` | **String** | `human` or `machine` |
+
+### Resource Context
+
+Filter by resource via `input.resource`:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | **String** | Resource ID |
+| `name` | **String** | Resource name |
+| `technology` | **String** | `postgres`, `mongodb`, `snowflake`, etc. |
+| `hostname` | **String** | Resource hostname |
+| `environment` | **String** | Environment tag |
+
+## Example Policies
+
+### Block All Connections by Default
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+default session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "reason": "Default deny policy"
+}
+```
+
+### Allow Only Admin Group
+
+```rego
+package formal.v2
+
+import future.keywords.if
+import future.keywords.in
+
+default session := {
+  "action": "block",
+  "type": "block_with_formal_message"
+}
+
+session := {
+  "action": "allow",
+  "reason": "User is in admin group"
+} if {
+  "admin" in input.user.groups
+}
+```
+
+### Allow Machine User with End-User in Admin Group
+
+```rego
+package formal.v2
+
+import future.keywords.if
+import future.keywords.in
+
+default session := {
+  "action": "block",
+  "type": "block_with_formal_message"
+}
+
+session := {
+  "action": "allow",
+  "reason": "End-user is admin, machine user is authorized"
+} if {
+  "admin" in input.end_user.groups
+  input.user.username == "idp:formal:machine:bi_tool"
+  not input.end_user.email == "blocked@example.com"
+}
+```
+
+### Block Writes to Production
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "reason": "Write operations not allowed in production"
+} if {
+  input.resource.environment == "production"
+  input.query.statement_type in ["INSERT", "UPDATE", "DELETE", "DROP"]
+}
+```
+
+## Notifications
+
+Configure notifications for policy triggers:
+
+- **None**: No notifications sent
+- **Consumer**: Notify the user who triggered the policy
+- **Owners**: Notify policy owners
+- **All**: Notify both user and owners
+
+Notifications can be sent via:
+- Email
+- Slack (requires integration setup)
+
+## Policy Evaluation Stages
+
+Policies are evaluated at three stages during request processing:
+
+1. **Session** (`session`): When a connection is established
+2. **Pre-request** (`pre_request`): Before sending a query to the resource
+3. **Post-request** (`post_request`): When data is received from the resource
+
+See [Enforcement](/docs/guides/policies/enforcement) for details on available actions at each stage.
+
+## Extending Policies with External Data
+
+Use [Policy Data Loaders](/docs/guides/core-concepts/satellites#policy-data-loader-satellite) to fetch external data and reference it in policies:
+
+```rego
+package formal.v2
+
+import future.keywords.if
+import future.keywords.in
+
+session := {
+  "action": "allow",
+  "reason": "User is in approved list"
+} if {
+  input.user.username in data.approved_users.user_ids
+}
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "reason": "User not approved"
+} if {
+  not input.user.username in data.approved_users.user_ids
+}
+```
+
+The `data` object contains all data loaded by your Policy Data Loaders, accessible by their configured keys.
+
+## Scoping Policies to Connectors or Resources
+
+Prevent policy conflicts by limiting which Connectors or Resources a policy applies to:
+
+### Include/Exclude Connectors
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Only apply to these Connectors
+included_connectors := ["production-connector", "staging-connector"]
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message"
+} if {
+  input.resource.technology == "postgres"
+}
+```
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Exclude these Connectors
+excluded_connectors := ["dev-connector"]
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message"
+} if {
+  input.resource.technology == "postgres"
+}
+```
+
+<Warning>
+A single policy cannot use both `included_connectors` and `excluded_connectors`. Choose one or the other.
+</Warning>
+
+### Include/Exclude Resources
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Only apply to specific resources
+included_resources := ["production-postgres"]
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message"
+} if {
+  input.user.type == "machine"
+}
+```
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Exclude specific resources
+excluded_resources := ["dev-postgres", "staging-postgres"]
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message"
+} if {
+  "engineer" in input.user.groups
+}
+```
+
+<Warning>
+A single policy cannot use both `included_resources` and `excluded_resources`. Choose one or the other.
+</Warning>
+
+## Managing Policies
+
+<Tabs>
+  <Tab title="Web Console">
+    1. Navigate to [Policies](https://app.joinformal.com/policies)
+    2. Click **New Policy**
+    3. Fill in name, description, and owners
+    4. Write Rego code in the editor
+    5. Set status (Draft, Dry-run, or Active)
+    6. Configure notifications
+    7. Save the policy
+  </Tab>
+  
+  <Tab title="Terraform">
+    ```hcl
+    resource "formal_policy" "block_deletes" {
+      name        = "block-production-deletes"
+      description = "Prevent DELETE statements in production"
+      status      = "active"
+      
+      code = <<-EOT
+        package formal.v2
+        
+        import future.keywords.if
+        
+        pre_request := {
+          "action": "block",
+          "type": "block_with_formal_message",
+          "reason": "DELETE not allowed in production"
+        } if {
+          input.resource.environment == "production"
+          input.query.statement_type == "DELETE"
+        }
+      EOT
+      
+      owners = ["admin@example.com"]
+      
+      notifications = "owners"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Start with Dry-Run" icon="flask">
+    Always test new policies in dry-run mode first. Review logs to ensure they work as expected before activating.
+  </Accordion>
+  
+  <Accordion title="Use Groups for User Policies" icon="users">
+    Instead of writing policies for individual users, use groups. This makes policies scalable and easier to maintain.
+  </Accordion>
+  
+  <Accordion title="Document Your Policies" icon="book">
+    Write clear descriptions and use meaningful reason fields. Future you (and your team) will thank you during audits.
+  </Accordion>
+  
+  <Accordion title="Leverage External Data" icon="database">
+    Use Policy Data Loaders to fetch dynamic approval lists, compliance data, or business logic from external systems.
+  </Accordion>
+  
+  <Accordion title="Scope Policies Appropriately" icon="target">
+    Use `included_connectors` or `included_resources` to prevent unintended policy application across your infrastructure.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Policy Enforcement" icon="gavel" href="/docs/guides/policies/enforcement">
+    Learn about available actions and enforcement mechanisms
+  </Card>
+  <Card title="Permissions" icon="key" href="/docs/guides/policies/permissions">
+    Understand permission models and access control patterns
+  </Card>
+  <Card title="Threat Scenarios" icon="triangle-exclamation" href="/docs/guides/policies/threat-scenarios">
+    Detect and block common attack patterns
+  </Card>
+  <Card title="View Logs" icon="file-lines" href="/docs/guides/observability/logs">
+    See policy evaluations and enforcement in action
+  </Card>
+</CardGroup>
+

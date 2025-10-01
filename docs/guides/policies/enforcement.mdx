@@ -1,0 +1,392 @@
+---
+title: "Enforcement"
+description: "Policy actions and enforcement mechanisms for blocking, masking, filtering, and rewriting queries"
+icon: "gavel"
+---
+
+## Overview
+
+Formal policies can enforce different actions at three evaluation stages: **session**, **pre-request**, and **post-request**. Each stage has specific actions available based on when the policy is evaluated.
+
+## Evaluation Stages
+
+<CardGroup cols={3}>
+  <Card title="Session" icon="plug">
+    **When**: Connection establishment
+    
+    **Actions**: `allow`, `block`, `mfa`
+    
+    Use for: Authentication, connection-level access control
+  </Card>
+  <Card title="Pre-Request" icon="circle-arrow-right">
+    **When**: Before query reaches resource
+    
+    **Actions**: `allow`, `block`, `rewrite`
+    
+    Use for: Query validation, SQL rewriting, blocking writes
+  </Card>
+  <Card title="Post-Request" icon="circle-arrow-left">
+    **When**: After data returns from resource
+    
+    **Actions**: `allow`, `filter`, `mask`, `decrypt`
+    
+    Use for: Data masking, PII redaction, filtering results
+  </Card>
+</CardGroup>
+
+## Common Action Parameters
+
+All actions support these parameters:
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `action` | **String** | The enforcement action: `allow`, `block`, `filter`, `mask`, `decrypt`, `rewrite`, `mfa` |
+| `reason` | **String** | Explanation for the action (logged for compliance and auditing) |
+| `contextual_data` | **String** | Additional context that influenced the decision (e.g., "Zendesk ticket #123") |
+
+## Block Action
+
+Deny access and terminate the connection or query.
+
+### Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `type` | **Enum** | `block_with_formal_message`, `block_with_fake_error`, or `block_silently` |
+| `message` | **String** | Custom message to show the user |
+
+### Example
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Block all DELETE statements in production
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "DELETE operations are not allowed in production",
+  "reason": "Production data protection policy"
+} if {
+  input.resource.environment == "production"
+  input.query.statement_type == "DELETE"
+}
+```
+
+## Allow Action
+
+Explicitly permit an operation. Use in combination with default deny policies.
+
+### Example
+
+```rego
+package formal.v2
+
+import future.keywords.if
+import future.keywords.in
+
+# Default deny
+default session := {
+  "action": "block",
+  "type": "block_with_formal_message"
+}
+
+# Allow admins
+session := {
+  "action": "allow",
+  "reason": "User is in admin group"
+} if {
+  "admin" in input.user.groups
+}
+```
+
+## Rewrite Action
+
+Modify the query before it reaches the resource.
+
+### Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `rewritten_query` | **String** | The new query to execute |
+
+### Example
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Add LIMIT clause to unbounded queries
+pre_request := {
+  "action": "rewrite",
+  "rewritten_query": sprintf("%s LIMIT 1000", [input.query.query]),
+  "reason": "Auto-added row limit for safety"
+} if {
+  input.query.limit == null
+  startswith(input.query.query, "SELECT")
+}
+```
+
+## Filter Action
+
+Remove rows from the result set based on conditions.
+
+### Example
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Filter rows unless user has open Zendesk ticket
+default post_request := {
+  "action": "filter",
+  "reason": "No open tickets for this data"
+}
+
+post_request := {
+  "action": "allow",
+  "contextual_data": filtered_tickets,
+  "reason": "User has open ticket"
+} if {
+  col := input.row[_]
+  col["path"] == "main.public.pii.email"
+  
+  filtered_tickets := [obj | 
+    obj := data.zendesk_tickets[_]
+    obj.requester_email == col.value
+    obj.status == "open"
+  ]
+  
+  count(filtered_tickets) > 0
+}
+```
+
+## Mask Action
+
+Redact or obfuscate sensitive data in responses.
+
+### Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `type` | **String** | Masking type (e.g., `redact.partial`, `hash.with_salt`, `fake`, `nullify`) |
+| `sub_type` | **String** | Specific masking method (e.g., `email_mask_username`) |
+| `columns` | **[]Column** | List of columns to mask |
+| `redact` | **String** | Replacement value for redaction |
+| `characters_count` | **Integer** | Number of characters to mask |
+| `typesafe` | **Boolean** | Maintain column data type (default: `false`) |
+| `typesafe_fallback` | **String** | `fallback_to_null` or `fallback_to_default` |
+
+### Masking Types
+
+| Type | Privacy Level | Description |
+|------|---------------|-------------|
+| `nullify` | 4 (Highest) | Replace with NULL |
+| `hash.with_salt` | 4 | Hash with random salt |
+| `fake` | 3 | Generate realistic fake data |
+| `redact.constant_characters` | 3 | Replace with constant string |
+| `hash.no_salt` | 2 | Hash without salt (deterministic) |
+| `redact.partial` | 1 | Partially redact (e.g., mask email username) |
+| `none` | 0 (Lowest) | No masking |
+
+### Masking Subtypes
+
+<AccordionGroup>
+  <Accordion title="Email Masking">
+    - `email_mask_username`: `****@example.com`
+    - `email_mask_domain_name`: `user@*****.***`
+    - `email_mask_while_preserving`: `a****@e******.com`
+    - `email_mask_with_fake`: `fake.email@example.com`
+  </Accordion>
+  
+  <Accordion title="Personal Information">
+    - `person_full_name_mask_with_fake`
+    - `person_first_name_mask_with_fake`
+    - `person_last_name_mask_with_fake`
+    - `person_ssn_mask_with_fake`
+  </Accordion>
+  
+  <Accordion title="Location Data">
+    - `postal_address_mask_with_fake`
+    - `city_mask_with_fake`
+    - `state_mask_with_fake`
+    - `zip_mask_with_fake`
+    - `location_mask_except_state_country`
+  </Accordion>
+  
+  <Accordion title="Payment Data">
+    - `payment_credit_card_number_mask_with_fake`
+    - `payment_credit_card_cvv_mask_with_fake`
+    - `payment_credit_card_exp_mask_with_fake`
+    - `payment_ach_routing_with_fake`
+    - `payment_bitcoin_address_with_fake`
+  </Accordion>
+  
+  <Accordion title="Network Data">
+    - `network_url_mask_with_fake`
+    - `network_ipv4_mask_with_fake`
+    - `network_ipv6_mask_with_fake`
+    - `network_mac_mask_with_fake`
+  </Accordion>
+  
+  <Accordion title="General Redaction">
+    - `redact.constant_characters`: Replace with custom string
+    - `redact.first_n_characters`: Mask first N chars
+    - `redact.last_n_characters`: Mask last N chars
+    - `mask_everything_except_last`: Show only last N chars
+  </Accordion>
+</AccordionGroup>
+
+### Examples
+
+**Mask email usernames:**
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+post_request := {
+  "action": "mask",
+  "type": "redact.partial",
+  "sub_type": "email_mask_username",
+  "columns": columns
+} if {
+  columns := [col | 
+    col := input.row[_]
+    col["data_label"] == "email_address"
+  ]
+  count(columns) > 0
+}
+```
+
+**Replace PII with fake data:**
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+post_request := {
+  "action": "mask",
+  "type": "fake",
+  "sub_type": "person_full_name_mask_with_fake",
+  "columns": columns
+} if {
+  columns := [col | 
+    col := input.row[_]
+    col["data_label"] == "name"
+  ]
+  count(columns) > 0
+}
+```
+
+**Redact with constant value:**
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+post_request := {
+  "action": "mask",
+  "type": "redact.constant_characters",
+  "sub_type": "redact.constant_characters",
+  "redact": "[REDACTED]",
+  "columns": columns
+} if {
+  columns := [col | 
+    col := input.row[_]
+    col["data_label"] == "ssn"
+  ]
+  count(columns) > 0
+}
+```
+
+## Decrypt Action
+
+Decrypt previously encrypted columns (requires encryption policy).
+
+### Example
+
+```rego
+package formal.v2
+
+import future.keywords.if
+import future.keywords.in
+
+post_request := {
+  "action": "decrypt",
+  "columns": columns
+} if {
+  "decrypt_access" in input.user.groups
+  columns := [col | 
+    col := input.row[_]
+    col["name"] == "encrypted_ssn"
+  ]
+}
+```
+
+## MFA Action
+
+Require multi-factor authentication before allowing access.
+
+### Example
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "mfa",
+  "reason": "Production access requires MFA"
+} if {
+  input.resource.environment == "production"
+}
+```
+
+## Rule Conflicts and Precedence
+
+When multiple policies apply to the same query, Formal resolves conflicts using **least privilege**:
+
+| Scenario | Resolution |
+|----------|------------|
+| **Block vs Allow** | Block wins |
+| **Multiple Filter actions** | Smallest row limit wins |
+| **Multiple Mask actions** | Highest privacy level wins (nullify > constant > fake > partial) |
+| **Multiple Rewrite actions** | Arbitrary (avoid conflicts with scoping) |
+
+### Example of Conflict Resolution
+
+```
+Policy A: Mask email as ***@***.com (privacy level 3)
+Policy B: Nullify email (privacy level 4)
+
+Result: Email is nullified (higher privacy)
+```
+
+<Tip>
+Use `included_connectors` or `included_resources` to avoid unintended policy conflicts.
+</Tip>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Write Policies" icon="shield-check" href="/docs/guides/policies/policies">
+    Create your first policies
+  </Card>
+  <Card title="Threat Scenarios" icon="triangle-exclamation" href="/docs/guides/policies/threat-scenarios">
+    Detect common attack patterns
+  </Card>
+  <Card title="View Logs" icon="file-lines" href="/docs/guides/observability/logs">
+    Monitor policy enforcement
+  </Card>
+  <Card title="Data Masking Guide" icon="eye-slash" href="/docs/guides/how-to/data-redaction">
+    Step-by-step masking examples
+  </Card>
+</CardGroup>
+

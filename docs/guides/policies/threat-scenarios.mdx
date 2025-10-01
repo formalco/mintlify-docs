@@ -1,0 +1,491 @@
+---
+title: "Threat Scenarios"
+description: "Detect and block common attack patterns with policy-as-code"
+icon: "triangle-exclamation"
+---
+
+## Overview
+
+Formal's policy engine can detect and block common security threats in real-time. This page provides policy examples for protecting against data exfiltration, SQL injection, privilege escalation, and other attack patterns.
+
+## Data Exfiltration Prevention
+
+### Block Mass Data Exports
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Block queries without LIMIT clause
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Queries must include a LIMIT clause",
+  "reason": "Prevent mass data export"
+} if {
+  input.query.statement_type == "SELECT"
+  input.query.limit == null
+  not "data_admin" in input.user.groups
+}
+
+# Alternatively, auto-add LIMIT
+pre_request := {
+  "action": "rewrite",
+  "rewritten_query": sprintf("%s LIMIT 10000", [input.query.query]),
+  "reason": "Auto-limited unbounded query"
+} if {
+  input.query.limit == null
+  input.query.statement_type == "SELECT"
+}
+```
+
+### Detect SELECT * Queries
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "SELECT * is not allowed. Specify columns explicitly.",
+  "reason": "Prevent accidental full-table scans"
+} if {
+  regex.match(`SELECT\s+\*\s+FROM`, input.query.query)
+  not "admin" in input.user.groups
+}
+```
+
+### Rate Limiting
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Block if user exceeds query rate (requires Policy Data Loader)
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Query rate limit exceeded",
+  "reason": "User exceeded 100 queries per hour"
+} if {
+  user_query_count := data.query_metrics[input.user.username]
+  user_query_count > 100
+}
+```
+
+## SQL Injection Protection
+
+### Block Suspicious Keywords
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Potentially malicious query detected",
+  "reason": "SQL injection attempt"
+} if {
+  dangerous_patterns := [
+    `--`,           # SQL comments
+    `;.*DROP`,      # Command injection
+    `;.*DELETE`,    # Command injection
+    `UNION.*SELECT`, # Union-based injection
+    `1=1`,          # Always-true conditions
+    `OR.*1.*=.*1`,  # Tautologies
+  ]
+  
+  some pattern in dangerous_patterns
+  regex.match(pattern, input.query.query)
+}
+```
+
+### Parameterized Query Enforcement
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Require prepared statements for dynamic queries
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Dynamic queries must use prepared statements",
+  "reason": "SQL injection prevention"
+} if {
+  # Detect string concatenation in WHERE clauses
+  regex.match(`WHERE.*\+.*`, input.query.query)
+}
+```
+
+## Privilege Escalation
+
+### Monitor SSH Privilege Escalation
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Privilege escalation attempt detected",
+  "reason": "Unauthorized sudo usage"
+} if {
+  input.resource.technology == "ssh"
+  regex.match(`sudo|su -`, input.command)
+  not "admin" in input.user.groups
+}
+```
+
+### Detect Database Role Changes
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Role changes are not permitted",
+  "reason": "Prevent privilege escalation"
+} if {
+  regex.match(`SET\s+ROLE|GRANT|REVOKE`, upper(input.query.query))
+  not "dba" in input.user.groups
+}
+```
+
+## Anomalous Behavior Detection
+
+### Off-Hours Access
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "mfa",
+  "reason": "Off-hours access requires MFA"
+} if {
+  # Get current hour (UTC)
+  hour := time.clock([time.now_ns()])[0]
+  
+  # Block 10 PM - 6 AM UTC
+  hour >= 22 or hour < 6
+  
+  input.resource.environment == "production"
+}
+```
+
+### Unusual Geographic Access
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Access from unusual location",
+  "reason": "Geographic anomaly detected"
+} if {
+  # Block if user's IP is from unexpected country
+  ip_country := data.ip_geolocation[input.client_ip_address].country
+  
+  allowed_countries := {"US", "CA", "GB"}
+  not ip_country in allowed_countries
+}
+```
+
+### First-Time Resource Access
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "mfa",
+  "reason": "First-time resource access requires MFA"
+} if {
+  # Check if user has accessed this resource before (requires Policy Data Loader)
+  user_history := data.user_resource_history[input.user.username]
+  not input.resource.id in user_history.accessed_resources
+}
+```
+
+## Sensitive Table Protection
+
+### PII Table Access Control
+
+```rego
+package formal.v2
+
+import future.keywords.if
+import future.keywords.in
+
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Access to PII tables requires approval",
+  "reason": "Sensitive data protection"
+} if {
+  pii_tables := {"users_pii", "customers_sensitive", "employees"}
+  
+  some table in input.table_names
+  table in pii_tables
+  
+  not "pii_access" in input.user.groups
+}
+```
+
+### Column-Level Access Control
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+post_request := {
+  "action": "mask",
+  "type": "nullify",
+  "columns": sensitive_columns
+} if {
+  # Mask SSN unless user has special access
+  not "ssn_access" in input.user.groups
+  
+  sensitive_columns := [col | 
+    col := input.row[_]
+    col["name"] == "ssn"
+  ]
+  
+  count(sensitive_columns) > 0
+}
+```
+
+## Write Operation Protection
+
+### Production Write Prevention
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Write operations blocked in production",
+  "reason": "Production data protection"
+} if {
+  input.resource.environment == "production"
+  input.query.statement_type in ["INSERT", "UPDATE", "DELETE", "DROP", "TRUNCATE"]
+  not "write_access" in input.user.groups
+}
+```
+
+### Require Approval for Deletes
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "DELETE requires approval ticket",
+  "reason": "No active approval found"
+} if {
+  input.query.statement_type == "DELETE"
+  
+  # Check for open approval tickets (requires Policy Data Loader)
+  approvals := [ticket | 
+    ticket := data.jira_approvals[_]
+    ticket.requester == input.user.email
+    ticket.type == "delete_approval"
+    ticket.status == "approved"
+  ]
+  
+  count(approvals) == 0
+}
+```
+
+## Kubernetes Security
+
+### Block Privileged Pod Access
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Access to privileged pods is restricted",
+  "reason": "Security policy violation"
+} if {
+  input.resource.technology == "kubernetes"
+  input.aws.ecs.service_name == "privileged-service"
+  not "k8s_admin" in input.user.groups
+}
+```
+
+### Prevent Namespace Jumping
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Cross-namespace access denied",
+  "reason": "Namespace isolation policy"
+} if {
+  input.resource.technology == "kubernetes"
+  
+  # Check if user's assigned namespace matches target
+  user_namespace := data.user_namespaces[input.user.username]
+  not input.k8s_namespace == user_namespace
+}
+```
+
+## Device Security
+
+### Require Secure Devices
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Device does not meet security requirements",
+  "reason": "System Integrity Protection disabled"
+} if {
+  not input.device.software.system_integrity_protection == "enabled"
+}
+```
+
+### Block Jailbroken/Rooted Devices
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Jailbroken devices are not allowed",
+  "reason": "Device security policy"
+} if {
+  input.device.hardware.activation_lock_status == "disabled"
+}
+```
+
+## Compliance Policies
+
+### GDPR Data Access Logging
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+post_request := {
+  "action": "allow",
+  "reason": "GDPR data accessed",
+  "contextual_data": sprintf("User %s accessed PII", [input.user.email])
+} if {
+  # Log whenever GDPR-regulated data is accessed
+  some col in input.row
+  col["data_label"] in ["email", "name", "address", "phone"]
+}
+```
+
+### SOC 2 Approval Workflows
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+session := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Production access requires approval",
+  "reason": "SOC 2 compliance - no active approval"
+} if {
+  input.resource.environment == "production"
+  
+  # Check ServiceNow for active approvals
+  approvals := [ticket | 
+    ticket := data.servicenow_tickets[_]
+    ticket.requested_by == input.user.email
+    ticket.resource_id == input.resource.id
+    ticket.status == "approved"
+    ticket.expires_at > time.now_ns()
+  ]
+  
+  count(approvals) == 0
+}
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Layer Defenses" icon="layer-group">
+    Combine multiple threat detection policies for defense in depth. Don't rely on a single policy to catch all threats.
+  </Accordion>
+  
+  <Accordion title="Use Dry-Run First" icon="flask">
+    Test threat detection policies in dry-run mode to avoid false positives that might block legitimate users.
+  </Accordion>
+  
+  <Accordion title="Monitor and Tune" icon="gauge">
+    Regularly review policy logs to identify false positives and refine detection rules.
+  </Accordion>
+  
+  <Accordion title="Integrate External Data" icon="database">
+    Use Policy Data Loaders to enrich policies with threat intelligence, approval workflows, and user behavior analytics.
+  </Accordion>
+  
+  <Accordion title="Document Threat Models" icon="book">
+    Clearly document which threats each policy protects against and why. This helps during security audits.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Write Policies" icon="shield-check" href="/docs/guides/policies/policies">
+    Create threat detection policies
+  </Card>
+  <Card title="Policy Enforcement" icon="gavel" href="/docs/guides/policies/enforcement">
+    Learn about enforcement actions
+  </Card>
+  <Card title="View Logs" icon="file-lines" href="/docs/guides/observability/logs">
+    Monitor blocked threats
+  </Card>
+  <Card title="Set Up Alerts" icon="bell" href="/docs/guides/how-to/alert-triggered-policies">
+    Get notified of security events
+  </Card>
+</CardGroup>
+

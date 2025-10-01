@@ -1,0 +1,173 @@
+---
+title: "Threat Detection"
+description: "Detect and block SQL injection, data exfiltration, and other attacks in real-time"
+icon: "shield-exclamation"
+---
+
+## Overview
+
+Formal's policy engine can detect and block common attack patterns in real-time, preventing SQL injection, data exfiltration, privilege escalation, and other threats.
+
+## Quick Start
+
+### Block SQL Injection
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Potential SQL injection detected",
+  "reason": "SQL injection attempt"
+} if {
+  dangerous_patterns := [
+    `--`,           # SQL comments
+    `;.*DROP`,      # Command injection
+    `;.*DELETE`,    # Command injection
+    `UNION.*SELECT`, # Union-based injection
+    `1=1`,          # Always-true conditions
+  ]
+
+  some pattern in dangerous_patterns
+  regex.match(pattern, input.query.query)
+}
+```
+
+### Prevent Data Exfiltration
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+# Block unbounded queries
+pre_request := {
+  "action": "block",
+  "type": "block_with_formal_message",
+  "message": "Queries must include a LIMIT clause",
+  "reason": "Prevent mass data export"
+} if {
+  input.query.statement_type == "SELECT"
+  input.query.limit == null
+  not "data_admin" in input.user.groups
+}
+```
+
+## Attack Patterns
+
+See [Threat Scenarios](/docs/guides/policies/threat-scenarios) for comprehensive examples of:
+
+- SQL injection prevention
+- Data exfiltration blocking
+- Privilege escalation detection
+- Anomalous behavior detection
+- Brute force protection
+
+## Real-Time Monitoring
+
+### Session Risk Analysis
+
+For SSH and Kubernetes sessions, Formal provides AI-powered risk scoring:
+
+1. User connects via SSH
+2. Commands are monitored in real-time
+3. AI analyzes for:
+   - Privilege escalation (`sudo`, `su`)
+   - Destructive commands (`rm -rf`)
+   - Credential access (`cat /etc/shadow`)
+   - Network reconnaissance (`nmap`, `nc`)
+4. Risk score assigned (1-5, highest risk = 5)
+5. Alert if high-risk
+
+View in [Sessions](https://app.joinformal.com/sessions).
+
+### Alert on Suspicious Activity
+
+```rego
+package formal.v2
+
+import future.keywords.if
+
+pre_request := {
+  "action": "allow",
+  "reason": "ALERT: Suspicious activity detected",
+  "contextual_data": sprintf(
+    "User %s performed risky operation: %s",
+    [input.user.email, input.query.query]
+  )
+} if {
+  # Detect risky patterns
+  input.query.statement_type == "DELETE"
+  input.query.limit == null
+}
+```
+
+Set policy notification to "Owners" to alert security team.
+
+## Integration with SIEM
+
+Forward events to your SIEM for centralized threat detection:
+
+1. Set up [Log Drain](/docs/guides/integrations/log-drains) to Splunk/Datadog
+2. Create alerts for:
+   - Policy denials
+   - High-risk sessions
+   - Failed authentication
+   - Unusual access patterns
+3. Trigger automated response workflows
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Layer Defenses" icon="layer-group">
+    Combine multiple threat detection policies for defense in depth.
+  </Accordion>
+
+  <Accordion title="Use Dry-Run First" icon="flask">
+    Test threat detection in dry-run mode to avoid false positives.
+  </Accordion>
+
+  <Accordion title="Monitor and Tune" icon="gauge">
+    Regularly review policy logs and refine detection rules.
+  </Accordion>
+
+  <Accordion title="Real-Time Alerts" icon="bell">
+    Configure notifications for critical threats to enable rapid response.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Threat Scenarios"
+    icon="triangle-exclamation"
+    href="/docs/guides/policies/threat-scenarios"
+  >
+    Comprehensive threat patterns
+  </Card>
+  <Card
+    title="Infrastructure Access"
+    icon="shield-check"
+    href="/docs/guides/how-to/infrastructure-access"
+  >
+    Secure your infrastructure
+  </Card>
+  <Card
+    title="View Logs"
+    icon="file-lines"
+    href="/docs/guides/observability/logs"
+  >
+    Monitor blocked threats
+  </Card>
+  <Card
+    title="Sessions"
+    icon="signal-stream"
+    href="/docs/guides/core-concepts/sessions"
+  >
+    Review high-risk sessions
+  </Card>
+</CardGroup>

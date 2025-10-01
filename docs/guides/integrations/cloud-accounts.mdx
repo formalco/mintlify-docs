@@ -1,0 +1,412 @@
+---
+title: "Cloud Accounts"
+description: "Connect AWS, GCP, and Azure for resource autodiscovery and cloud-native integration"
+icon: "cloud"
+---
+
+## Overview
+
+Formal integrates with cloud providers to enable automatic resource discovery, cloud-native deployments, and secure access to cloud services. Cloud integrations eliminate manual resource configuration and keep your Formal inventory in sync with your cloud infrastructure.
+
+## Supported Cloud Providers
+
+<CardGroup cols={3}>
+  <Card title="AWS" icon="aws">
+    RDS, Redshift, EKS, EC2, ECS, S3
+  </Card>
+  <Card title="GCP" icon="google">
+    Coming soon
+  </Card>
+  <Card title="Azure" icon="microsoft">
+    Coming soon
+  </Card>
+</CardGroup>
+
+## AWS Integration
+
+The AWS Cloud Integration uses cross-account IAM roles to securely access your AWS infrastructure for resource autodiscovery and log forwarding.
+
+### Features
+
+<AccordionGroup>
+  <Accordion title="RDS Autodiscovery" icon="database">
+    Automatically discover PostgreSQL, MySQL, and MongoDB RDS instances and add
+    them as Formal resources.
+  </Accordion>
+
+  <Accordion title="Redshift Autodiscovery" icon="warehouse">
+    Discover Redshift clusters and data warehouses.
+  </Accordion>
+
+  <Accordion title="EKS Autodiscovery" icon="dharmachakra">
+    Discover EKS clusters for Kubernetes access control.
+  </Accordion>
+
+  <Accordion title="EC2 Autodiscovery" icon="server">
+    Discover EC2 instances for SSH access.
+  </Accordion>
+
+  <Accordion title="ECS Autodiscovery" icon="cubes">
+    Discover ECS clusters, services, and containers for SSH access via the
+    Desktop App.
+  </Accordion>
+
+  <Accordion title="S3 Log Forwarding" icon="bucket">
+    Forward Formal Connector logs to S3 buckets for long-term storage and
+    compliance.
+  </Accordion>
+</AccordionGroup>
+
+### Architecture
+
+Formal uses AWS's [Cross-Account IAM Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_third-party.html) architecture:
+
+1. **CloudFormation Stack**: Deploys an IAM role in your AWS account
+2. **IAM Role**: Grants Formal specific, scoped permissions
+3. **External ID**: Unique identifier prevents unauthorized access
+4. **Role Chaining**: Formal uses IAM User → IAM Role → Your IAM Role for added security
+
+### Supported Regions
+
+The CloudFormation stack can be deployed in:
+
+- `us-east-1`, `us-east-2`, `us-west-1`, `us-west-2`
+- `eu-central-1`, `eu-west-1`, `eu-west-2`, `eu-west-3`
+
+**The IAM role provides global access**, allowing Formal to discover resources across all AWS regions.
+
+### Setup
+
+<Tabs>
+  <Tab title="Web Console">
+    <Steps>
+      <Step title="Navigate to Cloud Accounts">
+        Go to [Cloud Accounts](https://app.joinformal.com/cloud-accounts)
+      </Step>
+      <Step title="Add Integration">
+        Click **Add Integration**
+      </Step>
+      <Step title="Select AWS">
+        Choose AWS as your cloud provider
+      </Step>
+      <Step title="Deploy CloudFormation">
+        Click the provided link to deploy the CloudFormation template in your AWS account
+        
+        The template creates an IAM role with the necessary permissions
+      </Step>
+      <Step title="Configure Permissions">
+        Enable the features you need:
+        - RDS Autodiscovery
+        - Redshift Autodiscovery
+        - EKS Autodiscovery
+        - EC2 Autodiscovery
+        - ECS Autodiscovery
+        - S3 Access (for log forwarding)
+      </Step>
+      <Step title="Complete Setup">
+        Once CloudFormation deployment completes, your AWS integration is active
+      </Step>
+    </Steps>
+  </Tab>
+  
+  <Tab title="Terraform">
+    ```hcl
+    # 1. Create S3 bucket for logs (optional)
+    resource "aws_s3_bucket" "formal_logs" {
+      bucket = "formal-connector-logs"
+    }
+    
+    # 2. Create Formal Cloud Integration
+    resource "formal_integration_cloud" "aws" {
+      name         = "production-aws"
+      cloud_region = "us-east-1"
+      
+      aws {
+        template_version              = "1.2.0"  # Pin to specific version
+        enable_rds_autodiscovery      = true
+        enable_redshift_autodiscovery = true
+        enable_eks_autodiscovery      = true
+        enable_ec2_autodiscovery      = true
+        enable_ecs_autodiscovery      = true
+        allow_s3_access               = true
+        s3_bucket_arn                 = "${aws_s3_bucket.formal_logs.arn}/*"
+      }
+    }
+    
+    # 3. Deploy CloudFormation Stack
+    resource "aws_cloudformation_stack" "formal" {
+      name          = formal_integration_cloud.aws.aws_formal_stack_name
+      template_body = formal_integration_cloud.aws.aws_template_body
+      
+      parameters = {
+        FormalIntegrationId         = formal_integration_cloud.aws.id
+        FormalIAMRoleId             = formal_integration_cloud.aws.aws_formal_iam_role
+        FormalSNSTopicARN           = formal_integration_cloud.aws.aws_formal_pingback_arn
+        EnableRDSAutodiscovery      = formal_integration_cloud.aws.aws_enable_rds_autodiscovery
+        EnableRedshiftAutodiscovery = formal_integration_cloud.aws.aws_enable_redshift_autodiscovery
+        EnableEKSAutodiscovery      = formal_integration_cloud.aws.aws_enable_eks_autodiscovery
+        EnableEC2Autodiscovery      = formal_integration_cloud.aws.aws_enable_ec2_autodiscovery
+        EnableECSAutodiscovery      = formal_integration_cloud.aws.aws_enable_ecs_autodiscovery
+        AllowS3Access               = formal_integration_cloud.aws.aws_allow_s3_access
+        S3BucketARN                 = formal_integration_cloud.aws.aws_s3_bucket_arn
+      }
+      
+      capabilities = ["CAPABILITY_NAMED_IAM"]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### CloudFormation Parameters
+
+| Parameter                     | Description                                         | Default |
+| ----------------------------- | --------------------------------------------------- | ------- |
+| `EnableRDSAutodiscovery`      | Discover RDS databases (PostgreSQL, MySQL, MongoDB) | `false` |
+| `EnableRedshiftAutodiscovery` | Discover Redshift clusters                          | `false` |
+| `EnableEKSAutodiscovery`      | Discover EKS clusters                               | `false` |
+| `EnableEC2Autodiscovery`      | Discover EC2 instances                              | `false` |
+| `EnableECSAutodiscovery`      | Discover ECS clusters and containers                | `false` |
+| `AllowS3Access`               | Allow log forwarding to S3                          | `false` |
+| `S3BucketARN`                 | S3 bucket ARN for logs (if `AllowS3Access` is true) | `""`    |
+
+### Versioning
+
+The CloudFormation template is versioned for stability:
+
+```hcl
+aws {
+  template_version = "1.2.0"  # Pin to specific version
+  # ...
+}
+```
+
+**Benefits of version pinning:**
+
+- Predictable IAM permissions
+- Controlled feature adoption
+- Easier compliance auditing
+- Prevents unexpected changes
+
+**Using `latest`:**
+
+```hcl
+aws {
+  template_version = "latest"  # Always use newest version
+  # ...
+}
+```
+
+See the [CloudFormation Changelog](/docs/changelog/terraform-provider#aws-template-versions) for version history.
+
+### Security
+
+Formal implements multiple security layers:
+
+1. **Role Chaining**: IAM User → IAM Role in Formal account → IAM Role in your account
+2. **External ID**: Unique per-customer identifier prevents cross-tenant access
+3. **Least Privilege**: CloudFormation grants only required permissions
+4. **Scoped Permissions**: Enable only the features you need
+
+Example: If you only enable RDS autodiscovery, the IAM role cannot access EKS, EC2, or S3.
+
+### Resource Autodiscovery
+
+Once the integration is active:
+
+1. **Automatic Discovery**: Formal scans your AWS account for resources
+2. **Resource Creation**: Discovered resources appear in [Resources](https://app.joinformal.com/resources)
+3. **Continuous Sync**: New resources are automatically added
+4. **Tagging**: AWS resource tags are synced to Formal
+
+**Example discovered resources:**
+
+- RDS instance `prod-postgres-1` → Formal resource `prod-postgres-1`
+- EKS cluster `production-eks` → Formal resource `production-eks`
+- EC2 instance `i-abc123` → Formal resource `ec2-i-abc123`
+
+### Manual Resource Configuration
+
+Autodiscovered resources are read-only in Formal by default. To customize:
+
+1. Create a manual resource with the same hostname
+2. Configure native users, policies, etc.
+3. Formal prioritizes manual configuration over autodiscovered settings
+
+## GCP Integration (Coming Soon)
+
+Features planned:
+
+- Cloud SQL autodiscovery
+- GKE cluster autodiscovery
+- Compute Engine autodiscovery
+- BigQuery resource management
+
+## Azure Integration (Coming Soon)
+
+Features planned:
+
+- Azure SQL autodiscovery
+- AKS cluster autodiscovery
+- VM autodiscovery
+- Cosmos DB integration
+
+## Use Cases
+
+### Centralized Resource Management
+
+Automatically maintain an inventory of all databases and infrastructure:
+
+```hcl
+# Enable all autodiscovery features
+resource "formal_integration_cloud" "aws_full" {
+  name         = "aws-full-discovery"
+  cloud_region = "us-east-1"
+
+  aws {
+    template_version              = "1.2.0"
+    enable_rds_autodiscovery      = true
+    enable_redshift_autodiscovery = true
+    enable_eks_autodiscovery      = true
+    enable_ec2_autodiscovery      = true
+    enable_ecs_autodiscovery      = true
+  }
+}
+```
+
+### Compliance Logging
+
+Forward all Connector logs to S3 for long-term retention:
+
+```hcl
+resource "formal_integration_cloud" "aws_logs" {
+  name         = "aws-log-archive"
+  cloud_region = "us-east-1"
+
+  aws {
+    template_version = "1.2.0"
+    allow_s3_access  = true
+    s3_bucket_arn    = "arn:aws:s3:::formal-logs-archive/*"
+  }
+}
+
+resource "formal_integration_log" "s3" {
+  name = "s3-log-drain"
+
+  s3 {
+    s3_bucket_name       = "formal-logs-archive"
+    cloud_integration_id = formal_integration_cloud.aws_logs.id
+  }
+}
+```
+
+### Multi-Account Strategy
+
+Integrate multiple AWS accounts:
+
+```hcl
+# Production account
+resource "formal_integration_cloud" "aws_prod" {
+  name         = "aws-production"
+  cloud_region = "us-east-1"
+
+  aws {
+    template_version = "1.2.0"
+    enable_rds_autodiscovery = true
+  }
+}
+
+# Staging account
+resource "formal_integration_cloud" "aws_staging" {
+  name         = "aws-staging"
+  cloud_region = "us-west-2"
+
+  aws {
+    template_version = "1.2.0"
+    enable_rds_autodiscovery = true
+  }
+}
+```
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="CloudFormation deployment fails">
+    **Possible causes:** - Insufficient IAM permissions to create roles - Stack
+    name conflict - Region not supported **Solution:** 1. Ensure deploying user
+    has IAM role creation permissions 2. Use unique stack name provided by
+    Formal 3. Deploy in supported region
+  </Accordion>
+
+  <Accordion title="Resources not discovered">
+    **Possible causes:** - Autodiscovery not enabled for that resource type -
+    Resources in unsupported region - IAM permissions insufficient **Solution:**
+    1. Verify autodiscovery toggle is enabled in Formal console 2. Check
+    resources exist in AWS 3. Review CloudFormation IAM role permissions 4. Wait
+    a few minutes for initial scan
+  </Accordion>
+
+  <Accordion title="S3 log forwarding not working">
+    **Possible causes:** - S3 bucket ARN incorrect - IAM role lacks S3
+    permissions - Log integration not configured **Solution:** 1. Verify
+    `s3_bucket_arn` matches your bucket 2. Ensure `allow_s3_access` is enabled
+    3. Create a [Log Integration](/docs/guides/integrations/log-drains) pointing
+    to this cloud integration
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Pin Template Version" icon="thumbtack">
+    Use specific version numbers instead of `latest` for production to ensure
+    predictable behavior.
+  </Accordion>
+
+  <Accordion title="Enable Only What You Need" icon="toggle-on">
+    Only enable autodiscovery for resources you want to manage through Formal to
+    minimize IAM permissions.
+  </Accordion>
+
+  <Accordion title="Multi-Account Structure" icon="building">
+    Create separate integrations for each AWS account (production, staging, dev)
+    for better isolation.
+  </Accordion>
+
+  <Accordion title="Regular Audits" icon="magnifying-glass">
+    Periodically review autodiscovered resources to ensure they match your
+    actual infrastructure.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Log Drains"
+    icon="pipe"
+    href="/docs/guides/integrations/log-drains"
+  >
+    Forward logs to S3 or SIEM
+  </Card>
+  <Card
+    title="Add Resources"
+    icon="database"
+    href="/docs/guides/core-concepts/resources"
+  >
+    Manually configure discovered resources
+  </Card>
+  <Card
+    title="Terraform"
+    icon="code"
+    href="/docs/guides/configuration/terraform"
+  >
+    Manage integrations as code
+  </Card>
+  <Card
+    title="View Resources"
+    icon="list"
+    href="https://app.joinformal.com/resources"
+  >
+    See all autodiscovered resources
+  </Card>
+</CardGroup>

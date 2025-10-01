@@ -1,0 +1,455 @@
+---
+title: "Managing Formal Objects"
+description: "Create, update, and delete Connectors, Resources, Users, Groups, and other Formal objects"
+icon: "sliders"
+---
+
+## Overview
+
+Formal objects can be managed through two primary interfaces:
+
+1. **Formal Console** - Web-based UI for manual management
+2. **Terraform/API** - Infrastructure-as-code for automated management
+
+This page provides an overview of common management tasks for each object type.
+
+## Connectors
+
+### Create
+
+<Tabs>
+  <Tab title="Console">
+    1. Go to [Connectors](https://app.joinformal.com/connectors)
+    2. Click **New Connector**
+    3. Configure name and listeners
+    4. Save and copy the API token
+  </Tab>
+  <Tab title="Terraform">
+    ```hcl
+    resource "formal_connector" "main" {
+      name = "production-connector"
+      
+      listener {
+        port = 5432
+        rule {
+          type = "any"
+        }
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Update
+
+- **Listeners**: Add/remove listeners and rules
+- **Name**: Rename the connector
+- **Space**: Change space assignment (requires restart)
+
+### Delete
+
+<Warning>
+  Deleting a Connector is irreversible. Active sessions will be terminated.
+</Warning>
+
+1. Stop the running Connector container
+2. In the console, click **Delete** on the Connector
+3. Confirm deletion
+
+## Resources
+
+### Create
+
+<Tabs>
+  <Tab title="Console">
+    1. Go to [Resources](https://app.joinformal.com/resources)
+    2. Click **New Resource**
+    3. Enter hostname, port, technology
+    4. Configure native users and TLS
+    5. Save
+  </Tab>
+  <Tab title="Terraform">
+    ```hcl
+    resource "formal_resource" "postgres" {
+      name       = "production-postgres"
+      technology = "postgres"
+      hostname   = "db.example.com"
+      port       = 5432
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Update
+
+- **Connection details**: Hostname, port (affects new connections only)
+- **Native users**: Add/remove/update credentials
+- **Schema discovery**: Configure frequency and settings
+- **TLS**: Update certificates and settings
+- **Space**: Change assignment (no restart needed)
+
+### Delete
+
+<Warning>
+  Resources with **Termination Protection** cannot be deleted until protection
+  is disabled.
+</Warning>
+
+1. Ensure no active sessions
+2. Remove from Connector listener rules
+3. Disable termination protection
+4. Delete the resource
+
+## Users
+
+### Create
+
+<Tabs>
+  <Tab title="Console">
+    1. Go to [Users](https://app.joinformal.com/users)
+    2. Click **New User**
+    3. Select type (Human or Machine)
+    4. Enter name and email
+    5. Optionally set expiration (temporary users)
+    6. Save
+  </Tab>
+  <Tab title="Terraform">
+    ```hcl
+    resource "formal_user" "alice" {
+      name  = "Alice Smith"
+      email = "alice@example.com"
+      type  = "human"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Update
+
+- **Groups**: Add/remove from groups
+- **External IDs**: Map to BI tool users
+- **Name/Email**: Update contact information
+
+### Delete
+
+Deleting a user:
+
+- Terminates active sessions
+- Removes from all groups
+- Deletes all external ID mappings
+- Cannot be undone
+
+## Groups
+
+### Create
+
+<Tabs>
+  <Tab title="Console">
+    1. Go to [Groups](https://app.joinformal.com/groups)
+    2. Click **New Group**
+    3. Enter name
+    4. Add members
+    5. Save
+  </Tab>
+  <Tab title="Terraform">
+    ```hcl
+    resource "formal_group" "engineering" {
+      name = "Engineering Team"
+    }
+    
+    resource "formal_group_membership" "alice_eng" {
+      group_id = formal_group.engineering.id
+      user_id  = formal_user.alice.id
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Update
+
+- **Membership**: Add/remove users
+- **Name**: Rename the group
+- **Native users**: Assign group-level credentials
+
+### Delete
+
+<Warning>
+  Deleting a group removes all members but doesn't delete the users themselves.
+</Warning>
+
+## Policies
+
+### Create
+
+<Tabs>
+  <Tab title="Console">
+    1. Go to [Policies](https://app.joinformal.com/policies)
+    2. Click **New Policy**
+    3. Write Rego code
+    4. Set status (Draft, Dry-run, or Active)
+    5. Configure notifications
+    6. Save
+  </Tab>
+  <Tab title="Terraform">
+    ```hcl
+    resource "formal_policy" "mask_pii" {
+      name   = "mask-pii-data"
+      status = "active"
+      
+      code = <<-EOT
+        package formal.v2
+        
+        import future.keywords.if
+        
+        post_request := {
+          "action": "mask",
+          "type": "nullify",
+          "columns": pii_cols
+        } if {
+          pii_cols := [col | 
+            col := input.row[_]
+            col["data_label"] in ["email", "ssn"]
+          ]
+          count(pii_cols) > 0
+        }
+      EOT
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Update
+
+- **Code**: Modify policy logic
+- **Status**: Change between Draft, Dry-run, and Active
+- **Notifications**: Update who gets notified
+- **Owners**: Change policy owners
+
+### Delete
+
+Deleting a policy:
+
+- Stops enforcement immediately
+- Does not affect logged data
+- Cannot be undone
+
+## Satellites
+
+### Create
+
+<Tabs>
+  <Tab title="Console">
+    1. Go to [Satellites](https://app.joinformal.com/satellites)
+    2. Click **New Satellite**
+    3. Select type (Data Classifier, Data Discovery, Policy Data Loader)
+    4. Configure settings
+    5. Copy API token
+    6. Deploy container
+  </Tab>
+  <Tab title="Terraform">
+    ```hcl
+    resource "formal_satellite" "classifier" {
+      name = "production-classifier"
+      type = "data_classifier"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Update
+
+- **Space**: Change space assignment (requires restart)
+- **Configuration**: Update satellite-specific settings
+
+### Delete
+
+1. Stop the running Satellite container
+2. Delete the Satellite in console
+3. Confirm deletion
+
+## Spaces
+
+### Create
+
+<Tabs>
+  <Tab title="Console">
+    1. Go to [Spaces](https://app.joinformal.com/spaces) 2. Click **New Space**
+    3. Enter name 4. Save
+  </Tab>
+  <Tab title="Terraform">
+    ```hcl resource "formal_space" "production" {(name = "production")}
+    ```
+  </Tab>
+</Tabs>
+
+### Update
+
+- **Name**: Rename the space
+- **Objects**: Assign/remove Connectors, Satellites, Resources
+
+### Delete
+
+<Warning>Spaces cannot be deleted if they contain any objects.</Warning>
+
+1. Remove all Connectors, Satellites, and Resources from the space
+2. Delete the space
+
+## Integrations
+
+### Cloud Integrations
+
+<Tabs>
+  <Tab title="Console">
+    1. Go to [Cloud Accounts](https://app.joinformal.com/cloud-accounts)
+    2. Click **Add Integration**
+    3. Select provider (AWS, GCP, Azure)
+    4. Deploy CloudFormation/equivalent
+    5. Configure permissions
+  </Tab>
+  <Tab title="Terraform">
+    ```hcl
+    resource "formal_integration_cloud" "aws" {
+      name         = "aws-integration"
+      cloud_region = "us-east-1"
+      
+      aws {
+        template_version         = "1.2.0"
+        enable_rds_autodiscovery = true
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Log Integrations
+
+<Tabs>
+  <Tab title="Console">
+    1. Go to [Log Integrations](https://app.joinformal.com/log-integrations)
+    2. Click **Create Integration**
+    3. Select provider (S3, Datadog, Splunk)
+    4. Enter credentials
+    5. Save
+  </Tab>
+  <Tab title="Terraform">
+    ```hcl
+    resource "formal_integration_log" "datadog" {
+      name = "datadog-logs"
+      
+      datadog {
+        account_id = var.datadog_account_id
+        api_key    = var.datadog_api_key
+        site       = "datadoghq.com"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### BI Integrations
+
+<Tabs>
+  <Tab title="Console">
+    1. Go to [BI Applications](https://app.joinformal.com/bi-integrations)
+    2. Click **Add New App**
+    3. Select provider (Metabase, Looker, etc.)
+    4. Enter credentials
+    5. Save
+  </Tab>
+  <Tab title="Terraform">
+    ```hcl
+    resource "formal_integration_bi" "metabase" {
+      name = "production-metabase"
+      
+      metabase {
+        hostname = "metabase.example.com"
+        username = "admin@example.com"
+        password = var.metabase_password
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Bulk Operations
+
+### Import Existing Infrastructure
+
+Use Terraform `import` to bring existing Formal objects under IaC management:
+
+```bash
+terraform import formal_resource.postgres <resource-id>
+terraform import formal_connector.main <connector-id>
+```
+
+### Mass Updates
+
+Update multiple objects with Terraform:
+
+```hcl
+locals {
+  databases = ["db1", "db2", "db3", "db4"]
+}
+
+resource "formal_resource" "databases" {
+  for_each = toset(local.databases)
+
+  name       = each.key
+  technology = "postgres"
+  hostname   = "${each.key}.rds.amazonaws.com"
+  port       = 5432
+}
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Terraform for Production" icon="code">
+    Manage production infrastructure with Terraform for version control, peer
+    review, and automated deployments.
+  </Accordion>
+
+  <Accordion title="Enable Termination Protection" icon="shield">
+    Always enable termination protection for production Resources, Connectors,
+    and Policies.
+  </Accordion>
+
+  <Accordion title="Document Changes" icon="book">
+    Use descriptive commit messages and PR descriptions when managing objects
+    via Terraform.
+  </Accordion>
+
+  <Accordion title="Test in Dry-Run" icon="flask">
+    Test policy changes in dry-run mode before activating in production.
+  </Accordion>
+
+  <Accordion title="Use Spaces for Isolation" icon="layer-group">
+    Segment production, staging, and development with Spaces to prevent
+    cross-environment access.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Formal Console"
+    icon="browser"
+    href="/docs/guides/configuration/console"
+  >
+    Learn about web-based management
+  </Card>
+  <Card
+    title="Terraform"
+    icon="code"
+    href="/docs/guides/configuration/terraform"
+  >
+    Manage infrastructure as code
+  </Card>
+  <Card title="SDKs" icon="code-branch" href="/docs/guides/configuration/sdks">
+    Use Go or Python SDKs
+  </Card>
+  <Card title="API Reference" icon="book" href="/docs/api/introduction">
+    Direct API access
+  </Card>
+</CardGroup>
