@@ -1,915 +1,1828 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "Session Service",
-        "version": "1.0",
-        "contact": {
-            "name": "Formal",
-            "url": "https://docs.private.joinformal.com/",
-            "email": "info@joinformal.com"
-        }
-    },
-    "tags": [
-        {
-            "name": "SessionsService"
-        }
-    ],
-    "paths": {
-        "/core.v1.SessionsService/CancelSession": {
-            "post": {
-                "summary": "Cancel a session",
-                "description": "Cancel an active session",
-                "operationId": "SessionsService_CancelSession",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1CancelSessionResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1CancelSessionRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SessionsService"
-                ]
+  "openapi": "3.1.0",
+  "info": {
+    "title": "core.v1"
+  },
+  "paths": {
+    "/core.v1.SessionsService/CancelSession": {
+      "post": {
+        "tags": [
+          "core.v1.SessionsService"
+        ],
+        "summary": "CancelSession",
+        "description": "nolint",
+        "operationId": "core.v1.SessionsService.CancelSession",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.CancelSessionRequest"
+              }
             }
+          },
+          "required": true
         },
-        "/core.v1.SessionsService/GetSession": {
-            "post": {
-                "summary": "Get a session",
-                "description": "Get details of a specific session",
-                "operationId": "SessionsService_GetSession",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1GetSessionResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1GetSessionRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SessionsService"
-                ]
-            }
-        },
-        "/core.v1.SessionsService/GetSessionTranscript": {
-            "post": {
-                "summary": "Get session transcript",
-                "description": "Get the transcript of a specific session",
-                "operationId": "SessionsService_GetSessionTranscript",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1GetSessionTranscriptResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1GetSessionTranscriptRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SessionsService"
-                ]
-            }
-        },
-        "/core.v1.SessionsService/ListSessions": {
-            "post": {
-                "summary": "List of sessions",
-                "description": "Get all your sessions",
-                "operationId": "SessionsService_ListSessions",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ListSessionsResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1ListSessionsRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SessionsService"
-                ]
-            }
-        }
-    },
-    "security": [
-        {
-            "ApiKeyAuth": []
-        }
-    ],
-    "components": {
-        "securitySchemes": {
-            "ApiKeyAuth": {
-                "type": "apiKey",
-                "name": "X-API-Key",
-                "in": "header"
-            }
-        },
-        "schemas": {
-            "FormalUserInfo": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    },
-                    "type": {
-                        "type": "string"
-                    },
-                    "groups": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    },
-                    "externalIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    }
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.CancelSessionResponse"
                 }
-            },
-            "SessionObjectNetwork": {
-                "type": "object",
-                "properties": {
-                    "clientIpAddress": {
-                        "type": "string"
-                    },
-                    "serverIpAddress": {
-                        "type": "string"
-                    }
-                }
-            },
-            "UserFormal": {
-                "type": "object",
-                "properties": {
-                    "user": {
-                        "$ref": "#/components/schemas/FormalUserInfo"
-                    },
-                    "endUser": {
-                        "$ref": "#/components/schemas/FormalUserInfo"
-                    }
-                }
-            },
-            "UserNative": {
-                "type": "object",
-                "properties": {
-                    "username": {
-                        "type": "string"
-                    }
-                }
-            },
-            "protobufAny": {
-                "type": "object",
-                "properties": {
-                    "@type": {
-                        "type": "string",
-                        "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
-                    }
-                },
-                "additionalProperties": {},
-                "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
-            },
-            "rpcStatus": {
-                "type": "object",
-                "properties": {
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
                     "code": {
-                        "type": "integer",
-                        "format": "int32"
+                      "type": "string",
+                      "example": "invalid_request"
                     },
                     "message": {
-                        "type": "string"
+                      "type": "string",
+                      "example": "Invalid request parameters"
                     },
                     "details": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/protobufAny"
-                        }
+                      "type": "object"
                     }
+                  }
                 }
-            },
-            "v1CancelSessionRequest": {
-                "type": "object",
-                "properties": {
-                    "sessionId": {
-                        "type": "string"
-                    },
-                    "connectorId": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1CancelSessionResponse": {
-                "type": "object",
-                "properties": {
-                    "sessionShutdown": {
-                        "$ref": "#/components/schemas/v1SessionShutdown"
-                    }
-                }
-            },
-            "v1ErrorObject": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string"
-                    },
-                    "code": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetSessionRequest": {
-                "type": "object",
-                "properties": {
-                    "sessionId": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetSessionResponse": {
-                "type": "object",
-                "properties": {
-                    "session": {
-                        "$ref": "#/components/schemas/v1SessionObject"
-                    }
-                }
-            },
-            "v1GetSessionTranscriptRequest": {
-                "type": "object",
-                "properties": {
-                    "sessionId": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetSessionTranscriptResponse": {
-                "type": "object",
-                "properties": {
-                    "transcript": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1ListMetadata": {
-                "type": "object",
-                "properties": {
-                    "after": {
-                        "type": "string"
-                    },
-                    "before": {
-                        "type": "string"
-                    },
-                    "count": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "nextCursor": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1ListSessionsRequest": {
-                "type": "object",
-                "properties": {
-                    "limit": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "query": {
-                        "type": "string"
-                    },
-                    "sortBy": {
-                        "type": "string"
-                    },
-                    "startTimestamp": {
-                        "type": "string",
-                        "title": "string start_timestamp = 4 [(buf.validate.field).string.min_len = 1];\nstring end_timestamp = 5 [(buf.validate.field).string.min_len = 1];"
-                    },
-                    "endTimestamp": {
-                        "type": "string"
-                    },
-                    "cursor": {
-                        "type": "string"
-                    },
-                    "histogramInterval": {
-                        "type": "string"
-                    },
-                    "histogramGroupByFields": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
-            "v1ListSessionsResponse": {
-                "type": "object",
-                "properties": {
-                    "sessions": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1SessionObject"
-                        }
-                    },
-                    "aggregations": {
-                        "$ref": "#/components/schemas/v1ListSessionsResponseAggregations"
-                    },
-                    "numHits": {
-                        "type": "string",
-                        "format": "int64"
-                    },
-                    "listMetadata": {
-                        "$ref": "#/components/schemas/v1ListMetadata"
-                    }
-                }
-            },
-            "v1ListSessionsResponseAggregations": {
-                "type": "object",
-                "properties": {
-                    "logsOverTime": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseDateBucket"
-                        }
-                    },
-                    "sessionTypes": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "sessionIds": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "sessionClientIpAddresses": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "sessionServerIpAddresses": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "queryFingerprints": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "queryReceived": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "querySent": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "resourceIds": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "resourceNames": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "resourceTypes": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "resourceHostnames": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "resourceTechnologies": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "connectorNames": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "connectorIds": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "spaceNames": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "spaceIds": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "userTypes": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "userSubTypes": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "userEmails": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "userUsernames": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "userIds": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "endUserTypes": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "endUserNames": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "endUserEmails": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "triggeredPolicyIds": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "triggeredPolicyNames": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "triggeredPolicyStatuses": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "triggeredPolicyTypes": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "responseDataVolumes": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "responseReturnedColumnNames": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "responseReturnedColumnDataLabels": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "responseRowsSent": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    },
-                    "responseRowsReceived": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseBucket"
-                        }
-                    }
-                }
-            },
-            "v1ListSessionsResponseBucket": {
-                "type": "object",
-                "properties": {
-                    "key": {
-                        "type": "string"
-                    },
-                    "count": {
-                        "type": "integer",
-                        "format": "int32"
-                    }
-                }
-            },
-            "v1ListSessionsResponseDateBucket": {
-                "type": "object",
-                "properties": {
-                    "datetime": {
-                        "type": "string"
-                    },
-                    "count": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "buckets": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseGroupByBucket"
-                        }
-                    }
-                }
-            },
-            "v1ListSessionsResponseGroupByBucket": {
-                "type": "object",
-                "properties": {
-                    "key": {
-                        "type": "string"
-                    },
-                    "count": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "buckets": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ListSessionsResponseGroupByBucket"
-                        }
-                    }
-                }
-            },
-            "v1SessionObject": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "startTime": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "endTime": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "duration": {
-                        "type": "string"
-                    },
-                    "sessionStatus": {
-                        "type": "string"
-                    },
-                    "network": {
-                        "$ref": "#/components/schemas/SessionObjectNetwork"
-                    },
-                    "sidecar": {
-                        "$ref": "#/components/schemas/v1SessionObjectSidecar"
-                    },
-                    "user": {
-                        "$ref": "#/components/schemas/v1SessionObjectUser"
-                    },
-                    "resource": {
-                        "$ref": "#/components/schemas/v1SessionObjectResource"
-                    },
-                    "connector": {
-                        "$ref": "#/components/schemas/v1SessionObjectConnector"
-                    }
-                }
-            },
-            "v1SessionObjectConnector": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1SessionObjectResource": {
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "title": "oneof: aws, datastore, instance"
-                    },
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "technology": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1SessionObjectSidecar": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "technology": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1SessionObjectUser": {
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string"
-                    },
-                    "username": {
-                        "type": "string"
-                    },
-                    "formal": {
-                        "$ref": "#/components/schemas/UserFormal"
-                    },
-                    "native": {
-                        "$ref": "#/components/schemas/UserNative"
-                    }
-                }
-            },
-            "v1SessionShutdown": {
-                "type": "object",
-                "properties": {
-                    "sessionId": {
-                        "type": "string"
-                    },
-                    "connectorId": {
-                        "type": "string"
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                }
+              }
             }
-        }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SessionsService/CancelSession\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SessionsService/CancelSession\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SessionsService/CancelSession\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SessionsService/CancelSession\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SessionsService/GetSession": {
+      "post": {
+        "tags": [
+          "core.v1.SessionsService"
+        ],
+        "summary": "GetSession",
+        "operationId": "core.v1.SessionsService.GetSession",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.GetSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.GetSessionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SessionsService/GetSession\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SessionsService/GetSession\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SessionsService/GetSession\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SessionsService/GetSession\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SessionsService/GetSessionTranscript": {
+      "post": {
+        "tags": [
+          "core.v1.SessionsService"
+        ],
+        "summary": "GetSessionTranscript",
+        "operationId": "core.v1.SessionsService.GetSessionTranscript",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.GetSessionTranscriptRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.GetSessionTranscriptResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SessionsService/GetSessionTranscript\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SessionsService/GetSessionTranscript\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SessionsService/GetSessionTranscript\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SessionsService/GetSessionTranscript\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SessionsService/ListSessionAggregations": {
+      "post": {
+        "tags": [
+          "core.v1.SessionsService"
+        ],
+        "summary": "ListSessionAggregations",
+        "operationId": "core.v1.SessionsService.ListSessionAggregations",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.ListSessionAggregationsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.ListSessionAggregationsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SessionsService/ListSessionAggregations\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SessionsService/ListSessionAggregations\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SessionsService/ListSessionAggregations\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SessionsService/ListSessionAggregations\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SessionsService/ListSessions": {
+      "post": {
+        "tags": [
+          "core.v1.SessionsService"
+        ],
+        "summary": "ListSessions",
+        "operationId": "core.v1.SessionsService.ListSessions",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.ListSessionsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.ListSessionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SessionsService/ListSessions\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SessionsService/ListSessions\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SessionsService/ListSessions\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SessionsService/ListSessions\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SessionsService/ListSessionsV2": {
+      "post": {
+        "tags": [
+          "core.v1.SessionsService"
+        ],
+        "summary": "ListSessionsV2",
+        "operationId": "core.v1.SessionsService.ListSessionsV2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.ListSessionsV2Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.ListSessionsV2Response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SessionsService/ListSessionsV2\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SessionsService/ListSessionsV2\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SessionsService/ListSessionsV2\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SessionsService/ListSessionsV2\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
     }
+  },
+  "components": {
+    "schemas": {
+      "core.v1.CancelSessionRequest": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "title": "session_id",
+            "minLength": 1
+          },
+          "connectorId": {
+            "type": "string",
+            "title": "connector_id",
+            "minLength": 1
+          }
+        },
+        "title": "CancelSessionRequest",
+        "additionalProperties": false
+      },
+      "core.v1.CancelSessionResponse": {
+        "type": "object",
+        "properties": {
+          "sessionShutdown": {
+            "title": "session_shutdown",
+            "$ref": "#/components/schemas/core.v1.SessionShutdown"
+          }
+        },
+        "title": "CancelSessionResponse",
+        "additionalProperties": false
+      },
+      "core.v1.GetSessionRequest": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "title": "session_id",
+            "minLength": 1
+          }
+        },
+        "title": "GetSessionRequest",
+        "additionalProperties": false
+      },
+      "core.v1.GetSessionResponse": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "title": "session",
+            "$ref": "#/components/schemas/core.v1.SessionObject"
+          }
+        },
+        "title": "GetSessionResponse",
+        "additionalProperties": false
+      },
+      "core.v1.GetSessionTranscriptRequest": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "title": "session_id"
+          }
+        },
+        "title": "GetSessionTranscriptRequest",
+        "additionalProperties": false
+      },
+      "core.v1.GetSessionTranscriptResponse": {
+        "type": "object",
+        "properties": {
+          "transcript": {
+            "type": "string",
+            "title": "transcript"
+          }
+        },
+        "title": "GetSessionTranscriptResponse",
+        "additionalProperties": false
+      },
+      "core.v1.ListMetadata": {
+        "type": "object",
+        "properties": {
+          "after": {
+            "type": "string",
+            "title": "after"
+          },
+          "before": {
+            "type": "string",
+            "title": "before"
+          },
+          "count": {
+            "type": "integer",
+            "title": "count",
+            "format": "int32"
+          },
+          "nextCursor": {
+            "type": "string",
+            "title": "next_cursor"
+          }
+        },
+        "title": "ListMetadata",
+        "additionalProperties": false
+      },
+      "core.v1.ListSessionAggregationsRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "title": "query"
+          },
+          "startTimestamp": {
+            "type": "string",
+            "title": "start_timestamp"
+          },
+          "endTimestamp": {
+            "type": "string",
+            "title": "end_timestamp"
+          },
+          "histogramInterval": {
+            "type": "string",
+            "title": "histogram_interval"
+          },
+          "histogramGroupByFields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxItems": 3
+            },
+            "title": "histogram_group_by_fields",
+            "maxItems": 3
+          }
+        },
+        "title": "ListSessionAggregationsRequest",
+        "additionalProperties": false
+      },
+      "core.v1.ListSessionAggregationsResponse": {
+        "type": "object",
+        "properties": {
+          "aggregations": {
+            "title": "aggregations",
+            "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Aggregations"
+          },
+          "numHits": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "num_hits",
+            "format": "int64"
+          }
+        },
+        "title": "ListSessionAggregationsResponse",
+        "additionalProperties": false
+      },
+      "core.v1.ListSessionsRequest": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "exclusiveMinimum": 0,
+            "type": "integer",
+            "title": "limit",
+            "maximum": 100000,
+            "format": "int32"
+          },
+          "query": {
+            "type": "string",
+            "title": "query"
+          },
+          "sortBy": {
+            "type": "string",
+            "title": "sort_by"
+          },
+          "startTimestamp": {
+            "type": "string",
+            "title": "start_timestamp",
+            "description": "string start_timestamp = 4 [(buf.validate.field).string.min_len = 1];\n string end_timestamp = 5 [(buf.validate.field).string.min_len = 1];"
+          },
+          "endTimestamp": {
+            "type": "string",
+            "title": "end_timestamp"
+          },
+          "cursor": {
+            "type": "string",
+            "title": "cursor"
+          },
+          "histogramInterval": {
+            "type": "string",
+            "title": "histogram_interval"
+          },
+          "histogramGroupByFields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxItems": 3
+            },
+            "title": "histogram_group_by_fields",
+            "maxItems": 3
+          }
+        },
+        "title": "ListSessionsRequest",
+        "additionalProperties": false
+      },
+      "core.v1.ListSessionsResponse": {
+        "type": "object",
+        "properties": {
+          "sessions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.SessionObject"
+            },
+            "title": "sessions"
+          },
+          "aggregations": {
+            "title": "aggregations",
+            "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Aggregations"
+          },
+          "numHits": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "num_hits",
+            "format": "int64"
+          },
+          "listMetadata": {
+            "title": "list_metadata",
+            "$ref": "#/components/schemas/core.v1.ListMetadata"
+          }
+        },
+        "title": "ListSessionsResponse",
+        "additionalProperties": false
+      },
+      "core.v1.ListSessionsResponse.Aggregations": {
+        "type": "object",
+        "properties": {
+          "logsOverTime": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.DateBucket"
+            },
+            "title": "logs_over_time"
+          },
+          "sessionTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "session_types"
+          },
+          "sessionIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "session_ids"
+          },
+          "sessionClientIpAddresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "session_client_ip_addresses"
+          },
+          "sessionServerIpAddresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "session_server_ip_addresses"
+          },
+          "queryFingerprints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "query_fingerprints"
+          },
+          "queryReceived": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "query_received"
+          },
+          "querySent": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "query_sent"
+          },
+          "resourceIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "resource_ids"
+          },
+          "resourceNames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "resource_names"
+          },
+          "resourceTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "resource_types"
+          },
+          "resourceHostnames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "resource_hostnames"
+          },
+          "resourceTechnologies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "resource_technologies"
+          },
+          "connectorNames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "connector_names"
+          },
+          "connectorIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "connector_ids"
+          },
+          "spaceNames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "space_names"
+          },
+          "spaceIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "space_ids"
+          },
+          "userTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "user_types"
+          },
+          "userSubTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "user_sub_types"
+          },
+          "userEmails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "user_emails"
+          },
+          "userUsernames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "user_usernames"
+          },
+          "userIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "user_ids"
+          },
+          "endUserTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "end_user_types"
+          },
+          "endUserNames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "end_user_names"
+          },
+          "endUserEmails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "end_user_emails"
+          },
+          "triggeredPolicyIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "triggered_policy_ids"
+          },
+          "triggeredPolicyNames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "triggered_policy_names"
+          },
+          "triggeredPolicyStatuses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "triggered_policy_statuses"
+          },
+          "triggeredPolicyTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "triggered_policy_types"
+          },
+          "responseDataVolumes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "response_data_volumes"
+          },
+          "responseReturnedColumnNames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "response_returned_column_names"
+          },
+          "responseReturnedColumnDataLabels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "response_returned_column_data_labels"
+          },
+          "responseRowsSent": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "response_rows_sent"
+          },
+          "responseRowsReceived": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.Bucket"
+            },
+            "title": "response_rows_received"
+          }
+        },
+        "title": "Aggregations",
+        "additionalProperties": false
+      },
+      "core.v1.ListSessionsResponse.Bucket": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "count": {
+            "type": "integer",
+            "title": "count",
+            "format": "int32"
+          }
+        },
+        "title": "Bucket",
+        "additionalProperties": false
+      },
+      "core.v1.ListSessionsResponse.DateBucket": {
+        "type": "object",
+        "properties": {
+          "datetime": {
+            "type": "string",
+            "title": "datetime"
+          },
+          "count": {
+            "type": "integer",
+            "title": "count",
+            "format": "int32"
+          },
+          "buckets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.GroupByBucket"
+            },
+            "title": "buckets"
+          }
+        },
+        "title": "DateBucket",
+        "additionalProperties": false
+      },
+      "core.v1.ListSessionsResponse.GroupByBucket": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "count": {
+            "type": "integer",
+            "title": "count",
+            "format": "int32"
+          },
+          "buckets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ListSessionsResponse.GroupByBucket"
+            },
+            "title": "buckets"
+          }
+        },
+        "title": "GroupByBucket",
+        "additionalProperties": false
+      },
+      "core.v1.ListSessionsV2Request": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "exclusiveMinimum": 0,
+            "type": "integer",
+            "title": "limit",
+            "maximum": 100000,
+            "format": "int32"
+          },
+          "query": {
+            "type": "string",
+            "title": "query"
+          },
+          "sortBy": {
+            "type": "string",
+            "title": "sort_by"
+          },
+          "startTimestamp": {
+            "type": "string",
+            "title": "start_timestamp"
+          },
+          "endTimestamp": {
+            "type": "string",
+            "title": "end_timestamp"
+          },
+          "cursor": {
+            "type": "string",
+            "title": "cursor"
+          }
+        },
+        "title": "ListSessionsV2Request",
+        "additionalProperties": false
+      },
+      "core.v1.ListSessionsV2Response": {
+        "type": "object",
+        "properties": {
+          "sessions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.SessionObject"
+            },
+            "title": "sessions"
+          },
+          "listMetadata": {
+            "title": "list_metadata",
+            "$ref": "#/components/schemas/core.v1.ListMetadata"
+          }
+        },
+        "title": "ListSessionsV2Response",
+        "additionalProperties": false
+      },
+      "core.v1.SessionObject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "startTime": {
+            "title": "start_time",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "endTime": {
+            "title": "end_time",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "duration": {
+            "title": "duration",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "sessionStatus": {
+            "type": "string",
+            "title": "session_status",
+            "enum": [
+              "active",
+              "completed"
+            ]
+          },
+          "network": {
+            "title": "network",
+            "$ref": "#/components/schemas/core.v1.SessionObject.Network"
+          },
+          "sidecar": {
+            "title": "sidecar",
+            "$ref": "#/components/schemas/core.v1.SessionObject.Sidecar"
+          },
+          "user": {
+            "title": "user",
+            "$ref": "#/components/schemas/core.v1.SessionObject.User"
+          },
+          "resource": {
+            "title": "resource",
+            "$ref": "#/components/schemas/core.v1.SessionObject.Resource"
+          },
+          "connector": {
+            "title": "connector",
+            "$ref": "#/components/schemas/core.v1.SessionObject.Connector"
+          }
+        },
+        "title": "SessionObject",
+        "additionalProperties": false
+      },
+      "core.v1.SessionObject.Connector": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          }
+        },
+        "title": "Connector",
+        "additionalProperties": false
+      },
+      "core.v1.SessionObject.Network": {
+        "type": "object",
+        "properties": {
+          "clientIpAddress": {
+            "type": "string",
+            "title": "client_ip_address"
+          },
+          "serverIpAddress": {
+            "type": "string",
+            "title": "server_ip_address"
+          }
+        },
+        "title": "Network",
+        "additionalProperties": false
+      },
+      "core.v1.SessionObject.Resource": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "type",
+            "description": "oneof: aws, datastore, instance"
+          },
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "technology": {
+            "type": "string",
+            "title": "technology"
+          }
+        },
+        "title": "Resource",
+        "additionalProperties": false
+      },
+      "core.v1.SessionObject.Sidecar": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "technology": {
+            "type": "string",
+            "title": "technology"
+          }
+        },
+        "title": "Sidecar",
+        "additionalProperties": false
+      },
+      "core.v1.SessionObject.User": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "type"
+          },
+          "username": {
+            "type": "string",
+            "title": "username"
+          },
+          "formal": {
+            "title": "formal",
+            "$ref": "#/components/schemas/core.v1.SessionObject.User.Formal"
+          },
+          "native": {
+            "title": "native",
+            "$ref": "#/components/schemas/core.v1.SessionObject.User.Native"
+          }
+        },
+        "title": "User",
+        "additionalProperties": false
+      },
+      "core.v1.SessionObject.User.Formal": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "title": "user",
+            "$ref": "#/components/schemas/core.v1.SessionObject.User.Formal.UserInfo"
+          },
+          "endUser": {
+            "title": "end_user",
+            "$ref": "#/components/schemas/core.v1.SessionObject.User.Formal.UserInfo"
+          }
+        },
+        "title": "Formal",
+        "additionalProperties": false
+      },
+      "core.v1.SessionObject.User.Formal.UserInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "email": {
+            "type": "string",
+            "title": "email"
+          },
+          "type": {
+            "type": "string",
+            "title": "type"
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "groups"
+          },
+          "externalIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "external_ids"
+          }
+        },
+        "title": "UserInfo",
+        "additionalProperties": false
+      },
+      "core.v1.SessionObject.User.Native": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "username"
+          }
+        },
+        "title": "Native",
+        "additionalProperties": false
+      },
+      "core.v1.SessionShutdown": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "title": "session_id"
+          },
+          "connectorId": {
+            "type": "string",
+            "title": "connector_id"
+          },
+          "createdAt": {
+            "title": "created_at",
+            "description": "timestamp.lt_now = true\n",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "SessionShutdown",
+        "additionalProperties": false
+      },
+      "google.protobuf.Duration": {
+        "type": "string",
+        "format": "duration",
+        "description": "A Duration represents a signed, fixed-length span of time represented\n as a count of seconds and fractions of seconds at nanosecond\n resolution. It is independent of any calendar and concepts like \"day\"\n or \"month\". It is related to Timestamp in that the difference between\n two Timestamp values is a Duration and it can be added or subtracted\n from a Timestamp. Range is approximately +-10,000 years.\n\n # Examples\n\n Example 1: Compute Duration from two Timestamps in pseudo code.\n\n     Timestamp start = ...;\n     Timestamp end = ...;\n     Duration duration = ...;\n\n     duration.seconds = end.seconds - start.seconds;\n     duration.nanos = end.nanos - start.nanos;\n\n     if (duration.seconds < 0 && duration.nanos > 0) {\n       duration.seconds += 1;\n       duration.nanos -= 1000000000;\n     } else if (duration.seconds > 0 && duration.nanos < 0) {\n       duration.seconds -= 1;\n       duration.nanos += 1000000000;\n     }\n\n Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.\n\n     Timestamp start = ...;\n     Duration duration = ...;\n     Timestamp end = ...;\n\n     end.seconds = start.seconds + duration.seconds;\n     end.nanos = start.nanos + duration.nanos;\n\n     if (end.nanos < 0) {\n       end.seconds -= 1;\n       end.nanos += 1000000000;\n     } else if (end.nanos >= 1000000000) {\n       end.seconds += 1;\n       end.nanos -= 1000000000;\n     }\n\n Example 3: Compute Duration from datetime.timedelta in Python.\n\n     td = datetime.timedelta(days=3, minutes=10)\n     duration = Duration()\n     duration.FromTimedelta(td)\n\n # JSON Mapping\n\n In JSON format, the Duration type is encoded as a string rather than an\n object, where the string ends in the suffix \"s\" (indicating seconds) and\n is preceded by the number of seconds, with nanoseconds expressed as\n fractional seconds. For example, 3 seconds with 0 nanoseconds should be\n encoded in JSON format as \"3s\", while 3 seconds and 1 nanosecond should\n be expressed in JSON format as \"3.000000001s\", and 3 seconds and 1\n microsecond should be expressed in JSON format as \"3.000001s\"."
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(&tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(&ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) << 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API Key",
+        "description": "API key authentication. Get your API key from the Formal dashboard."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "core.v1.SessionsService"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api.joinformal.com",
+      "description": "Production API"
+    }
+  ]
 }

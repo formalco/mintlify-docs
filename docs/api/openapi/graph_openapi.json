@@ -1,0 +1,443 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "core.v1"
+  },
+  "paths": {
+    "/core.v1.GraphService/GetGraph": {
+      "post": {
+        "tags": [
+          "core.v1.GraphService"
+        ],
+        "summary": "GetGraph",
+        "operationId": "core.v1.GraphService.GetGraph",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.GetGraphRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.GetGraphResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.GraphService/GetGraph\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.GraphService/GetGraph\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.GraphService/GetGraph\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.GraphService/GetGraph\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "core.v1.Action": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name",
+            "minLength": 1
+          },
+          "count": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "count",
+            "format": "int64"
+          }
+        },
+        "title": "Action",
+        "additionalProperties": false
+      },
+      "core.v1.ConnectorNode": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "minLength": 1
+          }
+        },
+        "title": "ConnectorNode",
+        "additionalProperties": false
+      },
+      "core.v1.Edge": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          },
+          "sourceId": {
+            "type": "string",
+            "title": "source_id",
+            "minLength": 1
+          },
+          "targetId": {
+            "type": "string",
+            "title": "target_id",
+            "minLength": 1
+          },
+          "requestCount": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "request_count",
+            "format": "int64"
+          },
+          "triggeredPolicyIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "triggered_policy_ids"
+          },
+          "triggeredPolicyCount": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "triggered_policy_count",
+            "format": "int64"
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.Action"
+            },
+            "title": "actions"
+          }
+        },
+        "title": "Edge",
+        "additionalProperties": false
+      },
+      "core.v1.GetGraphRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "title": "query",
+            "minLength": 1
+          },
+          "startTimestamp": {
+            "title": "start_timestamp",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "endTimestamp": {
+            "title": "end_timestamp",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "GetGraphRequest",
+        "additionalProperties": false
+      },
+      "core.v1.GetGraphResponse": {
+        "type": "object",
+        "properties": {
+          "graph": {
+            "title": "graph",
+            "$ref": "#/components/schemas/core.v1.Graph"
+          }
+        },
+        "title": "GetGraphResponse",
+        "additionalProperties": false
+      },
+      "core.v1.Graph": {
+        "type": "object",
+        "properties": {
+          "nodes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.Node"
+            },
+            "title": "nodes"
+          },
+          "edges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.Edge"
+            },
+            "title": "edges"
+          }
+        },
+        "title": "Graph",
+        "additionalProperties": false
+      },
+      "core.v1.Node": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "id": {
+                "type": "string",
+                "title": "id",
+                "minLength": 1
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "connectorNode": {
+                    "title": "connector_node",
+                    "$ref": "#/components/schemas/core.v1.ConnectorNode"
+                  }
+                },
+                "title": "connector_node",
+                "required": [
+                  "connectorNode"
+                ]
+              },
+              {
+                "properties": {
+                  "resourceNode": {
+                    "title": "resource_node",
+                    "$ref": "#/components/schemas/core.v1.ResourceNode"
+                  }
+                },
+                "title": "resource_node",
+                "required": [
+                  "resourceNode"
+                ]
+              },
+              {
+                "properties": {
+                  "userNode": {
+                    "title": "user_node",
+                    "$ref": "#/components/schemas/core.v1.UserNode"
+                  }
+                },
+                "title": "user_node",
+                "required": [
+                  "userNode"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "Node",
+        "additionalProperties": false
+      },
+      "core.v1.ResourceNode": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "minLength": 1
+          },
+          "technology": {
+            "type": "string",
+            "title": "technology",
+            "minLength": 1
+          }
+        },
+        "title": "ResourceNode",
+        "additionalProperties": false
+      },
+      "core.v1.UserNode": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "minLength": 1
+          },
+          "type": {
+            "type": "string",
+            "title": "type",
+            "minLength": 1
+          }
+        },
+        "title": "UserNode",
+        "additionalProperties": false
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(&tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(&ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) << 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API Key",
+        "description": "API key authentication. Get your API key from the Formal dashboard."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "core.v1.GraphService"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api.joinformal.com",
+      "description": "Production API"
+    }
+  ]
+}

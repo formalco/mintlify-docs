@@ -1,1417 +1,2769 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "Sidecar Service",
-        "version": "1.0",
-        "contact": {
-            "name": "Formal",
-            "url": "https://docs.private.joinformal.com/",
-            "email": "info@joinformal.com"
-        }
-    },
-    "tags": [
-        {
-            "name": "SidecarService"
-        }
-    ],
-    "paths": {
-        "/core.v1.SidecarService/CreateSidecar": {
-            "post": {
-                "summary": "Create sidecar",
-                "description": "Create a sidecar",
-                "operationId": "SidecarService_CreateSidecar",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1CreateSidecarResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1CreateSidecarRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SidecarService"
-                ]
+  "openapi": "3.1.0",
+  "info": {
+    "title": "core.v1"
+  },
+  "paths": {
+    "/core.v1.SidecarService/CreateSidecar": {
+      "post": {
+        "tags": [
+          "core.v1.SidecarService"
+        ],
+        "summary": "CreateSidecar",
+        "operationId": "core.v1.SidecarService.CreateSidecar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.CreateSidecarRequest"
+              }
             }
+          },
+          "required": true
         },
-        "/core.v1.SidecarService/CreateSidecarResourceLink": {
-            "post": {
-                "operationId": "SidecarService_CreateSidecarResourceLink",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1CreateSidecarResourceLinkResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1CreateSidecarResourceLinkRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SidecarService"
-                ]
-            }
-        },
-        "/core.v1.SidecarService/DeleteSidecar": {
-            "post": {
-                "summary": "Delete sidecar",
-                "description": "Delete a sidecar",
-                "operationId": "SidecarService_DeleteSidecar",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1DeleteSidecarResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1DeleteSidecarRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SidecarService"
-                ]
-            }
-        },
-        "/core.v1.SidecarService/DeleteSidecarResourceLink": {
-            "post": {
-                "summary": "Delete sidecar resource link",
-                "description": "Delete a sidecar resource link",
-                "operationId": "SidecarService_DeleteSidecarResourceLink",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1DeleteSidecarResourceLinkResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1DeleteSidecarResourceLinkRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SidecarService"
-                ]
-            }
-        },
-        "/core.v1.SidecarService/GetSidecar": {
-            "post": {
-                "summary": "Get sidecar",
-                "description": "Get a sidecar",
-                "operationId": "SidecarService_GetSidecar",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1GetSidecarResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1GetSidecarRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SidecarService"
-                ]
-            }
-        },
-        "/core.v1.SidecarService/GetSidecarApiKey": {
-            "post": {
-                "summary": "Get sidecar api key",
-                "description": "Get a sidecar api key",
-                "operationId": "SidecarService_GetSidecarApiKey",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1GetSidecarApiKeyResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1GetSidecarApiKeyRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SidecarService"
-                ]
-            }
-        },
-        "/core.v1.SidecarService/GetSidecarResourceLink": {
-            "post": {
-                "summary": "Get sidecar resource link",
-                "description": "Get a sidecar resource link",
-                "operationId": "SidecarService_GetSidecarResourceLink",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1GetSidecarResourceLinkResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1GetSidecarResourceLinkRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SidecarService"
-                ]
-            }
-        },
-        "/core.v1.SidecarService/ListSidecarInstances": {
-            "post": {
-                "summary": "List sidecar instances",
-                "description": "List all sidecar instances",
-                "operationId": "SidecarService_ListSidecarInstances",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ListSidecarInstancesResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1ListSidecarInstancesRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SidecarService"
-                ]
-            }
-        },
-        "/core.v1.SidecarService/ListSidecarResourceLinks": {
-            "post": {
-                "summary": "List sidecar resource links",
-                "description": "List all sidecar resource links",
-                "operationId": "SidecarService_ListSidecarResourceLinks",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ListSidecarResourceLinksResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1ListSidecarResourceLinksRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SidecarService"
-                ]
-            }
-        },
-        "/core.v1.SidecarService/ListSidecars": {
-            "post": {
-                "summary": "List sidecars",
-                "description": "List all sidecars",
-                "operationId": "SidecarService_ListSidecars",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ListSidecarsResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1ListSidecarsRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SidecarService"
-                ]
-            }
-        },
-        "/core.v1.SidecarService/UpdateSidecar": {
-            "post": {
-                "summary": "Update sidecar",
-                "description": "Update a sidecar",
-                "operationId": "SidecarService_UpdateSidecar",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1UpdateSidecarResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1UpdateSidecarRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SidecarService"
-                ]
-            }
-        },
-        "/core.v1.SidecarService/UpdateSidecarResourceLink": {
-            "post": {
-                "summary": "Update sidecar resource link",
-                "description": "Update a sidecar resource link",
-                "operationId": "SidecarService_UpdateSidecarResourceLink",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1UpdateSidecarResourceLinkResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1UpdateSidecarResourceLinkRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "SidecarService"
-                ]
-            }
-        }
-    },
-    "security": [
-        {
-            "ApiKeyAuth": []
-        }
-    ],
-    "components": {
-        "securitySchemes": {
-            "ApiKeyAuth": {
-                "type": "apiKey",
-                "name": "X-API-Key",
-                "in": "header"
-            }
-        },
-        "schemas": {
-            "corev1Resource": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "technology": {
-                        "type": "string"
-                    },
-                    "hostname": {
-                        "type": "string"
-                    },
-                    "port": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "environment": {
-                        "type": "string"
-                    },
-                    "terminationProtection": {
-                        "type": "boolean"
-                    },
-                    "spaceId": {
-                        "type": "string"
-                    },
-                    "space": {
-                        "$ref": "#/components/schemas/v1Space"
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "provider": {
-                        "type": "string"
-                    }
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.CreateSidecarResponse"
                 }
-            },
-            "corev1Sidecar": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "technology": {
-                        "type": "string"
-                    },
-                    "hostname": {
-                        "type": "string"
-                    },
-                    "terminationProtection": {
-                        "type": "boolean"
-                    },
-                    "deployed": {
-                        "type": "boolean"
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                }
-            },
-            "protobufAny": {
-                "type": "object",
-                "properties": {
-                    "@type": {
-                        "type": "string",
-                        "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
-                    }
-                },
-                "additionalProperties": {},
-                "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
-            },
-            "rpcStatus": {
-                "type": "object",
-                "properties": {
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
                     "code": {
-                        "type": "integer",
-                        "format": "int32"
+                      "type": "string",
+                      "example": "invalid_request"
                     },
                     "message": {
-                        "type": "string"
+                      "type": "string",
+                      "example": "Invalid request parameters"
                     },
                     "details": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/protobufAny"
-                        }
+                      "type": "object"
                     }
+                  }
                 }
-            },
-            "v1CreateSidecarRequest": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "technology": {
-                        "type": "string"
-                    },
-                    "hostname": {
-                        "type": "string"
-                    },
-                    "terminationProtection": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "v1CreateSidecarResourceLinkRequest": {
-                "type": "object",
-                "properties": {
-                    "resourceId": {
-                        "type": "string"
-                    },
-                    "sidecarId": {
-                        "type": "string"
-                    },
-                    "port": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "terminationProtection": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "v1CreateSidecarResourceLinkResponse": {
-                "type": "object",
-                "properties": {
-                    "link": {
-                        "$ref": "#/components/schemas/v1SidecarLink"
-                    }
-                }
-            },
-            "v1CreateSidecarResponse": {
-                "type": "object",
-                "properties": {
-                    "sidecar": {
-                        "$ref": "#/components/schemas/corev1Sidecar"
-                    }
-                }
-            },
-            "v1DeleteSidecarRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1DeleteSidecarResourceLinkRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1DeleteSidecarResourceLinkResponse": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1DeleteSidecarResponse": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1ErrorObject": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string"
-                    },
-                    "code": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1Field": {
-                "type": "object",
-                "properties": {
-                    "key": {
-                        "type": "string"
-                    },
-                    "operator": {
-                        "type": "string"
-                    },
-                    "value": {
-                        "$ref": "#/components/schemas/protobufAny"
-                    }
-                }
-            },
-            "v1FieldGroup": {
-                "type": "object",
-                "properties": {
-                    "operator": {
-                        "type": "string"
-                    },
-                    "filters": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1Filter"
-                        }
-                    }
-                }
-            },
-            "v1Filter": {
-                "type": "object",
-                "properties": {
-                    "field": {
-                        "$ref": "#/components/schemas/v1Field"
-                    },
-                    "group": {
-                        "$ref": "#/components/schemas/v1FieldGroup"
-                    }
-                }
-            },
-            "v1GetSidecarApiKeyRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetSidecarApiKeyResponse": {
-                "type": "object",
-                "properties": {
-                    "secret": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetSidecarRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetSidecarResourceLinkRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetSidecarResourceLinkResponse": {
-                "type": "object",
-                "properties": {
-                    "link": {
-                        "$ref": "#/components/schemas/v1SidecarLink"
-                    }
-                }
-            },
-            "v1GetSidecarResponse": {
-                "type": "object",
-                "properties": {
-                    "sidecar": {
-                        "$ref": "#/components/schemas/corev1Sidecar"
-                    }
-                }
-            },
-            "v1Instance": {
-                "type": "object",
-                "properties": {
-                    "instanceId": {
-                        "type": "string"
-                    },
-                    "lastSeen": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "startTime": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "version": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1ListMetadata": {
-                "type": "object",
-                "properties": {
-                    "after": {
-                        "type": "string"
-                    },
-                    "before": {
-                        "type": "string"
-                    },
-                    "count": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "nextCursor": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1ListSidecarInstancesRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "limit": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "cursor": {
-                        "type": "string"
-                    },
-                    "order": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1ListSidecarInstancesResponse": {
-                "type": "object",
-                "properties": {
-                    "instances": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1Instance"
-                        }
-                    },
-                    "listMetadata": {
-                        "$ref": "#/components/schemas/v1ListMetadata"
-                    }
-                }
-            },
-            "v1ListSidecarResourceLinksRequest": {
-                "type": "object",
-                "properties": {
-                    "sidecarId": {
-                        "type": "string"
-                    },
-                    "resourceId": {
-                        "type": "string"
-                    },
-                    "limit": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "cursor": {
-                        "type": "string"
-                    },
-                    "order": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1ListSidecarResourceLinksResponse": {
-                "type": "object",
-                "properties": {
-                    "links": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1SidecarLink"
-                        }
-                    },
-                    "listMetadata": {
-                        "$ref": "#/components/schemas/v1ListMetadata"
-                    }
-                }
-            },
-            "v1ListSidecarsRequest": {
-                "type": "object",
-                "properties": {
-                    "limit": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "cursor": {
-                        "type": "string"
-                    },
-                    "order": {
-                        "type": "string"
-                    },
-                    "search": {
-                        "type": "string"
-                    },
-                    "searchFields": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    },
-                    "filter": {
-                        "$ref": "#/components/schemas/v1Filter"
-                    }
-                }
-            },
-            "v1ListSidecarsResponse": {
-                "type": "object",
-                "properties": {
-                    "sidecars": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/corev1Sidecar"
-                        }
-                    },
-                    "listMetadata": {
-                        "$ref": "#/components/schemas/v1ListMetadata"
-                    }
-                }
-            },
-            "v1SidecarLink": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "sidecar": {
-                        "$ref": "#/components/schemas/corev1Sidecar"
-                    },
-                    "resource": {
-                        "$ref": "#/components/schemas/corev1Resource"
-                    },
-                    "port": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "terminationProtection": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "v1Space": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "terminationProtection": {
-                        "type": "boolean"
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                }
-            },
-            "v1UpdateSidecarRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "hostname": {
-                        "type": "string"
-                    },
-                    "terminationProtection": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "v1UpdateSidecarResourceLinkRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "terminationProtection": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "v1UpdateSidecarResourceLinkResponse": {
-                "type": "object",
-                "properties": {
-                    "link": {
-                        "$ref": "#/components/schemas/v1SidecarLink"
-                    }
-                }
-            },
-            "v1UpdateSidecarResponse": {
-                "type": "object",
-                "properties": {
-                    "sidecar": {
-                        "$ref": "#/components/schemas/corev1Sidecar"
-                    }
-                }
+              }
             }
-        }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SidecarService/CreateSidecar\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SidecarService/CreateSidecar\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SidecarService/CreateSidecar\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SidecarService/CreateSidecar\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SidecarService/CreateSidecarResourceLink": {
+      "post": {
+        "tags": [
+          "core.v1.SidecarService"
+        ],
+        "summary": "CreateSidecarResourceLink",
+        "operationId": "core.v1.SidecarService.CreateSidecarResourceLink",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.CreateSidecarResourceLinkRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.CreateSidecarResourceLinkResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SidecarService/CreateSidecarResourceLink\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SidecarService/CreateSidecarResourceLink\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SidecarService/CreateSidecarResourceLink\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SidecarService/CreateSidecarResourceLink\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SidecarService/DeleteSidecar": {
+      "post": {
+        "tags": [
+          "core.v1.SidecarService"
+        ],
+        "summary": "DeleteSidecar",
+        "operationId": "core.v1.SidecarService.DeleteSidecar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.DeleteSidecarRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.DeleteSidecarResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SidecarService/DeleteSidecar\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SidecarService/DeleteSidecar\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SidecarService/DeleteSidecar\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SidecarService/DeleteSidecar\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SidecarService/DeleteSidecarResourceLink": {
+      "post": {
+        "tags": [
+          "core.v1.SidecarService"
+        ],
+        "summary": "DeleteSidecarResourceLink",
+        "operationId": "core.v1.SidecarService.DeleteSidecarResourceLink",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.DeleteSidecarResourceLinkRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.DeleteSidecarResourceLinkResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SidecarService/DeleteSidecarResourceLink\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SidecarService/DeleteSidecarResourceLink\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SidecarService/DeleteSidecarResourceLink\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SidecarService/DeleteSidecarResourceLink\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SidecarService/GetSidecar": {
+      "post": {
+        "tags": [
+          "core.v1.SidecarService"
+        ],
+        "summary": "GetSidecar",
+        "operationId": "core.v1.SidecarService.GetSidecar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.GetSidecarRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.GetSidecarResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SidecarService/GetSidecar\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SidecarService/GetSidecar\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SidecarService/GetSidecar\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SidecarService/GetSidecar\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SidecarService/GetSidecarApiKey": {
+      "post": {
+        "tags": [
+          "core.v1.SidecarService"
+        ],
+        "summary": "GetSidecarApiKey",
+        "operationId": "core.v1.SidecarService.GetSidecarApiKey",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.GetSidecarApiKeyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.GetSidecarApiKeyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SidecarService/GetSidecarApiKey\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SidecarService/GetSidecarApiKey\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SidecarService/GetSidecarApiKey\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SidecarService/GetSidecarApiKey\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SidecarService/GetSidecarResourceLink": {
+      "post": {
+        "tags": [
+          "core.v1.SidecarService"
+        ],
+        "summary": "GetSidecarResourceLink",
+        "operationId": "core.v1.SidecarService.GetSidecarResourceLink",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.GetSidecarResourceLinkRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.GetSidecarResourceLinkResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SidecarService/GetSidecarResourceLink\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SidecarService/GetSidecarResourceLink\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SidecarService/GetSidecarResourceLink\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SidecarService/GetSidecarResourceLink\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SidecarService/ListSidecarInstances": {
+      "post": {
+        "tags": [
+          "core.v1.SidecarService"
+        ],
+        "summary": "ListSidecarInstances",
+        "operationId": "core.v1.SidecarService.ListSidecarInstances",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.ListSidecarInstancesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.ListSidecarInstancesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SidecarService/ListSidecarInstances\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SidecarService/ListSidecarInstances\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SidecarService/ListSidecarInstances\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SidecarService/ListSidecarInstances\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SidecarService/ListSidecarResourceLinks": {
+      "post": {
+        "tags": [
+          "core.v1.SidecarService"
+        ],
+        "summary": "ListSidecarResourceLinks",
+        "operationId": "core.v1.SidecarService.ListSidecarResourceLinks",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.ListSidecarResourceLinksRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.ListSidecarResourceLinksResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SidecarService/ListSidecarResourceLinks\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SidecarService/ListSidecarResourceLinks\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SidecarService/ListSidecarResourceLinks\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SidecarService/ListSidecarResourceLinks\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SidecarService/ListSidecars": {
+      "post": {
+        "tags": [
+          "core.v1.SidecarService"
+        ],
+        "summary": "ListSidecars",
+        "operationId": "core.v1.SidecarService.ListSidecars",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.ListSidecarsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.ListSidecarsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SidecarService/ListSidecars\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SidecarService/ListSidecars\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SidecarService/ListSidecars\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SidecarService/ListSidecars\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SidecarService/UpdateSidecar": {
+      "post": {
+        "tags": [
+          "core.v1.SidecarService"
+        ],
+        "summary": "UpdateSidecar",
+        "operationId": "core.v1.SidecarService.UpdateSidecar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.UpdateSidecarRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.UpdateSidecarResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SidecarService/UpdateSidecar\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SidecarService/UpdateSidecar\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SidecarService/UpdateSidecar\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SidecarService/UpdateSidecar\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.SidecarService/UpdateSidecarResourceLink": {
+      "post": {
+        "tags": [
+          "core.v1.SidecarService"
+        ],
+        "summary": "UpdateSidecarResourceLink",
+        "operationId": "core.v1.SidecarService.UpdateSidecarResourceLink",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.UpdateSidecarResourceLinkRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.UpdateSidecarResourceLinkResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.SidecarService/UpdateSidecarResourceLink\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.SidecarService/UpdateSidecarResourceLink\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.SidecarService/UpdateSidecarResourceLink\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.SidecarService/UpdateSidecarResourceLink\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
     }
+  },
+  "components": {
+    "schemas": {
+      "core.v1.CreateSidecarRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name",
+            "maxLength": 63,
+            "minLength": 3,
+            "pattern": "^[0-9a-z\\-]+$"
+          },
+          "technology": {
+            "type": "string",
+            "title": "technology",
+            "enum": [
+              "ssh",
+              "postgres",
+              "mysql",
+              "mongodb",
+              "snowflake",
+              "salesforce",
+              "http",
+              "s3",
+              "dynamodb",
+              "bigquery",
+              "kubernetes",
+              "multi"
+            ]
+          },
+          "hostname": {
+            "type": "string",
+            "title": "hostname"
+          },
+          "terminationProtection": {
+            "type": "boolean",
+            "title": "termination_protection"
+          }
+        },
+        "title": "CreateSidecarRequest",
+        "additionalProperties": false
+      },
+      "core.v1.CreateSidecarResourceLinkRequest": {
+        "type": "object",
+        "properties": {
+          "resourceId": {
+            "type": "string",
+            "title": "resource_id",
+            "minLength": 1
+          },
+          "sidecarId": {
+            "type": "string",
+            "title": "sidecar_id",
+            "minLength": 1
+          },
+          "port": {
+            "exclusiveMinimum": 0,
+            "type": "integer",
+            "title": "port",
+            "maximum": 65535,
+            "format": "int32"
+          },
+          "terminationProtection": {
+            "type": "boolean",
+            "title": "termination_protection"
+          }
+        },
+        "title": "CreateSidecarResourceLinkRequest",
+        "additionalProperties": false
+      },
+      "core.v1.CreateSidecarResourceLinkResponse": {
+        "type": "object",
+        "properties": {
+          "link": {
+            "title": "link",
+            "$ref": "#/components/schemas/core.v1.SidecarLink"
+          }
+        },
+        "title": "CreateSidecarResourceLinkResponse",
+        "additionalProperties": false
+      },
+      "core.v1.CreateSidecarResponse": {
+        "type": "object",
+        "properties": {
+          "sidecar": {
+            "title": "sidecar",
+            "$ref": "#/components/schemas/core.v1.Sidecar"
+          }
+        },
+        "title": "CreateSidecarResponse",
+        "additionalProperties": false
+      },
+      "core.v1.DeleteSidecarRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "DeleteSidecarRequest",
+        "additionalProperties": false
+      },
+      "core.v1.DeleteSidecarResourceLinkRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "DeleteSidecarResourceLinkRequest",
+        "additionalProperties": false
+      },
+      "core.v1.DeleteSidecarResourceLinkResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "DeleteSidecarResourceLinkResponse",
+        "additionalProperties": false
+      },
+      "core.v1.DeleteSidecarResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "DeleteSidecarResponse",
+        "additionalProperties": false
+      },
+      "core.v1.Field": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key",
+            "minLength": 1
+          },
+          "operator": {
+            "type": "string",
+            "title": "operator",
+            "enum": [
+              "equals",
+              "not_equals",
+              "contains",
+              "not_contains",
+              "empty",
+              "not_empty",
+              "starts_with",
+              "ends_with",
+              "lower_than",
+              "greater_than"
+            ]
+          },
+          "value": {
+            "title": "value",
+            "nullable": true,
+            "$ref": "#/components/schemas/google.protobuf.Any"
+          }
+        },
+        "title": "Field",
+        "additionalProperties": false
+      },
+      "core.v1.FieldGroup": {
+        "type": "object",
+        "properties": {
+          "operator": {
+            "type": "string",
+            "title": "operator",
+            "enum": [
+              "and",
+              "or"
+            ]
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.Filter"
+            },
+            "title": "filters",
+            "minItems": 1
+          }
+        },
+        "title": "FieldGroup",
+        "additionalProperties": false
+      },
+      "core.v1.Filter": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "title": "field",
+            "nullable": true,
+            "$ref": "#/components/schemas/core.v1.Field"
+          },
+          "group": {
+            "title": "group",
+            "nullable": true,
+            "$ref": "#/components/schemas/core.v1.FieldGroup"
+          }
+        },
+        "title": "Filter",
+        "additionalProperties": false
+      },
+      "core.v1.GetSidecarApiKeyRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "GetSidecarApiKeyRequest",
+        "additionalProperties": false
+      },
+      "core.v1.GetSidecarApiKeyResponse": {
+        "type": "object",
+        "properties": {
+          "secret": {
+            "type": "string",
+            "title": "secret",
+            "minLength": 1
+          }
+        },
+        "title": "GetSidecarApiKeyResponse",
+        "additionalProperties": false
+      },
+      "core.v1.GetSidecarRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "GetSidecarRequest",
+        "additionalProperties": false
+      },
+      "core.v1.GetSidecarResourceLinkRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "GetSidecarResourceLinkRequest",
+        "additionalProperties": false
+      },
+      "core.v1.GetSidecarResourceLinkResponse": {
+        "type": "object",
+        "properties": {
+          "link": {
+            "title": "link",
+            "$ref": "#/components/schemas/core.v1.SidecarLink"
+          }
+        },
+        "title": "GetSidecarResourceLinkResponse",
+        "additionalProperties": false
+      },
+      "core.v1.GetSidecarResponse": {
+        "type": "object",
+        "properties": {
+          "sidecar": {
+            "title": "sidecar",
+            "$ref": "#/components/schemas/core.v1.Sidecar"
+          }
+        },
+        "title": "GetSidecarResponse",
+        "additionalProperties": false
+      },
+      "core.v1.Instance": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "lastSeen": {
+            "title": "last_seen",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "startTime": {
+            "title": "start_time",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "version": {
+            "type": "string",
+            "title": "version"
+          }
+        },
+        "title": "Instance",
+        "additionalProperties": false
+      },
+      "core.v1.ListMetadata": {
+        "type": "object",
+        "properties": {
+          "after": {
+            "type": "string",
+            "title": "after"
+          },
+          "before": {
+            "type": "string",
+            "title": "before"
+          },
+          "count": {
+            "type": "integer",
+            "title": "count",
+            "format": "int32"
+          },
+          "nextCursor": {
+            "type": "string",
+            "title": "next_cursor"
+          }
+        },
+        "title": "ListMetadata",
+        "additionalProperties": false
+      },
+      "core.v1.ListSidecarInstancesRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          },
+          "limit": {
+            "exclusiveMinimum": 0,
+            "type": "integer",
+            "title": "limit",
+            "maximum": 500,
+            "format": "int32"
+          },
+          "cursor": {
+            "type": "string",
+            "title": "cursor"
+          },
+          "order": {
+            "type": "string",
+            "title": "order"
+          }
+        },
+        "title": "ListSidecarInstancesRequest",
+        "additionalProperties": false
+      },
+      "core.v1.ListSidecarInstancesResponse": {
+        "type": "object",
+        "properties": {
+          "instances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.Instance"
+            },
+            "title": "instances"
+          },
+          "listMetadata": {
+            "title": "list_metadata",
+            "$ref": "#/components/schemas/core.v1.ListMetadata"
+          }
+        },
+        "title": "ListSidecarInstancesResponse",
+        "additionalProperties": false
+      },
+      "core.v1.ListSidecarResourceLinksRequest": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "limit": {
+                "exclusiveMinimum": 0,
+                "type": "integer",
+                "title": "limit",
+                "maximum": 500,
+                "format": "int32"
+              },
+              "cursor": {
+                "type": "string",
+                "title": "cursor"
+              },
+              "order": {
+                "type": "string",
+                "title": "order"
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "resourceId": {
+                    "type": "string",
+                    "title": "resource_id",
+                    "minLength": 1
+                  }
+                },
+                "title": "resource_id",
+                "required": [
+                  "resourceId"
+                ]
+              },
+              {
+                "properties": {
+                  "sidecarId": {
+                    "type": "string",
+                    "title": "sidecar_id",
+                    "minLength": 1
+                  }
+                },
+                "title": "sidecar_id",
+                "required": [
+                  "sidecarId"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "ListSidecarResourceLinksRequest",
+        "additionalProperties": false
+      },
+      "core.v1.ListSidecarResourceLinksResponse": {
+        "type": "object",
+        "properties": {
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.SidecarLink"
+            },
+            "title": "links"
+          },
+          "listMetadata": {
+            "title": "list_metadata",
+            "$ref": "#/components/schemas/core.v1.ListMetadata"
+          }
+        },
+        "title": "ListSidecarResourceLinksResponse",
+        "additionalProperties": false
+      },
+      "core.v1.ListSidecarsRequest": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "exclusiveMinimum": 0,
+            "type": "integer",
+            "title": "limit",
+            "maximum": 500,
+            "format": "int32"
+          },
+          "cursor": {
+            "type": "string",
+            "title": "cursor"
+          },
+          "order": {
+            "type": "string",
+            "title": "order"
+          },
+          "search": {
+            "type": "string",
+            "title": "search"
+          },
+          "searchFields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "id",
+                "name",
+                "technology",
+                "hostname"
+              ]
+            },
+            "title": "search_fields"
+          },
+          "filter": {
+            "title": "filter",
+            "nullable": true,
+            "$ref": "#/components/schemas/core.v1.Filter"
+          }
+        },
+        "title": "ListSidecarsRequest",
+        "additionalProperties": false
+      },
+      "core.v1.ListSidecarsResponse": {
+        "type": "object",
+        "properties": {
+          "sidecars": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.Sidecar"
+            },
+            "title": "sidecars"
+          },
+          "listMetadata": {
+            "title": "list_metadata",
+            "$ref": "#/components/schemas/core.v1.ListMetadata"
+          }
+        },
+        "title": "ListSidecarsResponse",
+        "additionalProperties": false
+      },
+      "core.v1.Resource": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "minLength": 1
+          },
+          "technology": {
+            "type": "string",
+            "title": "technology",
+            "enum": [
+              "ssh",
+              "postgres",
+              "mysql",
+              "mongodb",
+              "snowflake",
+              "salesforce",
+              "http",
+              "s3",
+              "dynamodb",
+              "bigquery",
+              "kubernetes",
+              "multi",
+              "ssm_discovery",
+              "clickhouse",
+              "redis",
+              "grpc"
+            ]
+          },
+          "hostname": {
+            "type": "string",
+            "title": "hostname",
+            "minLength": 1
+          },
+          "port": {
+            "exclusiveMinimum": 0,
+            "type": "integer",
+            "title": "port",
+            "maximum": 65535,
+            "format": "int32"
+          },
+          "environment": {
+            "type": "string",
+            "title": "environment"
+          },
+          "terminationProtection": {
+            "type": "boolean",
+            "title": "termination_protection"
+          },
+          "spaceId": {
+            "type": "string",
+            "title": "space_id"
+          },
+          "space": {
+            "title": "space",
+            "$ref": "#/components/schemas/core.v1.Space"
+          },
+          "createdAt": {
+            "title": "created_at",
+            "description": "timestamp.lt_now = true\n",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "updatedAt": {
+            "title": "updated_at",
+            "description": "timestamp.lt_now = true\n",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "provider": {
+            "type": "string",
+            "title": "provider",
+            "enum": [
+              "",
+              "aws-ec2",
+              "aws-ecs"
+            ]
+          }
+        },
+        "title": "Resource",
+        "additionalProperties": false
+      },
+      "core.v1.Sidecar": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "minLength": 1
+          },
+          "technology": {
+            "type": "string",
+            "title": "technology",
+            "enum": [
+              "ssh",
+              "postgres",
+              "mysql",
+              "mongodb",
+              "snowflake",
+              "salesforce",
+              "http",
+              "s3",
+              "dynamodb",
+              "bigquery",
+              "kubernetes",
+              "multi"
+            ]
+          },
+          "hostname": {
+            "type": "string",
+            "title": "hostname"
+          },
+          "terminationProtection": {
+            "type": "boolean",
+            "title": "termination_protection"
+          },
+          "deployed": {
+            "type": "boolean",
+            "title": "deployed"
+          },
+          "createdAt": {
+            "title": "created_at",
+            "description": "timestamp.lt_now = true\n",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "updatedAt": {
+            "title": "updated_at",
+            "description": "timestamp.lt_now = true\n",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "Sidecar",
+        "additionalProperties": false
+      },
+      "core.v1.SidecarLink": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          },
+          "sidecar": {
+            "title": "sidecar",
+            "$ref": "#/components/schemas/core.v1.Sidecar"
+          },
+          "resource": {
+            "title": "resource",
+            "$ref": "#/components/schemas/core.v1.Resource"
+          },
+          "port": {
+            "exclusiveMinimum": 0,
+            "type": "integer",
+            "title": "port",
+            "maximum": 65535,
+            "format": "int32"
+          },
+          "terminationProtection": {
+            "type": "boolean",
+            "title": "termination_protection"
+          }
+        },
+        "title": "SidecarLink",
+        "additionalProperties": false
+      },
+      "core.v1.Space": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "terminationProtection": {
+            "type": "boolean",
+            "title": "termination_protection"
+          },
+          "createdAt": {
+            "title": "created_at",
+            "description": "timestamp.lt_now = true\n",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "updatedAt": {
+            "title": "updated_at",
+            "description": "timestamp.lt_now = true\n",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "Space",
+        "additionalProperties": false
+      },
+      "core.v1.UpdateSidecarRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "nullable": true
+          },
+          "hostname": {
+            "type": "string",
+            "title": "hostname",
+            "nullable": true
+          },
+          "terminationProtection": {
+            "type": "boolean",
+            "title": "termination_protection",
+            "nullable": true
+          }
+        },
+        "title": "UpdateSidecarRequest",
+        "additionalProperties": false
+      },
+      "core.v1.UpdateSidecarResourceLinkRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "terminationProtection": {
+            "type": "boolean",
+            "title": "termination_protection",
+            "nullable": true
+          }
+        },
+        "title": "UpdateSidecarResourceLinkRequest",
+        "additionalProperties": false
+      },
+      "core.v1.UpdateSidecarResourceLinkResponse": {
+        "type": "object",
+        "properties": {
+          "link": {
+            "title": "link",
+            "$ref": "#/components/schemas/core.v1.SidecarLink"
+          }
+        },
+        "title": "UpdateSidecarResourceLinkResponse",
+        "additionalProperties": false
+      },
+      "core.v1.UpdateSidecarResponse": {
+        "type": "object",
+        "properties": {
+          "sidecar": {
+            "title": "sidecar",
+            "$ref": "#/components/schemas/core.v1.Sidecar"
+          }
+        },
+        "title": "UpdateSidecarResponse",
+        "additionalProperties": false
+      },
+      "google.protobuf.Any": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "format": "binary"
+          }
+        },
+        "additionalProperties": true,
+        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message."
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(&tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(&ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) << 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API Key",
+        "description": "API key authentication. Get your API key from the Formal dashboard."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "core.v1.SidecarService"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api.joinformal.com",
+      "description": "Production API"
+    }
+  ]
 }

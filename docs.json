@@ -8,10 +8,21 @@
     "dark": "#2847A6"
   },
   "favicon": "/assets/favicon.svg",
+  "api": {
+    "version": "v1",
+    "baseUrl": "https://api.joinformal.com"
+  },
+  "versions": [
+    {
+      "name": "v1",
+      "label": "Version 1 (Current)"
+    }
+  ],
   "navigation": {
     "tabs": [
       {
         "tab": "Guides",
+        "url": "docs/guides/getting-started/index",
         "groups": [
           {
             "group": "Getting started",
@@ -49,86 +60,57 @@
       },
       {
         "tab": "API reference",
+        "url": "docs/api/introduction",
         "openapi": [
           "docs/api/openapi/connectors_openapi.json",
-          "docs/api/openapi/resource_openapi.json",
-          "docs/api/openapi/sidecar_openapi.json",
-          "docs/api/openapi/satellite_openapi.json",
-          "docs/api/openapi/user_openapi.json",
+          "docs/api/openapi/graph_openapi.json",
           "docs/api/openapi/group_openapi.json",
-          "docs/api/openapi/spaces_openapi.json",
-          "docs/api/openapi/policies_openapi.json",
-          "docs/api/openapi/policy_data_loaders_openapi.json",
-          "docs/api/openapi/sessions_openapi.json",
-          "docs/api/openapi/logs_openapi.json",
-          "docs/api/openapi/inventory_openapi.json",
-          "docs/api/openapi/monitors_openapi.json",
-          "docs/api/openapi/trackers_openapi.json",
           "docs/api/openapi/integration_bi_openapi.json",
           "docs/api/openapi/integration_cloud_openapi.json",
           "docs/api/openapi/integration_data_catalog_openapi.json",
           "docs/api/openapi/integration_log_openapi.json",
           "docs/api/openapi/integration_mdm_openapi.json",
-          "docs/api/openapi/integration_mfa_openapi.json"
+          "docs/api/openapi/integration_mfa_openapi.json",
+          "docs/api/openapi/inventory_openapi.json",
+          "docs/api/openapi/logs_openapi.json",
+          "docs/api/openapi/monitors_openapi.json",
+          "docs/api/openapi/permissions_openapi.json",
+          "docs/api/openapi/policies_openapi.json",
+          "docs/api/openapi/policy_data_loaders_openapi.json",
+          "docs/api/openapi/resource_openapi.json",
+          "docs/api/openapi/satellite_openapi.json",
+          "docs/api/openapi/scenario_monitoring_openapi.json",
+          "docs/api/openapi/sessions_openapi.json",
+          "docs/api/openapi/sidecar_openapi.json",
+          "docs/api/openapi/spaces_openapi.json",
+          "docs/api/openapi/trackers_openapi.json",
+          "docs/api/openapi/user_openapi.json",
+          "docs/api/openapi/workflow_openapi.json"
         ],
         "groups": [
           {
-            "group": "Getting Started",
-            "pages": ["docs/api/introduction"]
-          },
-          {
-            "group": "Core Services",
+            "group": "API Documentation",
             "pages": [
-              "docs/api/connectors",
-              "docs/api/resources",
-              "docs/api/sidecars",
-              "docs/api/satellites",
-              "docs/api/users",
-              "docs/api/groups",
-              "docs/api/spaces"
-            ]
-          },
-          {
-            "group": "Security & Policies",
-            "pages": [
-              "docs/api/policies",
-              "docs/api/policy-data-loaders",
-              "docs/api/sessions"
-            ]
-          },
-          {
-            "group": "Data & Monitoring",
-            "pages": [
-              "docs/api/logs",
-              "docs/api/inventory",
-              "docs/api/monitors",
-              "docs/api/trackers"
-            ]
-          },
-          {
-            "group": "Integrations",
-            "pages": [
-              "docs/api/integrations-bi",
-              "docs/api/integrations-cloud",
-              "docs/api/integrations-data-catalog",
-              "docs/api/integrations-log",
-              "docs/api/integrations-mdm",
-              "docs/api/integrations-mfa"
+              "docs/api/introduction"
             ]
           }
         ]
       },
       {
         "tab": "Glossary",
+        "url": "docs/glossary/index",
         "groups": [
           {
             "group": "Glossary",
-            "pages": ["docs/glossary/index"]
+            "pages": [
+              "docs/glossary/index"
+            ]
           }
         ]
       },
       {
         "tab": "Changelog",
+        "url": "changelog/index",
         "groups": [
           {
             "group": "Changelog",
@@ -144,6 +126,7 @@
       },
       {
         "tab": "Legacy Docs",
+        "url": "legacy-docs/getting-started-with-Formal",
         "groups": [
           {
             "group": "Getting Started",
@@ -211,18 +194,7 @@
       }
     ],
     "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://www.joinformal.com/blog/",
-          "icon": "newspaper"
-        }
-      ]
+      "anchors": []
     }
   },
   "logo": {
@@ -231,6 +203,10 @@
   },
   "navbar": {
     "links": [
+      {
+        "label": "Blog",
+        "href": "https://www.joinformal.com/blog/"
+      },
       {
         "label": "Support",
         "href": "mailto:support@joinformal.com"
@@ -260,5 +236,31 @@
       "github": "https://github.com/formalco",
       "linkedin": "https://linkedin.com/company/formalhq"
     }
+  },
+  "feedback": {
+    "suggestEdit": true,
+    "raiseIssue": true,
+    "thumbsRating": true
+  },
+  "chat": {
+    "enabled": true,
+    "name": "Formal AI Assistant",
+    "ctas": [
+      {
+        "type": "separator"
+      },
+      {
+        "type": "cta",
+        "label": "Share Feedback",
+        "action": "open-chat",
+        "icon": "comment"
+      },
+      {
+        "type": "cta",
+        "label": "Explain More",
+        "action": "open-chat",
+        "icon": "wand-magic-sparkles"
+      }
+    ]
   }
 }

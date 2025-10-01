@@ -1,0 +1,16 @@
+{
+  "name": "@formalco/docs",
+  "version": "1.0.0",
+  "description": "Formal documentation site",
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev": "mintlify dev",
+    "sync-api-docs": "bash scripts/sync-api-docs.sh",
+    "check-links": "bun run scripts/check-dead-links.ts",
+    "docs:sync": "bun run sync-api-docs && mintlify dev",
+    "docs:build": "bun run sync-api-docs && mintlify build"
+  },
+  "devDependencies": {
+    "mintlify": "latest"
+  }
+}

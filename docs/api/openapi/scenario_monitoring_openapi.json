@@ -1,583 +1,1055 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "Scenario Monitoring Service",
-        "version": "1.0",
-        "contact": {
-            "name": "Formal",
-            "url": "https://docs.private.joinformal.com/",
-            "email": "info@joinformal.com"
-        }
-    },
-    "tags": [
-        {
-            "name": "ScenarioMonitoringService"
-        }
-    ],
-    "paths": {
-        "/core.v1.ScenarioMonitoringService/CreateScenarioMonitor": {
-            "post": {
-                "summary": "Add a scenario for LLM SSH Monitoring",
-                "operationId": "ScenarioMonitoringService_CreateScenarioMonitor",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1CreateScenarioMonitorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1CreateScenarioMonitorRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "ScenarioMonitoringService"
-                ]
+  "openapi": "3.1.0",
+  "info": {
+    "title": "core.v1"
+  },
+  "paths": {
+    "/core.v1.ScenarioMonitoringService/CreateScenarioMonitor": {
+      "post": {
+        "tags": [
+          "core.v1.ScenarioMonitoringService"
+        ],
+        "summary": "CreateScenarioMonitor",
+        "description": "Add a scenario for LLM SSH Monitoring",
+        "operationId": "core.v1.ScenarioMonitoringService.CreateScenarioMonitor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.CreateScenarioMonitorRequest"
+              }
             }
+          },
+          "required": true
         },
-        "/core.v1.ScenarioMonitoringService/DeleteScenarioMonitor": {
-            "post": {
-                "summary": "Delete a scenario from LLM SSH Monitoring",
-                "operationId": "ScenarioMonitoringService_DeleteScenarioMonitor",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1DeleteScenarioMonitorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1DeleteScenarioMonitorRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "ScenarioMonitoringService"
-                ]
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.CreateScenarioMonitorResponse"
+                }
+              }
             }
-        },
-        "/core.v1.ScenarioMonitoringService/GetScenarioMonitor": {
-            "post": {
-                "summary": "Retrieve all LLM session monitoring scenarios and their statuses",
-                "operationId": "ScenarioMonitoringService_GetScenarioMonitor",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1GetScenarioMonitorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1GetScenarioMonitorRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "ScenarioMonitoringService"
-                ]
-            }
-        },
-        "/core.v1.ScenarioMonitoringService/ListScenarioMonitors": {
-            "post": {
-                "operationId": "ScenarioMonitoringService_ListScenarioMonitors",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ListScenarioMonitorsResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1ListScenarioMonitorsRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "ScenarioMonitoringService"
-                ]
-            }
-        },
-        "/core.v1.ScenarioMonitoringService/UpdateScenarioMonitor": {
-            "post": {
-                "summary": "Update the status of a scenario used for LLM session monitoring",
-                "operationId": "ScenarioMonitoringService_UpdateScenarioMonitor",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1UpdateScenarioMonitorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1UpdateScenarioMonitorRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "ScenarioMonitoringService"
-                ]
-            }
-        }
-    },
-    "security": [
-        {
-            "ApiKeyAuth": []
-        }
-    ],
-    "components": {
-        "securitySchemes": {
-            "ApiKeyAuth": {
-                "type": "apiKey",
-                "name": "X-API-Key",
-                "in": "header"
-            }
-        },
-        "schemas": {
-            "protobufAny": {
-                "type": "object",
-                "properties": {
-                    "@type": {
-                        "type": "string",
-                        "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
-                    }
-                },
-                "additionalProperties": {},
-                "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
-            },
-            "rpcStatus": {
-                "type": "object",
-                "properties": {
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
                     "code": {
-                        "type": "integer",
-                        "format": "int32"
+                      "type": "string",
+                      "example": "invalid_request"
                     },
                     "message": {
-                        "type": "string"
+                      "type": "string",
+                      "example": "Invalid request parameters"
                     },
                     "details": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/protobufAny"
-                        }
+                      "type": "object"
                     }
+                  }
                 }
-            },
-            "v1CreateScenarioMonitorRequest": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "scenario": {
-                        "type": "string"
-                    },
-                    "status": {
-                        "type": "string"
-                    }
-                },
-                "title": "Request message for creating an SSH scenario monitor"
-            },
-            "v1CreateScenarioMonitorResponse": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                },
-                "title": "Response message for creating an SSH scenario monitor"
-            },
-            "v1DeleteScenarioMonitorRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                },
-                "title": "Request message for deleting a scenario monitor"
-            },
-            "v1DeleteScenarioMonitorResponse": {
-                "type": "object",
-                "description": "Empty response",
-                "title": "Response message for deleting an SSH scenario monitor"
-            },
-            "v1ErrorObject": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string"
-                    },
-                    "code": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetScenarioMonitorRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                },
-                "title": "Request message for getting all SSH scenario monitors"
-            },
-            "v1GetScenarioMonitorResponse": {
-                "type": "object",
-                "properties": {
-                    "monitor": {
-                        "$ref": "#/components/schemas/v1ScenarioMonitor"
-                    }
-                },
-                "title": "Response message for getting all SSH scenario monitors"
-            },
-            "v1ListMetadata": {
-                "type": "object",
-                "properties": {
-                    "after": {
-                        "type": "string"
-                    },
-                    "before": {
-                        "type": "string"
-                    },
-                    "count": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "nextCursor": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1ListScenarioMonitorsRequest": {
-                "type": "object",
-                "properties": {
-                    "limit": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "cursor": {
-                        "type": "string"
-                    },
-                    "order": {
-                        "type": "string"
-                    }
-                },
-                "title": "Request message for listing all SSH scenario monitors"
-            },
-            "v1ListScenarioMonitorsResponse": {
-                "type": "object",
-                "properties": {
-                    "monitors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1ScenarioMonitor"
-                        }
-                    },
-                    "listMetadata": {
-                        "$ref": "#/components/schemas/v1ListMetadata"
-                    }
-                },
-                "title": "Response message for listing all SSH scenario monitors"
-            },
-            "v1ScenarioMonitor": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "scenario": {
-                        "type": "string"
-                    },
-                    "status": {
-                        "type": "string"
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "title": "Scenario Monitor entity"
-            },
-            "v1UpdateScenarioMonitorRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "scenario": {
-                        "type": "string"
-                    },
-                    "status": {
-                        "type": "string"
-                    }
-                },
-                "title": "Request message for updating a scenario monitor"
-            },
-            "v1UpdateScenarioMonitorResponse": {
-                "type": "object",
-                "description": "Empty response",
-                "title": "Response message for updating a scenario monitor"
+              }
             }
-        }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/CreateScenarioMonitor\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.ScenarioMonitoringService/CreateScenarioMonitor\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/CreateScenarioMonitor\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/CreateScenarioMonitor\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.ScenarioMonitoringService/DeleteScenarioMonitor": {
+      "post": {
+        "tags": [
+          "core.v1.ScenarioMonitoringService"
+        ],
+        "summary": "DeleteScenarioMonitor",
+        "description": "Delete a scenario from LLM SSH Monitoring",
+        "operationId": "core.v1.ScenarioMonitoringService.DeleteScenarioMonitor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.DeleteScenarioMonitorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.DeleteScenarioMonitorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/DeleteScenarioMonitor\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.ScenarioMonitoringService/DeleteScenarioMonitor\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/DeleteScenarioMonitor\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/DeleteScenarioMonitor\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.ScenarioMonitoringService/GetScenarioMonitor": {
+      "post": {
+        "tags": [
+          "core.v1.ScenarioMonitoringService"
+        ],
+        "summary": "GetScenarioMonitor",
+        "description": "Retrieve all LLM session monitoring scenarios and their statuses",
+        "operationId": "core.v1.ScenarioMonitoringService.GetScenarioMonitor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.GetScenarioMonitorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.GetScenarioMonitorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/GetScenarioMonitor\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.ScenarioMonitoringService/GetScenarioMonitor\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/GetScenarioMonitor\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/GetScenarioMonitor\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.ScenarioMonitoringService/ListScenarioMonitors": {
+      "post": {
+        "tags": [
+          "core.v1.ScenarioMonitoringService"
+        ],
+        "summary": "ListScenarioMonitors",
+        "operationId": "core.v1.ScenarioMonitoringService.ListScenarioMonitors",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.ListScenarioMonitorsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.ListScenarioMonitorsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/ListScenarioMonitors\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.ScenarioMonitoringService/ListScenarioMonitors\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/ListScenarioMonitors\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/ListScenarioMonitors\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.ScenarioMonitoringService/UpdateScenarioMonitor": {
+      "post": {
+        "tags": [
+          "core.v1.ScenarioMonitoringService"
+        ],
+        "summary": "UpdateScenarioMonitor",
+        "description": "Update the status of a scenario used for LLM session monitoring",
+        "operationId": "core.v1.ScenarioMonitoringService.UpdateScenarioMonitor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.UpdateScenarioMonitorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.UpdateScenarioMonitorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/UpdateScenarioMonitor\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.ScenarioMonitoringService/UpdateScenarioMonitor\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/UpdateScenarioMonitor\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.ScenarioMonitoringService/UpdateScenarioMonitor\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
     }
+  },
+  "components": {
+    "schemas": {
+      "core.v1.CreateScenarioMonitorRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "scenario": {
+            "type": "string",
+            "title": "scenario"
+          },
+          "status": {
+            "type": "string",
+            "title": "status"
+          }
+        },
+        "title": "CreateScenarioMonitorRequest",
+        "additionalProperties": false,
+        "description": "Request message for creating an SSH scenario monitor"
+      },
+      "core.v1.CreateScenarioMonitorResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          }
+        },
+        "title": "CreateScenarioMonitorResponse",
+        "additionalProperties": false,
+        "description": "Response message for creating an SSH scenario monitor"
+      },
+      "core.v1.DeleteScenarioMonitorRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          }
+        },
+        "title": "DeleteScenarioMonitorRequest",
+        "additionalProperties": false,
+        "description": "Request message for deleting a scenario monitor"
+      },
+      "core.v1.DeleteScenarioMonitorResponse": {
+        "type": "object",
+        "title": "DeleteScenarioMonitorResponse",
+        "additionalProperties": false,
+        "description": "Response message for deleting an SSH scenario monitor Empty response"
+      },
+      "core.v1.GetScenarioMonitorRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          }
+        },
+        "title": "GetScenarioMonitorRequest",
+        "additionalProperties": false,
+        "description": "Request message for getting all SSH scenario monitors"
+      },
+      "core.v1.GetScenarioMonitorResponse": {
+        "type": "object",
+        "properties": {
+          "monitor": {
+            "title": "monitor",
+            "$ref": "#/components/schemas/core.v1.ScenarioMonitor"
+          }
+        },
+        "title": "GetScenarioMonitorResponse",
+        "additionalProperties": false,
+        "description": "Response message for getting all SSH scenario monitors"
+      },
+      "core.v1.ListMetadata": {
+        "type": "object",
+        "properties": {
+          "after": {
+            "type": "string",
+            "title": "after"
+          },
+          "before": {
+            "type": "string",
+            "title": "before"
+          },
+          "count": {
+            "type": "integer",
+            "title": "count",
+            "format": "int32"
+          },
+          "nextCursor": {
+            "type": "string",
+            "title": "next_cursor"
+          }
+        },
+        "title": "ListMetadata",
+        "additionalProperties": false
+      },
+      "core.v1.ListScenarioMonitorsRequest": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "exclusiveMinimum": 0,
+            "type": "integer",
+            "title": "limit",
+            "maximum": 500,
+            "format": "int32"
+          },
+          "cursor": {
+            "type": "string",
+            "title": "cursor"
+          },
+          "order": {
+            "type": "string",
+            "title": "order"
+          }
+        },
+        "title": "ListScenarioMonitorsRequest",
+        "additionalProperties": false,
+        "description": "Request message for listing all SSH scenario monitors"
+      },
+      "core.v1.ListScenarioMonitorsResponse": {
+        "type": "object",
+        "properties": {
+          "monitors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.ScenarioMonitor"
+            },
+            "title": "monitors"
+          },
+          "listMetadata": {
+            "title": "list_metadata",
+            "$ref": "#/components/schemas/core.v1.ListMetadata"
+          }
+        },
+        "title": "ListScenarioMonitorsResponse",
+        "additionalProperties": false,
+        "description": "Response message for listing all SSH scenario monitors"
+      },
+      "core.v1.ScenarioMonitor": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "scenario": {
+            "type": "string",
+            "title": "scenario"
+          },
+          "status": {
+            "type": "string",
+            "title": "status"
+          },
+          "createdAt": {
+            "title": "created_at",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "updatedAt": {
+            "title": "updated_at",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "ScenarioMonitor",
+        "additionalProperties": false,
+        "description": "Scenario Monitor entity"
+      },
+      "core.v1.UpdateScenarioMonitorRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "nullable": true
+          },
+          "scenario": {
+            "type": "string",
+            "title": "scenario",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "title": "status",
+            "nullable": true
+          }
+        },
+        "title": "UpdateScenarioMonitorRequest",
+        "additionalProperties": false,
+        "description": "Request message for updating a scenario monitor"
+      },
+      "core.v1.UpdateScenarioMonitorResponse": {
+        "type": "object",
+        "title": "UpdateScenarioMonitorResponse",
+        "additionalProperties": false,
+        "description": "Response message for updating a scenario monitor Empty response"
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(&tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(&ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) << 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API Key",
+        "description": "API key authentication. Get your API key from the Formal dashboard."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "core.v1.ScenarioMonitoringService"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api.joinformal.com",
+      "description": "Production API"
+    }
+  ]
 }

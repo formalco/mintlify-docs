@@ -1,610 +1,1138 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "Integration MFA Service",
-        "version": "1.0",
-        "contact": {
-            "name": "Formal",
-            "url": "https://docs.private.joinformal.com/",
-            "email": "info@joinformal.com"
-        }
-    },
-    "tags": [
-        {
-            "name": "IntegrationMfaService"
-        }
-    ],
-    "paths": {
-        "/core.v1.IntegrationMfaService/CreateIntegrationMfa": {
-            "post": {
-                "summary": "Create integration MFA",
-                "description": "Create an integration MFA",
-                "operationId": "IntegrationMfaService_CreateIntegrationMfa",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1CreateIntegrationMfaResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1CreateIntegrationMfaRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "IntegrationMfaService"
-                ]
+  "openapi": "3.1.0",
+  "info": {
+    "title": "core.v1"
+  },
+  "paths": {
+    "/core.v1.IntegrationMfaService/CreateIntegrationMfa": {
+      "post": {
+        "tags": [
+          "core.v1.IntegrationMfaService"
+        ],
+        "summary": "CreateIntegrationMfa",
+        "operationId": "core.v1.IntegrationMfaService.CreateIntegrationMfa",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.CreateIntegrationMfaRequest"
+              }
             }
+          },
+          "required": true
         },
-        "/core.v1.IntegrationMfaService/DeleteIntegrationMfa": {
-            "post": {
-                "summary": "Delete integration MFA",
-                "description": "Delete an integration MFA",
-                "operationId": "IntegrationMfaService_DeleteIntegrationMfa",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1DeleteIntegrationMfaResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1DeleteIntegrationMfaRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "IntegrationMfaService"
-                ]
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.CreateIntegrationMfaResponse"
+                }
+              }
             }
-        },
-        "/core.v1.IntegrationMfaService/GetIntegrationMFASecrets": {
-            "post": {
-                "summary": "Get integration MFA secrets",
-                "description": "Get the secrets for an integration MFA",
-                "operationId": "IntegrationMfaService_GetIntegrationMFASecrets",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1GetIntegrationMFASecretsResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1GetIntegrationMFASecretsRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "IntegrationMfaService"
-                ]
-            }
-        },
-        "/core.v1.IntegrationMfaService/GetIntegrationMfa": {
-            "post": {
-                "summary": "Get integration MFA",
-                "description": "Get an integration MFA",
-                "operationId": "IntegrationMfaService_GetIntegrationMfa",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1GetIntegrationMfaResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1GetIntegrationMfaRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "IntegrationMfaService"
-                ]
-            }
-        },
-        "/core.v1.IntegrationMfaService/ListIntegrationMfas": {
-            "post": {
-                "summary": "List integration MFA",
-                "description": "List all integration MFA",
-                "operationId": "IntegrationMfaService_ListIntegrationMfas",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ListIntegrationMfasResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1ListIntegrationMfasRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "IntegrationMfaService"
-                ]
-            }
-        }
-    },
-    "security": [
-        {
-            "ApiKeyAuth": []
-        }
-    ],
-    "components": {
-        "securitySchemes": {
-            "ApiKeyAuth": {
-                "type": "apiKey",
-                "name": "X-API-Key",
-                "in": "header"
-            }
-        },
-        "schemas": {
-            "protobufAny": {
-                "type": "object",
-                "properties": {
-                    "@type": {
-                        "type": "string",
-                        "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
-                    }
-                },
-                "additionalProperties": {},
-                "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
-            },
-            "rpcStatus": {
-                "type": "object",
-                "properties": {
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
                     "code": {
-                        "type": "integer",
-                        "format": "int32"
+                      "type": "string",
+                      "example": "invalid_request"
                     },
                     "message": {
-                        "type": "string"
+                      "type": "string",
+                      "example": "Invalid request parameters"
                     },
                     "details": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/protobufAny"
-                        }
+                      "type": "object"
                     }
+                  }
                 }
-            },
-            "v1CreateIntegrationMfaRequest": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "duo": {
-                        "$ref": "#/components/schemas/v1CreateIntegrationMfaRequestDuo"
-                    }
-                }
-            },
-            "v1CreateIntegrationMfaRequestDuo": {
-                "type": "object",
-                "properties": {
-                    "integrationKey": {
-                        "type": "string"
-                    },
-                    "secretKey": {
-                        "type": "string"
-                    },
-                    "apiHostname": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1CreateIntegrationMfaResponse": {
-                "type": "object",
-                "properties": {
-                    "integration": {
-                        "$ref": "#/components/schemas/v1IntegrationMfa"
-                    }
-                }
-            },
-            "v1DeleteIntegrationMfaRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1DeleteIntegrationMfaResponse": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1ErrorObject": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string"
-                    },
-                    "code": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetIntegrationMFASecretsRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetIntegrationMFASecretsResponse": {
-                "type": "object",
-                "properties": {
-                    "duo": {
-                        "$ref": "#/components/schemas/v1GetIntegrationMFASecretsResponseDuo"
-                    }
-                }
-            },
-            "v1GetIntegrationMFASecretsResponseDuo": {
-                "type": "object",
-                "properties": {
-                    "integrationKey": {
-                        "type": "string"
-                    },
-                    "secretKey": {
-                        "type": "string"
-                    },
-                    "apiHostname": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetIntegrationMfaRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetIntegrationMfaResponse": {
-                "type": "object",
-                "properties": {
-                    "integration": {
-                        "$ref": "#/components/schemas/v1IntegrationMfa"
-                    }
-                }
-            },
-            "v1IntegrationMfa": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "duo": {
-                        "$ref": "#/components/schemas/v1IntegrationMfaDuo"
-                    },
-                    "terminationProtection": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "v1IntegrationMfaDuo": {
-                "type": "object",
-                "properties": {
-                    "apiHostname": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1ListIntegrationMfasRequest": {
-                "type": "object",
-                "properties": {
-                    "limit": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "cursor": {
-                        "type": "string"
-                    },
-                    "order": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1ListIntegrationMfasResponse": {
-                "type": "object",
-                "properties": {
-                    "integrations": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1IntegrationMfa"
-                        }
-                    },
-                    "listMetadata": {
-                        "$ref": "#/components/schemas/v1ListMetadata"
-                    }
-                }
-            },
-            "v1ListMetadata": {
-                "type": "object",
-                "properties": {
-                    "after": {
-                        "type": "string"
-                    },
-                    "before": {
-                        "type": "string"
-                    },
-                    "count": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "nextCursor": {
-                        "type": "string"
-                    }
-                }
+              }
             }
-        }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.IntegrationMfaService/CreateIntegrationMfa\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.IntegrationMfaService/CreateIntegrationMfa\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.IntegrationMfaService/CreateIntegrationMfa\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.IntegrationMfaService/CreateIntegrationMfa\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.IntegrationMfaService/DeleteIntegrationMfa": {
+      "post": {
+        "tags": [
+          "core.v1.IntegrationMfaService"
+        ],
+        "summary": "DeleteIntegrationMfa",
+        "operationId": "core.v1.IntegrationMfaService.DeleteIntegrationMfa",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.DeleteIntegrationMfaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.DeleteIntegrationMfaResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.IntegrationMfaService/DeleteIntegrationMfa\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.IntegrationMfaService/DeleteIntegrationMfa\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.IntegrationMfaService/DeleteIntegrationMfa\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.IntegrationMfaService/DeleteIntegrationMfa\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.IntegrationMfaService/GetIntegrationMFASecrets": {
+      "post": {
+        "tags": [
+          "core.v1.IntegrationMfaService"
+        ],
+        "summary": "GetIntegrationMFASecrets",
+        "operationId": "core.v1.IntegrationMfaService.GetIntegrationMFASecrets",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.GetIntegrationMFASecretsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.GetIntegrationMFASecretsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.IntegrationMfaService/GetIntegrationMFASecrets\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.IntegrationMfaService/GetIntegrationMFASecrets\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.IntegrationMfaService/GetIntegrationMFASecrets\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.IntegrationMfaService/GetIntegrationMFASecrets\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.IntegrationMfaService/GetIntegrationMfa": {
+      "post": {
+        "tags": [
+          "core.v1.IntegrationMfaService"
+        ],
+        "summary": "GetIntegrationMfa",
+        "operationId": "core.v1.IntegrationMfaService.GetIntegrationMfa",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.GetIntegrationMfaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.GetIntegrationMfaResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.IntegrationMfaService/GetIntegrationMfa\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.IntegrationMfaService/GetIntegrationMfa\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.IntegrationMfaService/GetIntegrationMfa\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.IntegrationMfaService/GetIntegrationMfa\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.IntegrationMfaService/ListIntegrationMfas": {
+      "post": {
+        "tags": [
+          "core.v1.IntegrationMfaService"
+        ],
+        "summary": "ListIntegrationMfas",
+        "operationId": "core.v1.IntegrationMfaService.ListIntegrationMfas",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.ListIntegrationMfasRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.ListIntegrationMfasResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.IntegrationMfaService/ListIntegrationMfas\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.IntegrationMfaService/ListIntegrationMfas\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.IntegrationMfaService/ListIntegrationMfas\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.IntegrationMfaService/ListIntegrationMfas\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
     }
+  },
+  "components": {
+    "schemas": {
+      "core.v1.CreateIntegrationMfaRequest": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "name": {
+                "type": "string",
+                "title": "name",
+                "minLength": 1
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "duo": {
+                    "title": "duo",
+                    "$ref": "#/components/schemas/core.v1.CreateIntegrationMfaRequest.Duo"
+                  }
+                },
+                "title": "duo",
+                "required": [
+                  "duo"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "CreateIntegrationMfaRequest",
+        "additionalProperties": false
+      },
+      "core.v1.CreateIntegrationMfaRequest.Duo": {
+        "type": "object",
+        "properties": {
+          "integrationKey": {
+            "type": "string",
+            "title": "integration_key",
+            "minLength": 1
+          },
+          "secretKey": {
+            "type": "string",
+            "title": "secret_key",
+            "minLength": 1
+          },
+          "apiHostname": {
+            "type": "string",
+            "title": "api_hostname",
+            "minLength": 1
+          }
+        },
+        "title": "Duo",
+        "additionalProperties": false
+      },
+      "core.v1.CreateIntegrationMfaResponse": {
+        "type": "object",
+        "properties": {
+          "integration": {
+            "title": "integration",
+            "$ref": "#/components/schemas/core.v1.IntegrationMfa"
+          }
+        },
+        "title": "CreateIntegrationMfaResponse",
+        "additionalProperties": false
+      },
+      "core.v1.DeleteIntegrationMfaRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "DeleteIntegrationMfaRequest",
+        "additionalProperties": false
+      },
+      "core.v1.DeleteIntegrationMfaResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "DeleteIntegrationMfaResponse",
+        "additionalProperties": false
+      },
+      "core.v1.GetIntegrationMFASecretsRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "GetIntegrationMFASecretsRequest",
+        "additionalProperties": false
+      },
+      "core.v1.GetIntegrationMFASecretsResponse": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "duo": {
+                "title": "duo",
+                "$ref": "#/components/schemas/core.v1.GetIntegrationMFASecretsResponse.Duo"
+              }
+            },
+            "title": "duo",
+            "required": [
+              "duo"
+            ]
+          }
+        ],
+        "title": "GetIntegrationMFASecretsResponse",
+        "additionalProperties": false
+      },
+      "core.v1.GetIntegrationMFASecretsResponse.Duo": {
+        "type": "object",
+        "properties": {
+          "integrationKey": {
+            "type": "string",
+            "title": "integration_key",
+            "minLength": 1
+          },
+          "secretKey": {
+            "type": "string",
+            "title": "secret_key",
+            "minLength": 1
+          },
+          "apiHostname": {
+            "type": "string",
+            "title": "api_hostname",
+            "minLength": 1
+          }
+        },
+        "title": "Duo",
+        "additionalProperties": false
+      },
+      "core.v1.GetIntegrationMfaRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "GetIntegrationMfaRequest",
+        "additionalProperties": false
+      },
+      "core.v1.GetIntegrationMfaResponse": {
+        "type": "object",
+        "properties": {
+          "integration": {
+            "title": "integration",
+            "$ref": "#/components/schemas/core.v1.IntegrationMfa"
+          }
+        },
+        "title": "GetIntegrationMfaResponse",
+        "additionalProperties": false
+      },
+      "core.v1.IntegrationMfa": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "id": {
+                "type": "string",
+                "title": "id",
+                "minLength": 1
+              },
+              "name": {
+                "type": "string",
+                "title": "name",
+                "minLength": 1
+              },
+              "createdAt": {
+                "title": "created_at",
+                "description": "timestamp.lt_now = true\n",
+                "$ref": "#/components/schemas/google.protobuf.Timestamp"
+              },
+              "updatedAt": {
+                "title": "updated_at",
+                "description": "timestamp.lt_now = true\n",
+                "$ref": "#/components/schemas/google.protobuf.Timestamp"
+              },
+              "terminationProtection": {
+                "type": "boolean",
+                "title": "termination_protection"
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "duo": {
+                    "title": "duo",
+                    "$ref": "#/components/schemas/core.v1.IntegrationMfa.Duo"
+                  }
+                },
+                "title": "duo",
+                "required": [
+                  "duo"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "IntegrationMfa",
+        "additionalProperties": false
+      },
+      "core.v1.IntegrationMfa.Duo": {
+        "type": "object",
+        "properties": {
+          "apiHostname": {
+            "type": "string",
+            "title": "api_hostname",
+            "minLength": 1
+          }
+        },
+        "title": "Duo",
+        "additionalProperties": false
+      },
+      "core.v1.ListIntegrationMfasRequest": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "exclusiveMinimum": 0,
+            "type": "integer",
+            "title": "limit",
+            "maximum": 500,
+            "format": "int32"
+          },
+          "cursor": {
+            "type": "string",
+            "title": "cursor"
+          },
+          "order": {
+            "type": "string",
+            "title": "order"
+          }
+        },
+        "title": "ListIntegrationMfasRequest",
+        "additionalProperties": false
+      },
+      "core.v1.ListIntegrationMfasResponse": {
+        "type": "object",
+        "properties": {
+          "integrations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.IntegrationMfa"
+            },
+            "title": "integrations"
+          },
+          "listMetadata": {
+            "title": "list_metadata",
+            "$ref": "#/components/schemas/core.v1.ListMetadata"
+          }
+        },
+        "title": "ListIntegrationMfasResponse",
+        "additionalProperties": false
+      },
+      "core.v1.ListMetadata": {
+        "type": "object",
+        "properties": {
+          "after": {
+            "type": "string",
+            "title": "after"
+          },
+          "before": {
+            "type": "string",
+            "title": "before"
+          },
+          "count": {
+            "type": "integer",
+            "title": "count",
+            "format": "int32"
+          },
+          "nextCursor": {
+            "type": "string",
+            "title": "next_cursor"
+          }
+        },
+        "title": "ListMetadata",
+        "additionalProperties": false
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(&tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(&ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) << 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API Key",
+        "description": "API key authentication. Get your API key from the Formal dashboard."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "core.v1.IntegrationMfaService"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api.joinformal.com",
+      "description": "Production API"
+    }
+  ]
 }

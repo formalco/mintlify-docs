@@ -4,18 +4,18 @@
     "title": "core.v1"
   },
   "paths": {
-    "/core.v1.IntegrationCloudService/CreateCloudIntegration": {
+    "/core.v1.WorkflowService/CreateWorkflow": {
       "post": {
         "tags": [
-          "core.v1.IntegrationCloudService"
+          "core.v1.WorkflowService"
         ],
-        "summary": "CreateCloudIntegration",
-        "operationId": "core.v1.IntegrationCloudService.CreateCloudIntegration",
+        "summary": "CreateWorkflow",
+        "operationId": "core.v1.WorkflowService.CreateWorkflow",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/core.v1.CreateCloudIntegrationRequest"
+                "$ref": "#/components/schemas/core.v1.CreateWorkflowRequest"
               }
             }
           },
@@ -27,7 +27,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/core.v1.CreateCloudIntegrationResponse"
+                  "$ref": "#/components/schemas/core.v1.CreateWorkflowResponse"
                 }
               }
             }
@@ -145,38 +145,38 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl -X POST \"https://api.joinformal.com/core.v1.IntegrationCloudService/CreateCloudIntegration\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.WorkflowService/CreateWorkflow\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
           },
           {
             "lang": "javascript",
             "label": "JavaScript (fetch)",
-            "source": "fetch(\"https://api.joinformal.com/core.v1.IntegrationCloudService/CreateCloudIntegration\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+            "source": "fetch(\"https://api.joinformal.com/core.v1.WorkflowService/CreateWorkflow\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
           },
           {
             "lang": "python",
             "label": "Python",
-            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.IntegrationCloudService/CreateCloudIntegration\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.WorkflowService/CreateWorkflow\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
           },
           {
             "lang": "go",
             "label": "Go",
-            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.IntegrationCloudService/CreateCloudIntegration\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.WorkflowService/CreateWorkflow\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
           }
         ]
       }
     },
-    "/core.v1.IntegrationCloudService/CreateGCPCloudIntegration": {
+    "/core.v1.WorkflowService/DeleteWorkflow": {
       "post": {
         "tags": [
-          "core.v1.IntegrationCloudService"
+          "core.v1.WorkflowService"
         ],
-        "summary": "CreateGCPCloudIntegration",
-        "operationId": "core.v1.IntegrationCloudService.CreateGCPCloudIntegration",
+        "summary": "DeleteWorkflow",
+        "operationId": "core.v1.WorkflowService.DeleteWorkflow",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/core.v1.CreateGCPCloudIntegrationRequest"
+                "$ref": "#/components/schemas/core.v1.DeleteWorkflowRequest"
               }
             }
           },
@@ -188,7 +188,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/core.v1.CreateGCPCloudIntegrationResponse"
+                  "$ref": "#/components/schemas/core.v1.DeleteWorkflowResponse"
                 }
               }
             }
@@ -306,38 +306,38 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl -X POST \"https://api.joinformal.com/core.v1.IntegrationCloudService/CreateGCPCloudIntegration\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.WorkflowService/DeleteWorkflow\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
           },
           {
             "lang": "javascript",
             "label": "JavaScript (fetch)",
-            "source": "fetch(\"https://api.joinformal.com/core.v1.IntegrationCloudService/CreateGCPCloudIntegration\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+            "source": "fetch(\"https://api.joinformal.com/core.v1.WorkflowService/DeleteWorkflow\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
           },
           {
             "lang": "python",
             "label": "Python",
-            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.IntegrationCloudService/CreateGCPCloudIntegration\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.WorkflowService/DeleteWorkflow\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
           },
           {
             "lang": "go",
             "label": "Go",
-            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.IntegrationCloudService/CreateGCPCloudIntegration\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.WorkflowService/DeleteWorkflow\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
           }
         ]
       }
     },
-    "/core.v1.IntegrationCloudService/DeleteCloudIntegration": {
+    "/core.v1.WorkflowService/GetWorkflow": {
       "post": {
         "tags": [
-          "core.v1.IntegrationCloudService"
+          "core.v1.WorkflowService"
         ],
-        "summary": "DeleteCloudIntegration",
-        "operationId": "core.v1.IntegrationCloudService.DeleteCloudIntegration",
+        "summary": "GetWorkflow",
+        "operationId": "core.v1.WorkflowService.GetWorkflow",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/core.v1.DeleteCloudIntegrationRequest"
+                "$ref": "#/components/schemas/core.v1.GetWorkflowRequest"
               }
             }
           },
@@ -349,7 +349,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/core.v1.DeleteCloudIntegrationResponse"
+                  "$ref": "#/components/schemas/core.v1.GetWorkflowResponse"
                 }
               }
             }
@@ -467,38 +467,38 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl -X POST \"https://api.joinformal.com/core.v1.IntegrationCloudService/DeleteCloudIntegration\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.WorkflowService/GetWorkflow\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
           },
           {
             "lang": "javascript",
             "label": "JavaScript (fetch)",
-            "source": "fetch(\"https://api.joinformal.com/core.v1.IntegrationCloudService/DeleteCloudIntegration\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+            "source": "fetch(\"https://api.joinformal.com/core.v1.WorkflowService/GetWorkflow\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
           },
           {
             "lang": "python",
             "label": "Python",
-            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.IntegrationCloudService/DeleteCloudIntegration\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.WorkflowService/GetWorkflow\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
           },
           {
             "lang": "go",
             "label": "Go",
-            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.IntegrationCloudService/DeleteCloudIntegration\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.WorkflowService/GetWorkflow\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
           }
         ]
       }
     },
-    "/core.v1.IntegrationCloudService/GetIntegrationCloud": {
+    "/core.v1.WorkflowService/GetWorkflowSchemas": {
       "post": {
         "tags": [
-          "core.v1.IntegrationCloudService"
+          "core.v1.WorkflowService"
         ],
-        "summary": "GetIntegrationCloud",
-        "operationId": "core.v1.IntegrationCloudService.GetIntegrationCloud",
+        "summary": "GetWorkflowSchemas",
+        "operationId": "core.v1.WorkflowService.GetWorkflowSchemas",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/core.v1.GetIntegrationCloudRequest"
+                "$ref": "#/components/schemas/core.v1.GetWorkflowSchemasRequest"
               }
             }
           },
@@ -510,7 +510,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/core.v1.GetIntegrationCloudResponse"
+                  "$ref": "#/components/schemas/core.v1.GetWorkflowSchemasResponse"
                 }
               }
             }
@@ -628,38 +628,38 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl -X POST \"https://api.joinformal.com/core.v1.IntegrationCloudService/GetIntegrationCloud\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.WorkflowService/GetWorkflowSchemas\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
           },
           {
             "lang": "javascript",
             "label": "JavaScript (fetch)",
-            "source": "fetch(\"https://api.joinformal.com/core.v1.IntegrationCloudService/GetIntegrationCloud\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+            "source": "fetch(\"https://api.joinformal.com/core.v1.WorkflowService/GetWorkflowSchemas\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
           },
           {
             "lang": "python",
             "label": "Python",
-            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.IntegrationCloudService/GetIntegrationCloud\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.WorkflowService/GetWorkflowSchemas\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
           },
           {
             "lang": "go",
             "label": "Go",
-            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.IntegrationCloudService/GetIntegrationCloud\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.WorkflowService/GetWorkflowSchemas\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
           }
         ]
       }
     },
-    "/core.v1.IntegrationCloudService/ListIntegrationClouds": {
+    "/core.v1.WorkflowService/ListWorkflows": {
       "post": {
         "tags": [
-          "core.v1.IntegrationCloudService"
+          "core.v1.WorkflowService"
         ],
-        "summary": "ListIntegrationClouds",
-        "operationId": "core.v1.IntegrationCloudService.ListIntegrationClouds",
+        "summary": "ListWorkflows",
+        "operationId": "core.v1.WorkflowService.ListWorkflows",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/core.v1.ListIntegrationCloudsRequest"
+                "$ref": "#/components/schemas/core.v1.ListWorkflowsRequest"
               }
             }
           },
@@ -671,7 +671,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/core.v1.ListIntegrationCloudsResponse"
+                  "$ref": "#/components/schemas/core.v1.ListWorkflowsResponse"
                 }
               }
             }
@@ -789,38 +789,38 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl -X POST \"https://api.joinformal.com/core.v1.IntegrationCloudService/ListIntegrationClouds\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.WorkflowService/ListWorkflows\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
           },
           {
             "lang": "javascript",
             "label": "JavaScript (fetch)",
-            "source": "fetch(\"https://api.joinformal.com/core.v1.IntegrationCloudService/ListIntegrationClouds\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+            "source": "fetch(\"https://api.joinformal.com/core.v1.WorkflowService/ListWorkflows\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
           },
           {
             "lang": "python",
             "label": "Python",
-            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.IntegrationCloudService/ListIntegrationClouds\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.WorkflowService/ListWorkflows\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
           },
           {
             "lang": "go",
             "label": "Go",
-            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.IntegrationCloudService/ListIntegrationClouds\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.WorkflowService/ListWorkflows\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
           }
         ]
       }
     },
-    "/core.v1.IntegrationCloudService/UpdateCloudIntegration": {
+    "/core.v1.WorkflowService/UpdateWorkflow": {
       "post": {
         "tags": [
-          "core.v1.IntegrationCloudService"
+          "core.v1.WorkflowService"
         ],
-        "summary": "UpdateCloudIntegration",
-        "operationId": "core.v1.IntegrationCloudService.UpdateCloudIntegration",
+        "summary": "UpdateWorkflow",
+        "operationId": "core.v1.WorkflowService.UpdateWorkflow",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/core.v1.UpdateCloudIntegrationRequest"
+                "$ref": "#/components/schemas/core.v1.UpdateWorkflowRequest"
               }
             }
           },
@@ -832,7 +832,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/core.v1.UpdateCloudIntegrationResponse"
+                  "$ref": "#/components/schemas/core.v1.UpdateWorkflowResponse"
                 }
               }
             }
@@ -950,22 +950,22 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl -X POST \"https://api.joinformal.com/core.v1.IntegrationCloudService/UpdateCloudIntegration\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.WorkflowService/UpdateWorkflow\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
           },
           {
             "lang": "javascript",
             "label": "JavaScript (fetch)",
-            "source": "fetch(\"https://api.joinformal.com/core.v1.IntegrationCloudService/UpdateCloudIntegration\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+            "source": "fetch(\"https://api.joinformal.com/core.v1.WorkflowService/UpdateWorkflow\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
           },
           {
             "lang": "python",
             "label": "Python",
-            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.IntegrationCloudService/UpdateCloudIntegration\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.WorkflowService/UpdateWorkflow\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
           },
           {
             "lang": "go",
             "label": "Go",
-            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.IntegrationCloudService/UpdateCloudIntegration\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.WorkflowService/UpdateWorkflow\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
           }
         ]
       }
@@ -973,271 +973,7 @@
   },
   "components": {
     "schemas": {
-      "core.v1.AWS": {
-        "type": "object",
-        "properties": {
-          "url": {
-            "type": "string",
-            "title": "url",
-            "minLength": 1
-          },
-          "awsFormalId": {
-            "type": "string",
-            "title": "aws_formal_id",
-            "minLength": 1
-          },
-          "awsAccountId": {
-            "type": "string",
-            "title": "aws_account_id",
-            "minLength": 1
-          },
-          "awsFormalIamRole": {
-            "type": "string",
-            "title": "aws_formal_iam_role",
-            "minLength": 1
-          },
-          "awsFormalHandshakeId": {
-            "type": "string",
-            "title": "aws_formal_handshake_id",
-            "minLength": 1
-          },
-          "templateBody": {
-            "type": "string",
-            "title": "template_body",
-            "minLength": 1
-          },
-          "awsFormalUserName": {
-            "type": "string",
-            "title": "aws_formal_user_name",
-            "minLength": 1
-          },
-          "awsFormalPingbackArn": {
-            "type": "string",
-            "title": "aws_formal_pingback_arn",
-            "minLength": 1
-          },
-          "awsFormalStackName": {
-            "type": "string",
-            "title": "aws_formal_stack_name",
-            "minLength": 1
-          },
-          "awsCloudRegion": {
-            "type": "string",
-            "title": "aws_cloud_region",
-            "minLength": 1
-          },
-          "awsTemplateVersion": {
-            "type": "string",
-            "title": "aws_template_version"
-          },
-          "awsS3BucketArn": {
-            "type": "string",
-            "title": "aws_s3_bucket_arn"
-          },
-          "awsEnableEksAutodiscovery": {
-            "type": "boolean",
-            "title": "aws_enable_eks_autodiscovery"
-          },
-          "awsEnableRdsAutodiscovery": {
-            "type": "boolean",
-            "title": "aws_enable_rds_autodiscovery"
-          },
-          "awsEnableRedshiftAutodiscovery": {
-            "type": "boolean",
-            "title": "aws_enable_redshift_autodiscovery"
-          },
-          "awsAllowS3Access": {
-            "type": "boolean",
-            "title": "aws_allow_s3_access"
-          },
-          "awsEnableEc2Autodiscovery": {
-            "type": "boolean",
-            "title": "aws_enable_ec2_autodiscovery"
-          },
-          "awsEnableEcsAutodiscovery": {
-            "type": "boolean",
-            "title": "aws_enable_ecs_autodiscovery"
-          },
-          "awsCustomerRoleArn": {
-            "type": "string",
-            "title": "aws_customer_role_arn"
-          }
-        },
-        "title": "AWS",
-        "additionalProperties": false
-      },
-      "core.v1.CloudIntegration": {
-        "type": "object",
-        "allOf": [
-          {
-            "properties": {
-              "id": {
-                "type": "string",
-                "title": "id",
-                "minLength": 1
-              },
-              "name": {
-                "type": "string",
-                "title": "name",
-                "minLength": 1
-              },
-              "active": {
-                "type": "boolean",
-                "title": "active"
-              },
-              "createdAt": {
-                "title": "created_at",
-                "description": "timestamp.lt_now = true\n",
-                "$ref": "#/components/schemas/google.protobuf.Timestamp"
-              },
-              "updatedAt": {
-                "title": "updated_at",
-                "description": "timestamp.lt_now = true\n",
-                "$ref": "#/components/schemas/google.protobuf.Timestamp"
-              }
-            }
-          },
-          {
-            "oneOf": [
-              {
-                "properties": {
-                  "aws": {
-                    "title": "aws",
-                    "$ref": "#/components/schemas/core.v1.AWS"
-                  }
-                },
-                "title": "aws",
-                "required": [
-                  "aws"
-                ]
-              },
-              {
-                "properties": {
-                  "gcp": {
-                    "title": "gcp",
-                    "$ref": "#/components/schemas/core.v1.GCP"
-                  }
-                },
-                "title": "gcp",
-                "required": [
-                  "gcp"
-                ]
-              }
-            ]
-          }
-        ],
-        "title": "CloudIntegration",
-        "additionalProperties": false
-      },
-      "core.v1.CreateCloudIntegrationRequest": {
-        "type": "object",
-        "allOf": [
-          {
-            "properties": {
-              "name": {
-                "type": "string",
-                "title": "name",
-                "minLength": 1
-              },
-              "cloudRegion": {
-                "type": "string",
-                "title": "cloud_region",
-                "minLength": 1
-              },
-              "type": {
-                "type": "string",
-                "title": "type",
-                "description": "TODO: remove, deprecated by oneof cloud (2025-02-24)"
-              }
-            }
-          },
-          {
-            "oneOf": [
-              {
-                "properties": {
-                  "aws": {
-                    "title": "aws",
-                    "$ref": "#/components/schemas/core.v1.CreateCloudIntegrationRequest.AWS"
-                  }
-                },
-                "title": "aws",
-                "required": [
-                  "aws"
-                ]
-              }
-            ]
-          }
-        ],
-        "title": "CreateCloudIntegrationRequest",
-        "additionalProperties": false
-      },
-      "core.v1.CreateCloudIntegrationRequest.AWS": {
-        "type": "object",
-        "properties": {
-          "templateVersion": {
-            "type": "string",
-            "title": "template_version"
-          },
-          "s3BucketArn": {
-            "type": "string",
-            "title": "s3_bucket_arn"
-          },
-          "enableEksAutodiscovery": {
-            "type": "boolean",
-            "title": "enable_eks_autodiscovery",
-            "nullable": true
-          },
-          "enableRdsAutodiscovery": {
-            "type": "boolean",
-            "title": "enable_rds_autodiscovery",
-            "nullable": true
-          },
-          "enableRedshiftAutodiscovery": {
-            "type": "boolean",
-            "title": "enable_redshift_autodiscovery",
-            "nullable": true
-          },
-          "allowS3Access": {
-            "type": "boolean",
-            "title": "allow_s3_access",
-            "nullable": true
-          },
-          "enableEc2Autodiscovery": {
-            "type": "boolean",
-            "title": "enable_ec2_autodiscovery",
-            "nullable": true
-          },
-          "enableEcsAutodiscovery": {
-            "type": "boolean",
-            "title": "enable_ecs_autodiscovery",
-            "nullable": true
-          },
-          "customerRoleArn": {
-            "type": "string",
-            "title": "customer_role_arn",
-            "nullable": true
-          }
-        },
-        "title": "AWS",
-        "additionalProperties": false
-      },
-      "core.v1.CreateCloudIntegrationResponse": {
-        "type": "object",
-        "properties": {
-          "url": {
-            "type": "string",
-            "title": "url"
-          },
-          "id": {
-            "type": "string",
-            "title": "id",
-            "minLength": 1
-          }
-        },
-        "title": "CreateCloudIntegrationResponse",
-        "additionalProperties": false
-      },
-      "core.v1.CreateGCPCloudIntegrationRequest": {
+      "core.v1.CreateWorkflowRequest": {
         "type": "object",
         "properties": {
           "name": {
@@ -1245,83 +981,26 @@
             "title": "name",
             "minLength": 1
           },
-          "projectId": {
+          "code": {
             "type": "string",
-            "title": "project_id",
-            "minLength": 1
-          },
-          "projectNumber": {
-            "type": [
-              "integer",
-              "string"
-            ],
-            "title": "project_number",
-            "format": "int64"
-          },
-          "enableComputeInstancesAutodiscovery": {
-            "type": "boolean",
-            "title": "enable_compute_instances_autodiscovery",
-            "nullable": true
-          },
-          "enableGkeClustersAutodiscovery": {
-            "type": "boolean",
-            "title": "enable_gke_clusters_autodiscovery",
-            "nullable": true
-          },
-          "enableCloudsqlInstancesAutodiscovery": {
-            "type": "boolean",
-            "title": "enable_cloudsql_instances_autodiscovery",
-            "nullable": true
+            "title": "code"
           }
         },
-        "title": "CreateGCPCloudIntegrationRequest",
+        "title": "CreateWorkflowRequest",
         "additionalProperties": false
       },
-      "core.v1.CreateGCPCloudIntegrationResponse": {
+      "core.v1.CreateWorkflowResponse": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "title": "id",
-            "minLength": 1
-          },
-          "url": {
-            "type": "string",
-            "title": "url"
-          },
-          "accountId": {
-            "type": "string",
-            "title": "account_id"
-          },
-          "roleName": {
-            "type": "string",
-            "title": "role_name"
-          },
-          "projectId": {
-            "type": "string",
-            "title": "project_id"
-          },
-          "callbackUri": {
-            "type": "string",
-            "title": "callback_uri"
-          },
-          "gcpEnableComputeInstancesAutodiscovery": {
-            "type": "boolean",
-            "title": "gcp_enable_compute_instances_autodiscovery"
-          },
-          "gcpEnableGkeClustersAutodiscovery": {
-            "type": "boolean",
-            "title": "gcp_enable_gke_clusters_autodiscovery"
-          },
-          "gcpEnableCloudsqlInstancesAutodiscovery": {
-            "type": "boolean",
-            "title": "gcp_enable_cloudsql_instances_autodiscovery"
+          "workflow": {
+            "title": "workflow",
+            "$ref": "#/components/schemas/core.v1.Workflow"
           }
         },
-        "title": "CreateGCPCloudIntegrationResponse",
+        "title": "CreateWorkflowResponse",
         "additionalProperties": false
       },
-      "core.v1.DeleteCloudIntegrationRequest": {
+      "core.v1.DeleteWorkflowRequest": {
         "type": "object",
         "properties": {
           "id": {
@@ -1330,10 +1009,10 @@
             "minLength": 1
           }
         },
-        "title": "DeleteCloudIntegrationRequest",
+        "title": "DeleteWorkflowRequest",
         "additionalProperties": false
       },
-      "core.v1.DeleteCloudIntegrationResponse": {
+      "core.v1.DeleteWorkflowResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -1342,144 +1021,10 @@
             "minLength": 1
           }
         },
-        "title": "DeleteCloudIntegrationResponse",
+        "title": "DeleteWorkflowResponse",
         "additionalProperties": false
       },
-      "core.v1.Field": {
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string",
-            "title": "key",
-            "minLength": 1
-          },
-          "operator": {
-            "type": "string",
-            "title": "operator",
-            "enum": [
-              "equals",
-              "not_equals",
-              "contains",
-              "not_contains",
-              "empty",
-              "not_empty",
-              "starts_with",
-              "ends_with",
-              "lower_than",
-              "greater_than"
-            ]
-          },
-          "value": {
-            "title": "value",
-            "nullable": true,
-            "$ref": "#/components/schemas/google.protobuf.Any"
-          }
-        },
-        "title": "Field",
-        "additionalProperties": false
-      },
-      "core.v1.FieldGroup": {
-        "type": "object",
-        "properties": {
-          "operator": {
-            "type": "string",
-            "title": "operator",
-            "enum": [
-              "and",
-              "or"
-            ]
-          },
-          "filters": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/core.v1.Filter"
-            },
-            "title": "filters",
-            "minItems": 1
-          }
-        },
-        "title": "FieldGroup",
-        "additionalProperties": false
-      },
-      "core.v1.Filter": {
-        "type": "object",
-        "properties": {
-          "field": {
-            "title": "field",
-            "nullable": true,
-            "$ref": "#/components/schemas/core.v1.Field"
-          },
-          "group": {
-            "title": "group",
-            "nullable": true,
-            "$ref": "#/components/schemas/core.v1.FieldGroup"
-          }
-        },
-        "title": "Filter",
-        "additionalProperties": false
-      },
-      "core.v1.GCP": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "title": "name",
-            "minLength": 1
-          },
-          "projectId": {
-            "type": "string",
-            "title": "project_id",
-            "minLength": 1
-          },
-          "projectNumber": {
-            "type": [
-              "integer",
-              "string"
-            ],
-            "title": "project_number",
-            "format": "int64"
-          },
-          "serviceAccountEmail": {
-            "type": "string",
-            "title": "service_account_email"
-          },
-          "workloadIdentityProviderName": {
-            "type": "string",
-            "title": "workload_identity_provider_name"
-          },
-          "url": {
-            "type": "string",
-            "title": "url"
-          },
-          "accountId": {
-            "type": "string",
-            "title": "account_id"
-          },
-          "roleName": {
-            "type": "string",
-            "title": "role_name"
-          },
-          "callbackUri": {
-            "type": "string",
-            "title": "callback_uri"
-          },
-          "gcpEnableComputeInstancesAutodiscovery": {
-            "type": "boolean",
-            "title": "gcp_enable_compute_instances_autodiscovery"
-          },
-          "gcpEnableGkeClustersAutodiscovery": {
-            "type": "boolean",
-            "title": "gcp_enable_gke_clusters_autodiscovery"
-          },
-          "gcpEnableCloudsqlInstancesAutodiscovery": {
-            "type": "boolean",
-            "title": "gcp_enable_cloudsql_instances_autodiscovery"
-          }
-        },
-        "title": "GCP",
-        "additionalProperties": false
-      },
-      "core.v1.GetIntegrationCloudRequest": {
+      "core.v1.GetWorkflowRequest": {
         "type": "object",
         "properties": {
           "id": {
@@ -1488,79 +1033,34 @@
             "minLength": 1
           }
         },
-        "title": "GetIntegrationCloudRequest",
+        "title": "GetWorkflowRequest",
         "additionalProperties": false
       },
-      "core.v1.GetIntegrationCloudResponse": {
+      "core.v1.GetWorkflowResponse": {
         "type": "object",
         "properties": {
-          "cloud": {
-            "title": "cloud",
-            "$ref": "#/components/schemas/core.v1.CloudIntegration"
+          "workflow": {
+            "title": "workflow",
+            "$ref": "#/components/schemas/core.v1.Workflow"
           }
         },
-        "title": "GetIntegrationCloudResponse",
+        "title": "GetWorkflowResponse",
         "additionalProperties": false
       },
-      "core.v1.ListIntegrationCloudsRequest": {
+      "core.v1.GetWorkflowSchemasRequest": {
         "type": "object",
-        "properties": {
-          "limit": {
-            "exclusiveMinimum": 0,
-            "type": "integer",
-            "title": "limit",
-            "maximum": 500,
-            "format": "int32"
-          },
-          "cursor": {
-            "type": "string",
-            "title": "cursor"
-          },
-          "order": {
-            "type": "string",
-            "title": "order"
-          },
-          "search": {
-            "type": "string",
-            "title": "search"
-          },
-          "searchFields": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "id",
-                "cloud_provider",
-                "active"
-              ]
-            },
-            "title": "search_fields"
-          },
-          "filter": {
-            "title": "filter",
-            "nullable": true,
-            "$ref": "#/components/schemas/core.v1.Filter"
-          }
-        },
-        "title": "ListIntegrationCloudsRequest",
+        "title": "GetWorkflowSchemasRequest",
         "additionalProperties": false
       },
-      "core.v1.ListIntegrationCloudsResponse": {
+      "core.v1.GetWorkflowSchemasResponse": {
         "type": "object",
         "properties": {
-          "clouds": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/core.v1.CloudIntegration"
-            },
-            "title": "clouds"
-          },
-          "listMetadata": {
-            "title": "list_metadata",
-            "$ref": "#/components/schemas/core.v1.ListMetadata"
+          "schemas": {
+            "title": "schemas",
+            "$ref": "#/components/schemas/google.protobuf.Struct"
           }
         },
-        "title": "ListIntegrationCloudsResponse",
+        "title": "GetWorkflowSchemasResponse",
         "additionalProperties": false
       },
       "core.v1.ListMetadata": {
@@ -1587,100 +1087,61 @@
         "title": "ListMetadata",
         "additionalProperties": false
       },
-      "core.v1.UpdateCloudIntegrationRequest": {
-        "type": "object",
-        "allOf": [
-          {
-            "properties": {
-              "id": {
-                "type": "string",
-                "title": "id",
-                "minLength": 1
-              }
-            }
-          },
-          {
-            "oneOf": [
-              {
-                "properties": {
-                  "aws": {
-                    "title": "aws",
-                    "$ref": "#/components/schemas/core.v1.UpdateCloudIntegrationRequest.AWS"
-                  }
-                },
-                "title": "aws",
-                "required": [
-                  "aws"
-                ]
-              }
-            ]
-          }
-        ],
-        "title": "UpdateCloudIntegrationRequest",
-        "additionalProperties": false
-      },
-      "core.v1.UpdateCloudIntegrationRequest.AWS": {
+      "core.v1.ListWorkflowsRequest": {
         "type": "object",
         "properties": {
-          "templateVersion": {
+          "limit": {
+            "exclusiveMinimum": 0,
+            "type": "integer",
+            "title": "limit",
+            "maximum": 500,
+            "format": "int32"
+          },
+          "cursor": {
             "type": "string",
-            "title": "template_version"
+            "title": "cursor"
           },
-          "s3BucketArn": {
+          "order": {
             "type": "string",
-            "title": "s3_bucket_arn"
+            "title": "order"
           },
-          "enableEksAutodiscovery": {
-            "type": "boolean",
-            "title": "enable_eks_autodiscovery",
-            "nullable": true
-          },
-          "enableRdsAutodiscovery": {
-            "type": "boolean",
-            "title": "enable_rds_autodiscovery",
-            "nullable": true
-          },
-          "enableRedshiftAutodiscovery": {
-            "type": "boolean",
-            "title": "enable_redshift_autodiscovery",
-            "nullable": true
-          },
-          "allowS3Access": {
-            "type": "boolean",
-            "title": "allow_s3_access",
-            "nullable": true
-          },
-          "enableEc2Autodiscovery": {
-            "type": "boolean",
-            "title": "enable_ec2_autodiscovery",
-            "nullable": true
-          },
-          "enableEcsAutodiscovery": {
-            "type": "boolean",
-            "title": "enable_ecs_autodiscovery",
-            "nullable": true
-          },
-          "customerRoleArn": {
+          "search": {
             "type": "string",
-            "title": "customer_role_arn",
-            "nullable": true
+            "title": "search"
+          },
+          "searchFields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "name"
+              ]
+            },
+            "title": "search_fields"
           }
         },
-        "title": "AWS",
+        "title": "ListWorkflowsRequest",
         "additionalProperties": false
       },
-      "core.v1.UpdateCloudIntegrationResponse": {
+      "core.v1.ListWorkflowsResponse": {
         "type": "object",
         "properties": {
-          "cloud": {
-            "title": "cloud",
-            "$ref": "#/components/schemas/core.v1.CloudIntegration"
+          "workflows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.Workflow"
+            },
+            "title": "workflows"
+          },
+          "listMetadata": {
+            "title": "list_metadata",
+            "$ref": "#/components/schemas/core.v1.ListMetadata"
           }
         },
-        "title": "UpdateCloudIntegrationResponse",
+        "title": "ListWorkflowsResponse",
         "additionalProperties": false
       },
-      "core.v1.UpdateGCPCloudIntegrationRequest": {
+      "core.v1.UpdateWorkflowRequest": {
         "type": "object",
         "properties": {
           "id": {
@@ -1691,35 +1152,102 @@
           "name": {
             "type": "string",
             "title": "name"
+          },
+          "code": {
+            "type": "string",
+            "title": "code"
           }
         },
-        "title": "UpdateGCPCloudIntegrationRequest",
+        "title": "UpdateWorkflowRequest",
         "additionalProperties": false
       },
-      "core.v1.UpdateGCPCloudIntegrationResponse": {
+      "core.v1.UpdateWorkflowResponse": {
         "type": "object",
         "properties": {
-          "integration": {
-            "title": "integration",
-            "$ref": "#/components/schemas/core.v1.CloudIntegration"
+          "workflow": {
+            "title": "workflow",
+            "$ref": "#/components/schemas/core.v1.Workflow"
           }
         },
-        "title": "UpdateGCPCloudIntegrationResponse",
+        "title": "UpdateWorkflowResponse",
         "additionalProperties": false
       },
-      "google.protobuf.Any": {
+      "core.v1.Workflow": {
         "type": "object",
         "properties": {
-          "type": {
-            "type": "string"
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "minLength": 1
+          },
+          "code": {
+            "type": "string",
+            "title": "code"
+          },
+          "createdAt": {
+            "title": "created_at",
+            "description": "timestamp.lt_now = true\n",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "updatedAt": {
+            "title": "updated_at",
+            "description": "timestamp.lt_now = true\n",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "Workflow",
+        "additionalProperties": false
+      },
+      "google.protobuf.ListValue": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/google.protobuf.Value"
+            },
+            "title": "values",
+            "description": "Repeated field of dynamically typed values."
+          }
+        },
+        "title": "ListValue",
+        "additionalProperties": false,
+        "description": "`ListValue` is a wrapper around a repeated field of values.\n\n The JSON representation for `ListValue` is JSON array."
+      },
+      "google.protobuf.NullValue": {
+        "type": "string",
+        "title": "NullValue",
+        "enum": [
+          "NULL_VALUE"
+        ],
+        "description": "`NullValue` is a singleton enumeration to represent the null value for the\n `Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`."
+      },
+      "google.protobuf.Struct": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/google.protobuf.Value"
+        },
+        "description": "`Struct` represents a structured data value, consisting of fields\n which map to dynamically typed values. In some languages, `Struct`\n might be supported by a native representation. For example, in\n scripting languages like JS a struct is represented as an\n object. The details of that representation are described together\n with the proto support for the language.\n\n The JSON representation for `Struct` is JSON object."
+      },
+      "google.protobuf.Struct.FieldsEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
           },
           "value": {
-            "type": "string",
-            "format": "binary"
+            "title": "value",
+            "$ref": "#/components/schemas/google.protobuf.Value"
           }
         },
-        "additionalProperties": true,
-        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message."
+        "title": "FieldsEntry",
+        "additionalProperties": false
       },
       "google.protobuf.Timestamp": {
         "type": "string",
@@ -1729,6 +1257,30 @@
         ],
         "format": "date-time",
         "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(&tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(&ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) << 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "google.protobuf.Value": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "array"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true
+          }
+        ],
+        "description": "`Value` represents a dynamically typed value which can be either\n null, a number, a string, a boolean, a recursive struct value, or a\n list of values. A producer of value is expected to set one of these\n variants. Absence of any variant indicates an error.\n\n The JSON representation for `Value` is JSON value."
       }
     },
     "securitySchemes": {
@@ -1743,7 +1295,7 @@
   "security": [],
   "tags": [
     {
-      "name": "core.v1.IntegrationCloudService"
+      "name": "core.v1.WorkflowService"
     }
   ],
   "servers": [

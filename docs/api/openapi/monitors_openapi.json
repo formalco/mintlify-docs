@@ -1,643 +1,1179 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "Monitors Service",
-        "version": "1.0",
-        "contact": {
-            "name": "Formal",
-            "url": "https://docs.private.joinformal.com/",
-            "email": "info@joinformal.com"
-        }
-    },
-    "tags": [
-        {
-            "name": "MonitorsService"
-        }
-    ],
-    "paths": {
-        "/core.v1.MonitorsService/CreateMonitor": {
-            "post": {
-                "summary": "Create monitor",
-                "description": "Create a monitor",
-                "operationId": "MonitorsService_CreateMonitor",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1CreateMonitorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1CreateMonitorRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "MonitorsService"
-                ]
+  "openapi": "3.1.0",
+  "info": {
+    "title": "core.v1"
+  },
+  "paths": {
+    "/core.v1.MonitorsService/CreateMonitor": {
+      "post": {
+        "tags": [
+          "core.v1.MonitorsService"
+        ],
+        "summary": "CreateMonitor",
+        "operationId": "core.v1.MonitorsService.CreateMonitor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.CreateMonitorRequest"
+              }
             }
+          },
+          "required": true
         },
-        "/core.v1.MonitorsService/DeleteMonitor": {
-            "post": {
-                "summary": "Delete monitor",
-                "description": "Delete a monitor",
-                "operationId": "MonitorsService_DeleteMonitor",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1DeleteMonitorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1DeleteMonitorRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "MonitorsService"
-                ]
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.CreateMonitorResponse"
+                }
+              }
             }
-        },
-        "/core.v1.MonitorsService/GetMonitor": {
-            "post": {
-                "summary": "Get monitor",
-                "description": "Get a monitor",
-                "operationId": "MonitorsService_GetMonitor",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1GetMonitorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1GetMonitorRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "MonitorsService"
-                ]
-            }
-        },
-        "/core.v1.MonitorsService/ListMonitors": {
-            "post": {
-                "summary": "List monitors",
-                "description": "List all monitors",
-                "operationId": "MonitorsService_ListMonitors",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ListMonitorsResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1ListMonitorsRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "MonitorsService"
-                ]
-            }
-        },
-        "/core.v1.MonitorsService/UpdateMonitor": {
-            "post": {
-                "summary": "Update monitor",
-                "description": "Update a monitor",
-                "operationId": "MonitorsService_UpdateMonitor",
-                "responses": {
-                    "200": {
-                        "description": "A successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1UpdateMonitorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Caller isn't authorized to perform the operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User requested a resource (for example, a sidecar or resource) that can't be found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "An invariant expected by the underlying system has been broken. Reserved for serious errors.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v1ErrorObject"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "An unexpected error response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/rpcStatus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/v1UpdateMonitorRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "tags": [
-                    "MonitorsService"
-                ]
-            }
-        }
-    },
-    "security": [
-        {
-            "ApiKeyAuth": []
-        }
-    ],
-    "components": {
-        "securitySchemes": {
-            "ApiKeyAuth": {
-                "type": "apiKey",
-                "name": "X-API-Key",
-                "in": "header"
-            }
-        },
-        "schemas": {
-            "protobufAny": {
-                "type": "object",
-                "properties": {
-                    "@type": {
-                        "type": "string",
-                        "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
-                    }
-                },
-                "additionalProperties": {},
-                "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
-            },
-            "rpcStatus": {
-                "type": "object",
-                "properties": {
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
                     "code": {
-                        "type": "integer",
-                        "format": "int32"
+                      "type": "string",
+                      "example": "invalid_request"
                     },
                     "message": {
-                        "type": "string"
+                      "type": "string",
+                      "example": "Invalid request parameters"
                     },
                     "details": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/protobufAny"
-                        }
+                      "type": "object"
                     }
+                  }
                 }
-            },
-            "v1CreateMonitorRequest": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "queryId": {
-                        "type": "string"
-                    },
-                    "thresholdType": {
-                        "type": "string"
-                    },
-                    "comparison": {
-                        "type": "string"
-                    },
-                    "threshold": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "cron": {
-                        "type": "string"
-                    },
-                    "notify": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1CreateMonitorResponse": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1DeleteMonitorRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1DeleteMonitorResponse": {
-                "type": "object"
-            },
-            "v1ErrorObject": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string"
-                    },
-                    "code": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetMonitorRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1GetMonitorResponse": {
-                "type": "object",
-                "properties": {
-                    "monitor": {
-                        "$ref": "#/components/schemas/v1Monitor"
-                    }
-                }
-            },
-            "v1ListMetadata": {
-                "type": "object",
-                "properties": {
-                    "after": {
-                        "type": "string"
-                    },
-                    "before": {
-                        "type": "string"
-                    },
-                    "count": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "nextCursor": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1ListMonitorsRequest": {
-                "type": "object",
-                "properties": {
-                    "limit": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "cursor": {
-                        "type": "string"
-                    },
-                    "order": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1ListMonitorsResponse": {
-                "type": "object",
-                "properties": {
-                    "monitors": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v1Monitor"
-                        }
-                    },
-                    "listMetadata": {
-                        "$ref": "#/components/schemas/v1ListMetadata"
-                    }
-                }
-            },
-            "v1Monitor": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "queryId": {
-                        "type": "string"
-                    },
-                    "thresholdType": {
-                        "type": "string"
-                    },
-                    "comparison": {
-                        "type": "string"
-                    },
-                    "threshold": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "cron": {
-                        "type": "string"
-                    },
-                    "notify": {
-                        "type": "string"
-                    },
-                    "createdBy": {
-                        "type": "string"
-                    },
-                    "createdAt": {
-                        "type": "string"
-                    },
-                    "updatedAt": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1UpdateMonitorRequest": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "queryId": {
-                        "type": "string"
-                    },
-                    "thresholdType": {
-                        "type": "string"
-                    },
-                    "comparison": {
-                        "type": "string"
-                    },
-                    "threshold": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "cron": {
-                        "type": "string"
-                    },
-                    "notify": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v1UpdateMonitorResponse": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "queryId": {
-                        "type": "string"
-                    },
-                    "thresholdType": {
-                        "type": "string"
-                    },
-                    "comparison": {
-                        "type": "string"
-                    },
-                    "threshold": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "cron": {
-                        "type": "string"
-                    },
-                    "notify": {
-                        "type": "string"
-                    }
-                }
+              }
             }
-        }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.MonitorsService/CreateMonitor\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.MonitorsService/CreateMonitor\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.MonitorsService/CreateMonitor\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.MonitorsService/CreateMonitor\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.MonitorsService/DeleteMonitor": {
+      "post": {
+        "tags": [
+          "core.v1.MonitorsService"
+        ],
+        "summary": "DeleteMonitor",
+        "operationId": "core.v1.MonitorsService.DeleteMonitor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.DeleteMonitorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.DeleteMonitorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.MonitorsService/DeleteMonitor\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.MonitorsService/DeleteMonitor\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.MonitorsService/DeleteMonitor\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.MonitorsService/DeleteMonitor\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.MonitorsService/GetMonitor": {
+      "post": {
+        "tags": [
+          "core.v1.MonitorsService"
+        ],
+        "summary": "GetMonitor",
+        "operationId": "core.v1.MonitorsService.GetMonitor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.GetMonitorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.GetMonitorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.MonitorsService/GetMonitor\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.MonitorsService/GetMonitor\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.MonitorsService/GetMonitor\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.MonitorsService/GetMonitor\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.MonitorsService/ListMonitors": {
+      "post": {
+        "tags": [
+          "core.v1.MonitorsService"
+        ],
+        "summary": "ListMonitors",
+        "operationId": "core.v1.MonitorsService.ListMonitors",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.ListMonitorsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.ListMonitorsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.MonitorsService/ListMonitors\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.MonitorsService/ListMonitors\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.MonitorsService/ListMonitors\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.MonitorsService/ListMonitors\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
+    },
+    "/core.v1.MonitorsService/UpdateMonitor": {
+      "post": {
+        "tags": [
+          "core.v1.MonitorsService"
+        ],
+        "summary": "UpdateMonitor",
+        "operationId": "core.v1.MonitorsService.UpdateMonitor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/core.v1.UpdateMonitorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/core.v1.UpdateMonitorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid request parameters or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid request parameters"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Insufficient permissions to perform this action"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Resource not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred processing the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "internal_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "An internal error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST \"https://api.joinformal.com/core.v1.MonitorsService/UpdateMonitor\" \\\n  -H \"Authorization: Bearer YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"example\": \"value\"\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript (fetch)",
+            "source": "fetch(\"https://api.joinformal.com/core.v1.MonitorsService/UpdateMonitor\", {\n  method: \"POST\",\n  headers: {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n  },\n  body: JSON.stringify({\n    example: \"value\"\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nurl = \"https://api.joinformal.com/core.v1.MonitorsService/UpdateMonitor\"\nheaders = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\",\n    \"Content-Type\": \"application/json\"\n}\ndata = {\n    \"example\": \"value\"\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"fmt\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.joinformal.com/core.v1.MonitorsService/UpdateMonitor\"\n\n    body := map[string]string{\n        \"example\": \"value\",\n    }\n\n    jsonData, _ := json.Marshal(body)\n\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Authorization\", \"Bearer YOUR_API_KEY\")\n    req.Header.Set(\"Content-Type\", \"application/json\")\n\n    client := &http.Client{}\n    resp, err := client.Do(req)\n    if err != nil {\n        panic(err)\n    }\n    defer resp.Body.Close()\n\n    responseBody, _ := io.ReadAll(resp.Body)\n    fmt.Println(string(responseBody))\n}"
+          }
+        ]
+      }
     }
+  },
+  "components": {
+    "schemas": {
+      "core.v1.CreateMonitorRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name",
+            "minLength": 1
+          },
+          "queryId": {
+            "type": "string",
+            "title": "query_id",
+            "minLength": 1
+          },
+          "thresholdType": {
+            "type": "string",
+            "title": "threshold_type",
+            "enum": [
+              "percentage",
+              "value"
+            ]
+          },
+          "comparison": {
+            "type": "string",
+            "title": "comparison",
+            "enum": [
+              ">",
+              ">=",
+              "=",
+              "<=",
+              "<"
+            ]
+          },
+          "threshold": {
+            "type": "integer",
+            "title": "threshold",
+            "format": "int32"
+          },
+          "cron": {
+            "type": "string",
+            "title": "cron",
+            "minLength": 1
+          },
+          "notify": {
+            "type": "string",
+            "title": "notify"
+          }
+        },
+        "title": "CreateMonitorRequest",
+        "additionalProperties": false
+      },
+      "core.v1.CreateMonitorResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "CreateMonitorResponse",
+        "additionalProperties": false
+      },
+      "core.v1.DeleteMonitorRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "DeleteMonitorRequest",
+        "additionalProperties": false
+      },
+      "core.v1.DeleteMonitorResponse": {
+        "type": "object",
+        "title": "DeleteMonitorResponse",
+        "additionalProperties": false
+      },
+      "core.v1.GetMonitorRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          }
+        },
+        "title": "GetMonitorRequest",
+        "additionalProperties": false
+      },
+      "core.v1.GetMonitorResponse": {
+        "type": "object",
+        "properties": {
+          "monitor": {
+            "title": "monitor",
+            "$ref": "#/components/schemas/core.v1.Monitor"
+          }
+        },
+        "title": "GetMonitorResponse",
+        "additionalProperties": false
+      },
+      "core.v1.ListMetadata": {
+        "type": "object",
+        "properties": {
+          "after": {
+            "type": "string",
+            "title": "after"
+          },
+          "before": {
+            "type": "string",
+            "title": "before"
+          },
+          "count": {
+            "type": "integer",
+            "title": "count",
+            "format": "int32"
+          },
+          "nextCursor": {
+            "type": "string",
+            "title": "next_cursor"
+          }
+        },
+        "title": "ListMetadata",
+        "additionalProperties": false
+      },
+      "core.v1.ListMonitorsRequest": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "exclusiveMinimum": 0,
+            "type": "integer",
+            "title": "limit",
+            "maximum": 500,
+            "format": "int32"
+          },
+          "cursor": {
+            "type": "string",
+            "title": "cursor"
+          },
+          "order": {
+            "type": "string",
+            "title": "order"
+          }
+        },
+        "title": "ListMonitorsRequest",
+        "additionalProperties": false
+      },
+      "core.v1.ListMonitorsResponse": {
+        "type": "object",
+        "properties": {
+          "monitors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/core.v1.Monitor"
+            },
+            "title": "monitors"
+          },
+          "listMetadata": {
+            "title": "list_metadata",
+            "$ref": "#/components/schemas/core.v1.ListMetadata"
+          }
+        },
+        "title": "ListMonitorsResponse",
+        "additionalProperties": false
+      },
+      "core.v1.Monitor": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "minLength": 1
+          },
+          "queryId": {
+            "type": "string",
+            "title": "query_id",
+            "minLength": 1
+          },
+          "thresholdType": {
+            "type": "string",
+            "title": "threshold_type",
+            "enum": [
+              "percentage",
+              "value"
+            ]
+          },
+          "comparison": {
+            "type": "string",
+            "title": "comparison",
+            "enum": [
+              ">",
+              ">=",
+              "=",
+              "<=",
+              "<"
+            ]
+          },
+          "threshold": {
+            "type": "integer",
+            "title": "threshold",
+            "format": "int32"
+          },
+          "cron": {
+            "type": "string",
+            "title": "cron",
+            "minLength": 1
+          },
+          "notify": {
+            "type": "string",
+            "title": "notify"
+          },
+          "createdBy": {
+            "type": "string",
+            "title": "created_by"
+          },
+          "createdAt": {
+            "type": "string",
+            "title": "created_at"
+          },
+          "updatedAt": {
+            "type": "string",
+            "title": "updated_at"
+          }
+        },
+        "title": "Monitor",
+        "additionalProperties": false
+      },
+      "core.v1.UpdateMonitorRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "minLength": 1
+          },
+          "queryId": {
+            "type": "string",
+            "title": "query_id",
+            "minLength": 1
+          },
+          "thresholdType": {
+            "type": "string",
+            "title": "threshold_type",
+            "enum": [
+              "percentage",
+              "value"
+            ]
+          },
+          "comparison": {
+            "type": "string",
+            "title": "comparison",
+            "enum": [
+              ">",
+              ">=",
+              "=",
+              "<=",
+              "<"
+            ]
+          },
+          "threshold": {
+            "type": "integer",
+            "title": "threshold",
+            "format": "int32"
+          },
+          "cron": {
+            "type": "string",
+            "title": "cron",
+            "minLength": 1
+          },
+          "notify": {
+            "type": "string",
+            "title": "notify"
+          }
+        },
+        "title": "UpdateMonitorRequest",
+        "additionalProperties": false
+      },
+      "core.v1.UpdateMonitorResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "minLength": 1
+          },
+          "queryId": {
+            "type": "string",
+            "title": "query_id",
+            "minLength": 1
+          },
+          "thresholdType": {
+            "type": "string",
+            "title": "threshold_type",
+            "enum": [
+              "percentage",
+              "value"
+            ]
+          },
+          "comparison": {
+            "type": "string",
+            "title": "comparison",
+            "enum": [
+              ">",
+              ">=",
+              "=",
+              "<=",
+              "<"
+            ]
+          },
+          "threshold": {
+            "type": "integer",
+            "title": "threshold",
+            "format": "int32"
+          },
+          "cron": {
+            "type": "string",
+            "title": "cron",
+            "minLength": 1
+          },
+          "notify": {
+            "type": "string",
+            "title": "notify"
+          }
+        },
+        "title": "UpdateMonitorResponse",
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API Key",
+        "description": "API key authentication. Get your API key from the Formal dashboard."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "core.v1.MonitorsService"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api.joinformal.com",
+      "description": "Production API"
+    }
+  ]
 }
