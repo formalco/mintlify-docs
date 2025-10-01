@@ -162,7 +162,7 @@ Users from allowed domains can sign in directly:
 
 ## Directory Sync
 
-For advanced user management, integrate [Directory Sync](/docs/guides/integrations/directory-sync) to automatically sync users and groups from your identity provider to Formal.
+For advanced user management, integrate [Directory Sync](/docs/guides/configuration/console#directory-sync) to automatically sync users and groups from your identity provider to Formal.
 
 Benefits:
 
@@ -182,12 +182,13 @@ Benefits:
     current 4. Review WorkOS setup guide for your provider
   </Accordion>
 
-  <Accordion title="User not auto-created with self sign-up">
-    **Possible causes:** - Self sign-up not enabled - User's domain not in
-    allowed list - SSO provider not returning email attribute **Solution:** 1.
-    Verify self sign-up toggle is enabled 2. Check domain is in allowed domains
-    list 3. Ensure SSO provider sends email in SAML assertion/OIDC token
-  </Accordion>
+{" "}
+<Accordion title="User not auto-created with self sign-up">
+  **Possible causes:** - Self sign-up not enabled - User's domain not in allowed
+  list - SSO provider not returning email attribute **Solution:** 1. Verify self
+  sign-up toggle is enabled 2. Check domain is in allowed domains list 3. Ensure
+  SSO provider sends email in SAML assertion/OIDC token
+</Accordion>
 
   <Accordion title="Wrong SSO provider redirected">
     **Possible causes:** - Multiple SSO connections with overlapping domains -
@@ -205,20 +206,23 @@ Benefits:
     ensure all access goes through your identity provider.
   </Accordion>
 
-  <Accordion title="Use MFA" icon="shield-keyhole">
-    Enable MFA in your identity provider for an additional layer of security
-    when accessing Formal.
-  </Accordion>
+{" "}
+<Accordion title="Use MFA" icon="shield-keyhole">
+  Enable MFA in your identity provider for an additional layer of security when
+  accessing Formal.
+</Accordion>
 
-  <Accordion title="Limit Self Sign-Up" icon="user-plus">
-    Only enable self sign-up if all employees should have Formal access.
-    Otherwise, manually provision users for better control.
-  </Accordion>
+{" "}
+<Accordion title="Limit Self Sign-Up" icon="user-plus">
+  Only enable self sign-up if all employees should have Formal access.
+  Otherwise, manually provision users for better control.
+</Accordion>
 
-  <Accordion title="Regular Audits" icon="clipboard-list">
-    Periodically review SSO connections and domain configurations to ensure they
-    match your current organizational structure.
-  </Accordion>
+{" "}
+<Accordion title="Regular Audits" icon="clipboard-list">
+  Periodically review SSO connections and domain configurations to ensure they
+  match your current organizational structure.
+</Accordion>
 
   <Accordion title="Monitor Sign-Ins" icon="chart-line">
     Review SSO sign-in logs in your identity provider to detect unusual

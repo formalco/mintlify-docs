@@ -408,11 +408,44 @@ mcp__context7__get-library-docs --context7CompatibleLibraryID "/mintlify/docs"
 - **Runtime**: Bun 1.2.21+
 - **Package Manager**: pnpm 9.0.0
 
+## Pre-Commit Checks
+
+The repository uses Husky to run automated checks before each commit:
+
+### Automated Checks
+1. **Prettier Formatting** - Auto-formats all staged `.md`, `.mdx`, `.json`, `.ts` files
+2. **Spell Checking** - Validates spelling in documentation (cspell)
+3. **Link Validation** - Ensures no broken internal links
+4. **Asset Verification** - Checks that all referenced images exist
+
+### Running Checks Manually
+
+```bash
+# Format code
+pnpm prettier --write "**/*.{md,mdx,json,ts,tsx,js,jsx}"
+
+# Check spelling
+pnpm check-spelling
+
+# Check for broken links
+pnpm check-links
+
+# Check for missing assets
+pnpm check-assets
+
+# Run all staged file checks
+pnpm precommit
+```
+
+### Adding Custom Words to Spell Checker
+
+Edit `cspell.json` and add words to the `words` array.
+
 ## Key Reminders
 
 1. **Always use Bun** to run TypeScript scripts
 2. **All MDX files must be in `/docs`** for centralization (except `/legacy-docs` and `/snippets`)
 3. **Don't duplicate OpenAPI files** in `pages` arrays
 4. **Run `bun run sync-api-docs`** after proto changes
-5. **Check links before committing** with `bun run check-links`
+5. **Pre-commit hooks will auto-format and validate** - fix any errors before committing
 6. **All scripts are TypeScript** - no more JavaScript files

@@ -1,11 +1,11 @@
 ---
-title: 'Images and embeds'
-description: 'Add image, video, and other HTML elements'
-icon: 'image'
+title: "Images and embeds"
+description: "Add image, video, and other HTML elements"
+icon: "image"
 ---
 
 <img
-  style={{ borderRadius: '0.5rem' }}
+  style={{ borderRadius: "0.5rem" }}
   src="https://mintlify-assets.b-cdn.net/bigbend.jpg"
 />
 
@@ -16,17 +16,17 @@ icon: 'image'
 The [markdown syntax](https://www.markdownguide.org/basic-syntax/#images) lets you add images using the following code
 
 ```md
-![title](/path/image.jpg)
+![Hero Image](/assets/images/hero-light.png)
 ```
 
 Note that the image file size must be less than 5MB. Otherwise, we recommend hosting on a service like [Cloudinary](https://cloudinary.com/) or [S3](https://aws.amazon.com/s3/). You can then use that URL and embed.
 
-### Using embeds
+### Using HTML embeds
 
-To get more customizability with images, you can also use [embeds](/writing-content/embed) to add images
+To get more customizability with images, you can also use HTML to add images
 
 ```html
-<img height="200" src="/path/image.jpg" />
+<img height="200" src="/assets/images/hero-light.png" />
 ```
 
 ## Embeds and HTML elements
@@ -39,7 +39,7 @@ To get more customizability with images, you can also use [embeds](/writing-cont
   frameBorder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
   allowFullScreen
-  style={{ width: '100%', borderRadius: '0.5rem' }}
+  style={{ width: "100%", borderRadius: "0.5rem" }}
 ></iframe>
 
 <br />

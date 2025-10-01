@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🚀 Running pre-commit checks...\n"
+
+# 1. Format and spell check staged files with lint-staged
+echo "📝 Formatting and spell checking staged files..."
+pnpm lint-staged
+if [ $? -ne 0 ]; then
+  echo "❌ Commit aborted: Fix formatting or spelling errors"
+  exit 1
+fi
+
+# 2. Check for broken links
+echo "\n🔗 Checking for broken links..."
+pnpm check-links
+if [ $? -ne 0 ]; then
+  echo "❌ Commit aborted: Fix broken links before committing"
+  exit 1
+fi
+
+# 3. Check for missing image assets
+echo "\n🖼️  Checking for missing image assets..."
+pnpm check-assets
+if [ $? -ne 0 ]; then
+  echo "❌ Commit aborted: Fix missing image references"
+  exit 1
+fi
+
+echo "\n✅ All pre-commit checks passed - proceeding with commit"

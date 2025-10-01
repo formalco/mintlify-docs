@@ -1,0 +1,42 @@
+---
+title: "Glossary Terms"
+---
+
+<style>{`
+  a.glossary-link {
+    text-decoration: underline !important;
+    text-decoration-color: #6b7280 !important;
+    text-decoration-thickness: 1px !important;
+    text-underline-offset: 2px !important;
+    border-bottom: none !important;
+    background-image: none !important;
+  }
+  a.glossary-link:hover {
+    text-decoration-color: #fff !important;
+  }
+`}</style>
+
+{/* Simple glossary link component - grey underline, white on hover */}
+export const G = ({ term, anchor, children }) => {
+const href = anchor ? `/docs/glossary/index#${anchor}` : `/docs/glossary/index`;
+return (
+
+<a
+  href={href}
+  className="glossary-link"
+  style={{
+    textDecoration: "underline",
+    textDecorationLine: "underline",
+    textDecorationColor: "#6b7280",
+    textDecorationThickness: "1px",
+    textUnderlineOffset: "2px",
+    color: "inherit",
+    transition: "text-decoration-color 0.2s ease",
+    borderBottom: "none",
+  }}
+  onMouseEnter={(e) => (e.target.style.textDecorationColor = "#fff")}
+  onMouseLeave={(e) => (e.target.style.textDecorationColor = "#6b7280")}
+>
+  {children || term}
+</a>
+); };

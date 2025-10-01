@@ -3,13 +3,15 @@ title: "What is Formal?"
 description: "Learn about Formal's AI-powered Privileged Access Management solution for modern data-driven organizations"
 ---
 
+import { G } from "/snippets/glossary-terms.mdx";
+
 ## Introduction
 
 Formal is an AI-powered Privileged Access Management (PAM) solution designed for modern, data-driven organizations. It provides a secure, transparent, and policy-driven way to control how identities (AI agents, users, and machines) interact with sensitive systems such as databases, SSH, Kubernetes clusters, and APIs.
 
-At the heart of Formal is [the Formal Connector](/deploying-a-connector/introduction.md)—a protocol-aware proxy that you deploy within your own network. All requests flow through this Connector, which allows teams to enforce security and compliance policies directly in the data path. Clients talk through the Connector to [access resources](/adding-resource/introduction). Clients talk through the Connector to [access resources](/adding-resource/introduction).
+At the heart of Formal is the <G anchor="connector">Connector</G>—a protocol-aware proxy that you deploy within your own network. All requests flow through this Connector, which allows teams to enforce security and compliance policies directly in the data path. Clients talk through the Connector to access <G anchor="resource">resources</G>.
 
-Using the Control Plane, you gain visibility into the [the requests, responses,](/security/logs.md) and [sessions](/security/sessions) going through the Connector. You can then write [policies](/security/policies/introduction.md) that are evaluated against the traffic going through the Connector to [perform actions](/security/policies/policy-enforcement) against requests, responses, and sessions.
+Using the <G anchor="control-plane">Control Plane</G>, you gain visibility into the requests, responses, and <G anchor="session">sessions</G> going through the Connector. You can then write <G anchor="policy">policies</G> that are evaluated against the traffic going through the Connector to perform actions (<G anchor="masking">masking</G>, blocking, filtering) against requests, responses, and sessions.
 
 ## Examples
 

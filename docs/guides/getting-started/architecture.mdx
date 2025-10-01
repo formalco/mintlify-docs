@@ -5,7 +5,7 @@ description: "Understanding Formal's technical architecture with Control Plane, 
 
 ## Overview
 
-At the heart of Formal is [the Formal Connector](/deploying-a-connector/introduction), an easily deployed, cloud-native reverse proxy. Organizations can use the Formal Connector to understand and control their data. The Connector is deployed as a container in your infrastructure.
+At the heart of Formal is [the Formal Connector](/docs/guides/core-concepts/connectors), an easily deployed, cloud-native reverse proxy. Organizations can use the Formal Connector to understand and control their data. The Connector is deployed as a container in your infrastructure.
 
 Formal's architecture relies on two main parts: a control plane and a data plane. The Control Plane cannot interact with the Customer's data, only the Connector can.
 
@@ -34,7 +34,7 @@ The Connector needs to have network access to https://api.joinformal.com (the Co
 
 ## Satellites
 
-Formal has [three Satellite types](deploying-a-satellite/introduction.md): Data Classifiers, Policy Data Loaders, and Data Discovery satellites. These satellites also are deployed in your infrastructure.
+Formal has [three Satellite types](/docs/guides/core-concepts/satellites): Data Classifiers, Policy Data Loaders, and Data Discovery satellites. These satellites also are deployed in your infrastructure.
 You may add these satellites if you want to leverage additional functionality in your Connector.
 You can deploy any mixture of these three satellites: each satellite should be able to operate without the others.
 The data discovery satellite, however, can use the data classifier satellite to be able to perform labelling.

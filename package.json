@@ -7,10 +7,26 @@
     "dev": "mintlify dev",
     "sync-api-docs": "bash scripts/sync-api-docs.sh",
     "check-links": "bun run scripts/check-dead-links.ts",
+    "check-spelling": "cspell \"**/*.{md,mdx}\" --no-progress",
+    "check-assets": "bun run scripts/check-assets.ts",
+    "precommit": "lint-staged",
     "docs:sync": "bun run sync-api-docs && mintlify dev",
     "docs:build": "bun run sync-api-docs && mintlify build"
   },
   "devDependencies": {
-    "mintlify": "latest"
+    "cspell": "^8.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.0.0",
+    "mintlify": "latest",
+    "prettier": "^3.0.0"
+  },
+  "lint-staged": {
+    "*.{md,mdx}": [
+      "prettier --write",
+      "cspell --no-must-find-files"
+    ],
+    "*.{json,ts,tsx,js,jsx}": [
+      "prettier --write"
+    ]
   }
 }
