@@ -1,0 +1,191 @@
+---
+globs: docs/api/**/*.mdx,scripts/sync-api-docs.sh,scripts/enhance-openapi-specs.ts,scripts/generate-api-navigation.ts
+description: API documentation generation and OpenAPI rules
+---
+
+# API Documentation Rules
+
+## Overview
+
+API docs are **auto-generated** from protobuf definitions in [Buf Registry](https://buf.build/formal/core).
+
+**Never manually edit** files in `/docs/api/openapi/`
+
+## Generation Process
+
+### Full Sync Command
+
+```bash
+bun run sync-api-docs
+# or
+bash scripts/sync-api-docs.sh
+```
+
+### Process Flow
+
+1. **Export Proto**: `buf export buf.build/formal/core` → `/tmp/proto-export`
+2. **Generate OpenAPI**: `protoc` with `protoc-gen-connect-openapi` plugin
+3. **Enhance Specs**: [scripts/enhance-openapi-specs.ts](mdc:scripts/enhance-openapi-specs.ts)
+   - Add error responses (400, 401, 403, 404, 500)
+   - Set unique `operationId` for each operation
+   - Set proper `info.title` for each service
+4. **Update Navigation**: [scripts/generate-api-navigation.ts](mdc:scripts/generate-api-navigation.ts)
+   - Scan `/docs/api/openapi/*.json` files
+   - Create group for each service
+   - Update API Reference tab in [docs.json](mdc:docs.json)
+5. **Render**: Mintlify auto-generates pages from OpenAPI specs
+
+## Script Details
+
+### enhance-openapi-specs.ts
+
+**Purpose**: Post-process OpenAPI specs for better documentation
+
+**Key functions**:
+
+- `addStandardErrors()` - Adds 400, 401, 403, 404, 500 responses
+- `ensureOperationIds()` - Generates unique operation IDs
+- `extractServiceName()` - Derives service name from tags
+- `enhanceSpec()` - Main enhancement pipeline
+
+**Error Response Schema**:
+
+```json
+{
+  "400": {
+    "description": "Bad Request - Invalid input parameters",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "code": { "type": "string" },
+            "message": { "type": "string" },
+            "details": { "type": "array" }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### generate-api-navigation.ts
+
+**Purpose**: Update docs.json with API navigation structure
+
+**Key functions**:
+
+- `generateApiNavigation()` - Scans OpenAPI files
+- Creates group for each service:
+
+```json
+{
+  "group": "ConnectorService",
+  "pages": ["docs/api/connectors"],
+  "openapi": "docs/api/openapi/core.v1.ConnectorService.json"
+}
+```
+
+### sync-api-docs.sh
+
+**Purpose**: Orchestrate full API sync
+
+**Dependencies**:
+
+- `buf` CLI
+- `protoc` compiler
+- `protoc-gen-connect-openapi` plugin
+- Bun runtime
+
+**Environment**:
+
+```bash
+PROTO_EXPORT_DIR="/tmp/proto-export"
+OPENAPI_OUTPUT_DIR="docs/api/openapi"
+```
+
+## OpenAPI Spec Structure
+
+Each service gets its own spec file:
+
+```
+docs/api/openapi/
+├── core.v1.ConnectorService.json
+├── core.v1.UserService.json
+├── core.v1.ResourceService.json
+└── ... (24 total services)
+```
+
+## Mintlify OpenAPI Integration
+
+### Per-Service Configuration
+
+Each group in [docs.json](mdc:docs.json) can have:
+
+- `pages`: Manual MDX pages
+- `openapi`: Path to OpenAPI spec file
+
+**Example**:
+
+```json
+{
+  "group": "ConnectorService",
+  "pages": ["docs/api/connectors"],
+  "openapi": "docs/api/openapi/core.v1.ConnectorService.json"
+}
+```
+
+### Code Sample Generation
+
+Mintlify auto-generates code samples in:
+
+- curl
+- JavaScript/TypeScript
+- Python
+- Go
+
+Ensure OpenAPI specs have proper `operationId` and `tags`.
+
+## Manual API Documentation
+
+For conceptual API docs, create MDX in `/docs/api/`:
+
+- `/docs/api/introduction.mdx` - API overview
+- `/docs/api/authentication.mdx` - Auth guide (if needed)
+- `/docs/api/errors.mdx` - Error handling (if needed)
+
+These get listed in `pages` array BEFORE the OpenAPI spec path.
+
+## Troubleshooting
+
+### OpenAPI pages not showing
+
+1. Check `info.title` is unique in each spec
+2. Verify `openapi` path in [docs.json](mdc:docs.json)
+3. Restart dev server: `pnpm dev`
+
+### Duplicate service names
+
+1. Run enhance script: `bun run scripts/enhance-openapi-specs.ts`
+2. Verify each spec has unique `info.title`
+
+### Missing operations
+
+1. Check protobuf definitions in Buf Registry
+2. Re-sync: `bun run sync-api-docs`
+3. Verify `protoc` generated all services
+
+### Navigation not updating
+
+1. Run: `bun run scripts/generate-api-navigation.ts`
+2. Check [docs.json](mdc:docs.json) syntax is valid
+3. Restart dev server
+
+## Best Practices
+
+1. **Always sync from Buf Registry** - Source of truth for API
+2. **Never manually edit OpenAPI files** - They get regenerated
+3. **Test locally after sync** - `pnpm dev` to verify
+4. **Keep enhancement script up-to-date** - As API evolves
+5. **Document breaking changes** - Add to changelog

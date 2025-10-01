@@ -8,6 +8,7 @@ description: "Release notes for Formal Terraform Provider"
 ## 4.5.0
 
 **New**
+
 - Added support for version 1.2.0 of CloudFormation template with new Cloud Integration fields in the `aws` configuration block of `formal_integration_cloud` resources:
   - `enable_eks_autodiscovery` toggles EKS clusters autodiscovery
   - `enable_rds_autodiscovery` toggles RDS instances (PostgreSQL, MySQL, MongoDB) autodiscovery
@@ -27,17 +28,21 @@ description: "Release notes for Formal Terraform Provider"
 ## 4.4.1
 
 **Changed**
+
 - Bumped Formal Go SDK from 2.8.1 to 2.8.2
 
 **Fixed**
+
 - Brought back the `type` field of `formal_integration_cloud` resources, which was mistakenly removed in version 4.4.0
 
 ## 4.4.0
 
 **New**
+
 - Added `aws` configuration block to `formal_integration_cloud` resources for AWS CloudFormation template version and S3 bucket ARN configuration
 
 **Changed**
+
 - Provider now uses version 2.8.1 of the Formal Go SDK and version 2025-02-24 of the API
 - The `type` field of `formal_integration_cloud` resources is now deprecated in favor of `aws`
 
@@ -48,26 +53,32 @@ description: "Release notes for Formal Terraform Provider"
 ## 4.3.2
 
 **Changed**
+
 - Bumped to version 2.7.0 of the Formal SDK
 
 ## 4.3.1
 
 **New**
+
 - Added encryption keys and log configurations resources
 
 **Changed**
+
 - Added deprecated notification for `managed_tls` field in `formal_connector_hostname`
 - Deprecated `managed_tls` field in `formal_connector_hostname`
 
 **Fixed**
+
 - Fixed the list of update-able resource fields for formal resources
 
 ## 4.3.0
 
 **New**
+
 - Added `dns_record` to `formal_connector_hostname`
 
 **Changed**
+
 - Removed ForceNew for `formal_resource_hostname.hostname`
 
 </Update>
@@ -77,16 +88,19 @@ description: "Release notes for Formal Terraform Provider"
 ## 4.2.2
 
 **New**
+
 - Added `resource_hostname` as supported identity type for `native_user_link`
 
 ## 4.2.1
 
 **New**
+
 - Added `formal_resource_hostname` resource
 
 ## 4.2.0
 
 **New**
+
 - Support for new form cloud integrations and log integrations
 
 </Update>

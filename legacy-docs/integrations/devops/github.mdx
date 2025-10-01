@@ -7,24 +7,28 @@ How Formal helps you evaluate impact of database migration?
 Formal's integration with Github can help you evaluate the potential impact of database migration on data products before they even run.
 
 ## How to use it?
+
 1. Install the [Formal Github Application](https://app.joinformal.com/dashboard/integrations/github)
 2. Create a new Formal Machine user
 3. Create and commit a file called formal.yaml; the file should include the following information:
-    - `datastoreId`: the id of the Formal Resource on which the migration is running
-    - `sidecarId`: the Github application needs this id to fetch the current alembic version of the app
-    - `db`: the demo on which the database migration is running
-    - `defaultSchema`: default schema of the db
-    - `formalUser`: the machine user you've created previously to let the Github Application fetch the alembic version
+   - `datastoreId`: the id of the Formal Resource on which the migration is running
+   - `sidecarId`: the Github application needs this id to fetch the current alembic version of the app
+   - `db`: the demo on which the database migration is running
+   - `defaultSchema`: default schema of the db
+   - `formalUser`: the machine user you've created previously to let the Github Application fetch the alembic version
 
 The file should look like this:
+
 ```yaml
 datastoreId: dcbb90f4-7901-4147-aa35-a188592dcdbd
-sidecarId: dcbb90f4-7901-4147-aa35-a188592dcdbd 
+sidecarId: dcbb90f4-7901-4147-aa35-a188592dcdbd
 db: demo
 defaultSchema: public
 formalUser: idp:formal:machine:test-alembic
 ```
 
 ## Result
+
 Then you should see the Formal bot commenting the PR with a report that includes the schema diff.
-<img src="/img/github_example.png" />
+
+<img src="/assets/images/github_example.png" />

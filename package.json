@@ -7,26 +7,18 @@
     "dev": "mintlify dev",
     "sync-api-docs": "bash scripts/sync-api-docs.sh",
     "check-links": "bun run scripts/check-dead-links.ts",
-    "check-spelling": "cspell \"**/*.{md,mdx}\" --no-progress",
+    "check-spelling": "bun run scripts/get-referenced-paths.ts | xargs vale --no-wrap --ext='.mdx:md'",
     "check-assets": "bun run scripts/check-assets.ts",
-    "precommit": "lint-staged",
+    "check-unreferenced": "bun run scripts/check-unreferenced.ts",
+    "format": "prettier --write \"docs/**/*.{md,mdx}\" \"snippets/**/*.{md,mdx}\"",
+    "format-check": "prettier --check \"docs/**/*.{md,mdx}\" \"snippets/**/*.{md,mdx}\"",
+    "precommit": "pnpm check-spelling && pnpm check-links && pnpm check-assets && pnpm format-check && pnpm check-unreferenced",
     "docs:sync": "bun run sync-api-docs && mintlify dev",
     "docs:build": "bun run sync-api-docs && mintlify build"
   },
   "devDependencies": {
-    "cspell": "^8.0.0",
     "husky": "^8.0.0",
-    "lint-staged": "^15.0.0",
     "mintlify": "latest",
     "prettier": "^3.0.0"
-  },
-  "lint-staged": {
-    "*.{md,mdx}": [
-      "prettier --write",
-      "cspell --no-must-find-files"
-    ],
-    "*.{json,ts,tsx,js,jsx}": [
-      "prettier --write"
-    ]
   }
 }

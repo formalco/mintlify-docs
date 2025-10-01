@@ -1,0 +1,105 @@
+---
+globs: scripts/**/*.ts
+description: TypeScript script rules for documentation automation
+---
+
+# TypeScript Script Rules
+
+## Runtime
+
+All scripts MUST be run with Bun (not Node.js):
+
+```bash
+bun run scripts/script-name.ts
+```
+
+## Available Scripts
+
+### 1. check-dead-links.ts
+
+**Purpose:** Find broken internal links in documentation
+
+```bash
+bun run scripts/check-dead-links.ts
+# or
+pnpm check-links
+```
+
+### 2. check-assets.ts
+
+**Purpose:** Verify all referenced images exist
+
+```bash
+bun run scripts/check-assets.ts
+# or
+pnpm check-assets
+```
+
+### 3. enhance-openapi-specs.ts
+
+**Purpose:** Add error responses to OpenAPI specs
+
+- Adds standard error responses: 400, 401, 403, 404, 500
+- Ensures unique operationId for all operations
+- Sets proper info.title for each service
+
+### 4. generate-api-navigation.ts
+
+**Purpose:** Update docs.json with API navigation
+
+- Scans `/docs/api/openapi/*.json` files
+- Creates a group for each service
+- Updates API Reference tab in [docs.json](mdc:docs.json)
+
+### 5. sync-api-docs.sh
+
+**Purpose:** Full API sync from Buf Registry
+
+```bash
+bash scripts/sync-api-docs.sh
+# or
+bun run sync-api-docs
+```
+
+Process:
+
+1. Export proto files: `buf export buf.build/formal/core`
+2. Generate OpenAPI: protoc with protoc-gen-connect-openapi
+3. Enhance specs: Add error responses
+4. Update navigation: Regenerate docs.json
+5. Render: Mintlify auto-generates pages
+
+## Script Development Guidelines
+
+### Error Handling
+
+- Use try-catch blocks for file operations
+- Provide clear, actionable error messages
+- Exit with non-zero code on failure
+
+### Output
+
+- Use ANSI color codes for readability:
+  - `\x1b[34m` - Blue for info
+  - `\x1b[32m` - Green for success
+  - `\x1b[31m` - Red for errors
+  - `\x1b[33m` - Yellow for warnings
+- Clear section separators
+- Summary at end
+
+### File Paths
+
+- Use `resolve(__dirname, "..")` for DOCS_ROOT
+- Support both absolute and relative paths
+- Check file existence before operations
+
+## Pre-Commit Integration
+
+Scripts used in [.husky/pre-commit](mdc:.husky/pre-commit):
+
+1. Format with Prettier (via lint-staged)
+2. Spell check with cspell (via lint-staged)
+3. Validate links: `pnpm check-links`
+4. Verify assets: `pnpm check-assets`
+
+If any check fails → commit aborted

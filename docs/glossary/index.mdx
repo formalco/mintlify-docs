@@ -8,6 +8,7 @@ Master the key concepts behind Formal's infrastructure security platform. Terms 
 ## Getting Started
 
 ### Connector
+
 **Security gateway that protects your infrastructure**
 
 The Connector sits between users and your databases, APIs, Kubernetes clusters, and other resources. It intercepts every connection, enforces access policies, logs all activity, and can mask sensitive data—without requiring changes to your applications.
@@ -16,6 +17,7 @@ _Also known as: Formal Gateway, Proxy_
 _Related: Resource, Listener, Space_
 
 ### Resource
+
 **Any system protected by Formal**
 
 A Resource is any infrastructure you want to secure: PostgreSQL databases, MongoDB clusters, Snowflake warehouses, SSH servers, Kubernetes pods, APIs, and more. Resources are accessed through the Connector, which enforces policies and logs all activity.
@@ -24,6 +26,7 @@ _Examples: Production database, staging API, Kubernetes cluster_
 _Related: Connector, Native User_
 
 ### Policy
+
 **Rules that control who can access what**
 
 Policies are security rules that the Connector evaluates for every connection and query. They determine who can connect, what data they can see, which queries they can run, and whether to mask sensitive information. Policies are written in Rego, a purpose-built policy language.
@@ -32,6 +35,7 @@ _Examples: "Engineers can only read from dev databases", "Mask SSNs for support 
 _Related: Rego, Policy Stage, Masking_
 
 ### Session
+
 **A recorded connection to a resource**
 
 A Session is a logged connection from a user through the Connector to a Resource. Sessions capture all queries, commands, responses, and metadata, providing a complete audit trail for compliance and security investigations.
@@ -44,6 +48,7 @@ _Related: Audit Log, Session Recording_
 ## Deployment & Architecture
 
 ### Space
+
 **Isolated environment for your resources**
 
 A Space is a logical grouping of Connectors, Satellites, and Resources that can securely communicate with each other. Spaces provide network isolation and organizational boundaries—think of them like separate environments (production, staging) or teams.
@@ -52,6 +57,7 @@ _Also known as: Environment, Deployment Zone_
 _Related: Connector, Satellite_
 
 ### Satellite
+
 **Optional add-on for advanced features**
 
 A Satellite is an application deployed alongside Connectors to enable advanced capabilities like automatic PII detection, data discovery, and schema scanning. Satellites help you classify sensitive data and maintain an up-to-date inventory of your resources.
@@ -60,6 +66,7 @@ _Also known as: Data Scanner, Add-on Service_
 _Related: Data Label, PII Detection_
 
 ### Listener
+
 **Port configuration for routing connections**
 
 A Listener is a configuration on the Connector that accepts connections on a specific port and routes them to designated Resources. Listeners enable a single Connector to handle multiple protocols (PostgreSQL, MongoDB, SSH) simultaneously.
@@ -68,6 +75,7 @@ _Also known as: Port Configuration, Connection Rule_
 _Related: Connector, Protocol Detection_
 
 ### Control Plane
+
 **Management console for Formal**
 
 The Control Plane is Formal's management interface where you configure policies, manage users, view sessions, and monitor your infrastructure. It's completely separate from your data—the Control Plane never sees or stores your actual data.
@@ -76,6 +84,7 @@ _Also known as: Management Console, Dashboard_
 _Related: Data Plane, Connector_
 
 ### Data Plane
+
 **Where your data flows**
 
 The Data Plane consists of your Connectors, which handle actual data traffic. All database queries and API requests flow through the Data Plane, not the Control Plane. This separation ensures Formal never has access to your data.
@@ -88,6 +97,7 @@ _Related: Control Plane, Connector_
 ## Access & Authentication
 
 ### Native User
+
 **Credential used to connect to resources**
 
 A Native User is the actual credential (username/password, IAM role, or certificate) that the Connector uses to authenticate to a Resource on behalf of end users. Native Users can be static credentials, cloud IAM roles, or dynamically generated temporary credentials.
@@ -96,6 +106,7 @@ _Also known as: Database Credential, Resource Credential, Service Account_
 _Related: Dynamic Secrets, End-user Identity_
 
 ### End-user Identity
+
 **Tracking who's actually making requests**
 
 End-user Identity is the process of identifying the real person behind a connection, even when they're using tools like Tableau, dbt, or other applications. Formal extracts user information from application parameters to attribute all queries to specific individuals.
@@ -104,6 +115,7 @@ _Also known as: Identity Propagation, User Attribution_
 _Related: Native User, Session_
 
 ### Just-in-Time Access
+
 **Temporary access granted on request**
 
 Just-in-Time (JIT) Access means users request temporary permissions that expire after a set time period. Instead of permanent access, engineers can request 2-hour database access that automatically revokes, reducing the risk of compromised credentials.
@@ -112,6 +124,7 @@ _Also known as: Temporary Access, Time-bound Access_
 _Related: Approval Workflow, Break Glass_
 
 ### Dynamic Secrets
+
 **Temporary credentials that auto-expire**
 
 Dynamic Secrets are short-lived credentials automatically generated for each connection and revoked when the session ends. This eliminates the risk of long-lived passwords being leaked or compromised.
@@ -120,6 +133,7 @@ _Also known as: Temporary Credentials, Ephemeral Secrets_
 _Related: Native User, Just-in-Time Access_
 
 ### MFA (Multi-Factor Authentication)
+
 **Two-step verification for high-risk access**
 
 MFA requires users to provide a second form of authentication (like a code from their phone) in addition to their password. Formal can enforce MFA for specific resources, time periods, or query types.
@@ -128,6 +142,7 @@ _Also known as: Two-Factor Authentication, 2FA_
 _Related: SSO, Policy_
 
 ### SSO (Single Sign-On)
+
 **Log in once, access everything**
 
 SSO allows users to authenticate through your company's identity provider (Okta, Azure AD, Google) instead of managing separate Formal credentials. Once logged in, users can access all permitted resources without additional logins.
@@ -140,6 +155,7 @@ _Related: Directory Sync, MFA_
 ## Policies & Rules
 
 ### Rego
+
 **Policy language for writing access rules**
 
 Rego is the language used to write Formal policies. It's designed specifically for access control and uses a JSON-like syntax. Rego policies evaluate user attributes, query patterns, and context to make allow/deny/mask decisions.
@@ -148,6 +164,7 @@ _Also known as: Policy Language_
 _Related: Policy, OPA_
 
 ### OPA (Open Policy Agent)
+
 **Engine that executes policy decisions**
 
 OPA is the open-source policy engine that powers Formal's policy evaluation. It reads Rego policies and evaluates them in real-time for every connection and query, making access decisions in milliseconds.
@@ -156,9 +173,11 @@ _Also known as: Policy Engine_
 _Related: Rego, Policy_
 
 ### Policy Stage
+
 **When a policy is evaluated**
 
 Policies can run at three stages:
+
 - **Connection Time**: When a user first connects (check credentials, enforce MFA)
 - **Before Query**: Before a query executes (block unauthorized queries)
 - **After Query**: After query execution (mask sensitive data in results)
@@ -166,6 +185,7 @@ Policies can run at three stages:
 _Related: Policy, Masking_
 
 ### Policy Data Loader
+
 **Connect external data to policies**
 
 A Policy Data Loader is custom code that fetches data from external systems (HR databases, ticketing systems, APIs) and makes it available to policies. This enables dynamic decisions like "allow if user is on-call" or "deny if user has open security tickets."
@@ -174,11 +194,13 @@ _Also known as: External Data Connector, Policy Data Source_
 _Related: Policy, Rego_
 
 ### Masking
+
 **Hide sensitive data in query results**
 
 Masking is the process of replacing sensitive data with obfuscated values. Formal can mask data in real-time as query results flow through the Connector, showing "XXX-XX-1234" instead of full social security numbers.
 
 **Masking Types:**
+
 - **Redaction**: Replace with fixed characters (`***`)
 - **Partial Redaction**: Show first/last characters (`joh***@example.com`)
 - **Hashing**: One-way encryption (always same output for same input)
@@ -192,6 +214,7 @@ _Related: Policy, PII, Data Label_
 ## Data Governance
 
 ### Data Label
+
 **Automatically detected sensitive data**
 
 Data Labels are PII entities automatically identified by Satellites scanning your databases. They tag columns containing emails, phone numbers, SSNs, credit cards, and other sensitive data, making it easy to write policies that protect all PII without manually cataloging every column.
@@ -200,6 +223,7 @@ _Also known as: Sensitivity Tag, Data Classification_
 _Related: Tags, PII, Satellite_
 
 ### Tags
+
 **Custom labels for organizing data**
 
 Tags are user-defined labels you attach to database columns for organization, search, and discovery. Unlike Data Labels (which are auto-detected), Tags are manually created to track business context like "customer_data", "finance", or "deprecated".
@@ -207,6 +231,7 @@ Tags are user-defined labels you attach to database columns for organization, se
 _Related: Data Label_
 
 ### PII (Personally Identifiable Information)
+
 **Personal data that identifies individuals**
 
 PII is any data that can identify a specific person: names, email addresses, social security numbers, phone numbers, IP addresses, etc. Formal's Satellites automatically detect PII in your databases and help you mask or restrict access to it.
@@ -219,6 +244,7 @@ _Related: Data Label, Masking, Satellite_
 ## Logging & Compliance
 
 ### Audit Log
+
 **Tamper-proof record of all activity**
 
 Audit Logs capture every connection, query, policy decision, and system action within Formal. They're cryptographically secured to prevent tampering and provide evidence for compliance audits (SOC 2, HIPAA, GDPR).
@@ -227,6 +253,7 @@ _Also known as: Activity Log, Compliance Log_
 _Related: Session, Session Recording_
 
 ### Session Recording
+
 **Complete capture of terminal sessions**
 
 For SSH, Kubernetes, and other terminal-based resources, Formal can record the entire session including all commands typed and output displayed. This creates a video-like playback for security investigations.
@@ -235,6 +262,7 @@ _Also known as: Terminal Recording, Command Logging_
 _Related: Session, Audit Log_
 
 ### Log Encryption
+
 **Encrypt logs with your own keys**
 
 Log Encryption allows you to encrypt all session logs and audit data using your own encryption keys. This ensures Formal cannot decrypt your logs without your explicit permission, even if compelled by law enforcement.
@@ -246,6 +274,7 @@ _Related: Encryption Key, Audit Log_
 ## Integrations
 
 ### SIEM
+
 **Security monitoring and alerting platform**
 
 SIEM (Security Information and Event Management) systems like Splunk, Datadog, and Sumo Logic collect and analyze security logs. Formal can stream all audit logs and policy violations to your SIEM for centralized monitoring.
@@ -255,6 +284,7 @@ _Examples: Splunk, Datadog, Sumo Logic_
 _Related: Audit Log_
 
 ### Cloud Integration
+
 **Automatic discovery of cloud resources**
 
 Cloud Integrations connect Formal to your AWS, GCP, or Azure account to automatically discover databases, Kubernetes clusters, and other resources. This eliminates manual configuration and keeps your inventory up-to-date as infrastructure changes.
@@ -263,6 +293,7 @@ _Also known as: Auto-Discovery, Cloud Connector_
 _Related: Resource, Satellite_
 
 ### Directory Sync
+
 **Automatically sync users from identity providers**
 
 Directory Sync (SCIM) automatically imports users and groups from identity providers like Okta, Azure AD, or Google Workspace. As employees join, change roles, or leave, their Formal access updates automatically.
@@ -275,6 +306,7 @@ _Related: SSO, Groups_
 ## Advanced Concepts
 
 ### Protocol Detection
+
 **Automatic identification of database types**
 
 Protocol Detection allows the Connector to automatically identify what type of connection it's receiving (PostgreSQL, MongoDB, MySQL, etc.) without manual configuration. This enables "smart routing" where a single port can handle multiple database types.
@@ -283,6 +315,7 @@ _Also known as: Smart Routing, Wire Protocol Detection_
 _Related: Listener, Connector_
 
 ### Break Glass Access
+
 **Emergency access with full audit trail**
 
 Break Glass is a mechanism for granting immediate emergency access during incidents, bypassing normal approval workflows. All break glass access is heavily logged and triggers alerts, providing accountability during emergencies.
@@ -291,6 +324,7 @@ _Also known as: Emergency Access_
 _Related: Just-in-Time Access, Approval Workflow_
 
 ### Approval Workflow
+
 **Multi-step access requests**
 
 Approval Workflows define who must approve access requests before they're granted. You can configure multi-stage approvals (manager → security team → DBA) with time limits and escalation rules.

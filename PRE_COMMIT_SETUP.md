@@ -5,21 +5,25 @@ This repository has comprehensive pre-commit checks to ensure documentation qual
 ## What Gets Checked
 
 ### 1. **Code Formatting** (Prettier)
+
 - Auto-formats all staged `.md`, `.mdx`, `.json`, `.ts`, `.tsx`, `.js`, `.jsx` files
 - Ensures consistent code style across the project
 - Runs automatically via `lint-staged`
 
 ### 2. **Spell Checking** (cspell)
+
 - Validates spelling in all `.md` and `.mdx` files
 - Uses custom dictionary for Formal-specific terms
 - Configuration in `cspell.json`
 
 ### 3. **Link Validation**
+
 - Scans all documentation for broken internal links
 - Checks links in both markdown and navigation config
 - Script: `scripts/check-dead-links.ts`
 
 ### 4. **Asset Verification**
+
 - Ensures all referenced images exist in the repository
 - Checks both markdown (`![](path)`) and HTML (`<img src="path">`) images
 - Script: `scripts/check-assets.ts`
@@ -36,11 +40,21 @@ The pre-commit hook will be automatically set up via Husky.
 
 ## Manual Usage
 
+Run all checks (same as pre-commit hook):
+
+```bash
+# Run all pre-commit checks
+pnpm precommit
+```
+
 Run individual checks:
 
 ```bash
-# Format all files
-pnpm prettier --write "**/*.{md,mdx,json,ts,tsx,js,jsx}"
+# Format content files
+pnpm format
+
+# Check formatting only (no changes)
+pnpm format-check
 
 # Check spelling
 pnpm check-spelling
@@ -50,9 +64,6 @@ pnpm check-links
 
 # Check assets
 pnpm check-assets
-
-# Run lint-staged (format + spell check)
-pnpm precommit
 ```
 
 ## How It Works
@@ -68,23 +79,24 @@ When you run `git commit`, the pre-commit hook (`.husky/pre-commit`) automatical
 
 If any check fails, the commit is aborted with a clear error message.
 
-### Lint-Staged Configuration
+### Scripts Configuration
 
 Defined in `package.json`:
 
 ```json
 {
-  "lint-staged": {
-    "*.{md,mdx}": [
-      "prettier --write",
-      "cspell --no-must-find-files"
-    ],
-    "*.{json,ts,tsx,js,jsx}": [
-      "prettier --write"
-    ]
+  "scripts": {
+    "precommit": "pnpm check-spelling && pnpm check-links && pnpm check-assets && pnpm format-check",
+    "check-spelling": "cspell \"docs/**/*.{md,mdx}\" \"snippets/**/*.{md,mdx}\" --no-progress",
+    "check-links": "bun run scripts/check-dead-links.ts",
+    "check-assets": "bun run scripts/check-assets.ts",
+    "format": "prettier --write \"docs/**/*.{md,mdx}\" \"assets/**/*\" \"snippets/**/*.{md,mdx}\"",
+    "format-check": "prettier --check \"docs/**/*.{md,mdx}\" \"assets/**/*\" \"snippets/**/*.{md,mdx}\""
   }
 }
 ```
+
+All checks are scoped to `/docs`, `/assets`, and `/snippets` folders.
 
 ## Customization
 
@@ -94,11 +106,7 @@ Edit `cspell.json` and add words to the `words` array:
 
 ```json
 {
-  "words": [
-    "Formal",
-    "PostgreSQL",
-    "YourCustomTerm"
-  ]
+  "words": ["Formal", "PostgreSQL", "YourCustomTerm"]
 }
 ```
 
@@ -108,10 +116,7 @@ Add paths to `ignorePaths` in `cspell.json`:
 
 ```json
 {
-  "ignorePaths": [
-    "node_modules",
-    "your-folder/**"
-  ]
+  "ignorePaths": ["node_modules", "your-folder/**"]
 }
 ```
 
@@ -146,19 +151,23 @@ git commit --no-verify -m "Your message"
 
 ### Format Issues
 
-The pre-commit hook auto-fixes formatting, so just:
-1. Add the changes: `git add .`
-2. Commit again: `git commit -m "Your message"`
+The pre-commit hook checks but doesn't auto-fix formatting:
+
+1. Run: `pnpm format` to fix formatting
+2. Review the changes
+3. Add the changes: `git add .`
+4. Commit again: `git commit -m "Your message"`
 
 ## Scripts Reference
 
-| Script | Command | Description |
-|--------|---------|-------------|
-| Format | `pnpm prettier --write "**/*.{md,mdx,json,ts,tsx,js,jsx}"` | Format all files |
-| Spell Check | `pnpm check-spelling` | Check spelling in docs |
-| Link Check | `pnpm check-links` | Validate internal links |
-| Asset Check | `pnpm check-assets` | Verify image references |
-| Lint Staged | `pnpm precommit` | Format + spell check staged files |
+| Script       | Command               | Description                              |
+| ------------ | --------------------- | ---------------------------------------- |
+| All Checks   | `pnpm precommit`      | Run all pre-commit checks (same as hook) |
+| Format       | `pnpm format`         | Format content files                     |
+| Format Check | `pnpm format-check`   | Check formatting without modifying       |
+| Spell Check  | `pnpm check-spelling` | Check spelling in docs & snippets        |
+| Link Check   | `pnpm check-links`    | Validate internal links                  |
+| Asset Check  | `pnpm check-assets`   | Verify image references                  |
 
 ## CI/CD Integration
 
@@ -183,4 +192,3 @@ These checks should also run in CI/CD:
 ✅ **Professional Appearance** - Proper spelling and formatting
 ✅ **Fast Feedback** - Catch issues before they reach main branch
 ✅ **Automated** - No manual effort required
-

@@ -40,7 +40,7 @@ pre_request := {
 }
 ```
 
-### Detect SELECT * Queries
+### Detect SELECT \* Queries
 
 ```rego
 package formal.v2
@@ -100,7 +100,7 @@ pre_request := {
     `1=1`,          # Always-true conditions
     `OR.*1.*=.*1`,  # Tautologies
   ]
-  
+
   some pattern in dangerous_patterns
   regex.match(pattern, input.query.query)
 }
@@ -179,10 +179,10 @@ session := {
 } if {
   # Get current hour (UTC)
   hour := time.clock([time.now_ns()])[0]
-  
+
   # Block 10 PM - 6 AM UTC
   hour >= 22 or hour < 6
-  
+
   input.resource.environment == "production"
 }
 ```
@@ -202,7 +202,7 @@ session := {
 } if {
   # Block if user's IP is from unexpected country
   ip_country := data.ip_geolocation[input.client_ip_address].country
-  
+
   allowed_countries := {"US", "CA", "GB"}
   not ip_country in allowed_countries
 }
@@ -242,10 +242,10 @@ pre_request := {
   "reason": "Sensitive data protection"
 } if {
   pii_tables := {"users_pii", "customers_sensitive", "employees"}
-  
+
   some table in input.table_names
   table in pii_tables
-  
+
   not "pii_access" in input.user.groups
 }
 ```
@@ -264,12 +264,12 @@ post_request := {
 } if {
   # Mask SSN unless user has special access
   not "ssn_access" in input.user.groups
-  
-  sensitive_columns := [col | 
+
+  sensitive_columns := [col |
     col := input.row[_]
     col["name"] == "ssn"
   ]
-  
+
   count(sensitive_columns) > 0
 }
 ```
@@ -309,15 +309,15 @@ pre_request := {
   "reason": "No active approval found"
 } if {
   input.query.statement_type == "DELETE"
-  
+
   # Check for open approval tickets (requires Policy Data Loader)
-  approvals := [ticket | 
+  approvals := [ticket |
     ticket := data.jira_approvals[_]
     ticket.requester == input.user.email
     ticket.type == "delete_approval"
     ticket.status == "approved"
   ]
-  
+
   count(approvals) == 0
 }
 ```
@@ -357,7 +357,7 @@ session := {
   "reason": "Namespace isolation policy"
 } if {
   input.resource.technology == "kubernetes"
-  
+
   # Check if user's assigned namespace matches target
   user_namespace := data.user_namespaces[input.user.username]
   not input.k8s_namespace == user_namespace
@@ -434,16 +434,16 @@ session := {
   "reason": "SOC 2 compliance - no active approval"
 } if {
   input.resource.environment == "production"
-  
+
   # Check ServiceNow for active approvals
-  approvals := [ticket | 
+  approvals := [ticket |
     ticket := data.servicenow_tickets[_]
     ticket.requested_by == input.user.email
     ticket.resource_id == input.resource.id
     ticket.status == "approved"
     ticket.expires_at > time.now_ns()
   ]
-  
+
   count(approvals) == 0
 }
 ```
@@ -452,40 +452,60 @@ session := {
 
 <AccordionGroup>
   <Accordion title="Layer Defenses" icon="layer-group">
-    Combine multiple threat detection policies for defense in depth. Don't rely on a single policy to catch all threats.
+    Combine multiple threat detection policies for defense in depth. Don't rely
+    on a single policy to catch all threats.
   </Accordion>
-  
-  <Accordion title="Use Dry-Run First" icon="flask">
-    Test threat detection policies in dry-run mode to avoid false positives that might block legitimate users.
-  </Accordion>
-  
-  <Accordion title="Monitor and Tune" icon="gauge">
-    Regularly review policy logs to identify false positives and refine detection rules.
-  </Accordion>
-  
-  <Accordion title="Integrate External Data" icon="database">
-    Use Policy Data Loaders to enrich policies with threat intelligence, approval workflows, and user behavior analytics.
-  </Accordion>
-  
+
+<Accordion title="Use Dry-Run First" icon="flask">
+  Test threat detection policies in dry-run mode to avoid false positives that
+  might block legitimate users.
+</Accordion>
+
+<Accordion title="Monitor and Tune" icon="gauge">
+  Regularly review policy logs to identify false positives and refine detection
+  rules.
+</Accordion>
+
+<Accordion title="Integrate External Data" icon="database">
+  Use Policy Data Loaders to enrich policies with threat intelligence, approval
+  workflows, and user behavior analytics.
+</Accordion>
+
   <Accordion title="Document Threat Models" icon="book">
-    Clearly document which threats each policy protects against and why. This helps during security audits.
+    Clearly document which threats each policy protects against and why. This
+    helps during security audits.
   </Accordion>
 </AccordionGroup>
 
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Write Policies" icon="shield-check" href="/docs/guides/policies/policies">
+  <Card
+    title="Write Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
     Create threat detection policies
   </Card>
-  <Card title="Policy Enforcement" icon="gavel" href="/docs/guides/policies/enforcement">
+  <Card
+    title="Policy Enforcement"
+    icon="gavel"
+    href="/docs/guides/policies/enforcement"
+  >
     Learn about enforcement actions
   </Card>
-  <Card title="View Logs" icon="file-lines" href="/docs/guides/observability/logs">
+  <Card
+    title="View Logs"
+    icon="file-lines"
+    href="/docs/guides/observability/logs"
+  >
     Monitor blocked threats
   </Card>
-  <Card title="Set Up Alerts" icon="bell" href="/docs/guides/how-to/alert-triggered-policies">
+  <Card
+    title="Set Up Alerts"
+    icon="bell"
+    href="/docs/guides/how-to/alert-triggered-policies"
+  >
     Get notified of security events
   </Card>
 </CardGroup>
-

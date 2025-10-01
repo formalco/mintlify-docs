@@ -2,7 +2,6 @@
 title: "Kubernetes"
 ---
 
-
 How to connect to Kubernetes clusters using the Formal Connector?
 
 Formal streamlines access and control for any Kubernetes clusters by providing:
@@ -29,7 +28,10 @@ When creating a Kubernetes resource, use the Kubernetes API endpoint URL with po
 
 The resource name must match the target cluster. This is a crucial step specific to Kubernetes resources: the name is used by the Connector to identify which cluster to target when a user tries to access a cluster.
 
-<Warning>The Kubernetes Resource name **must match exactly** with either the context name in your kubeconfig, or the AWS EKS cluster name.</Warning>
+<Warning>
+  The Kubernetes Resource name **must match exactly** with either the context
+  name in your kubeconfig, or the AWS EKS cluster name.
+</Warning>
 
 ### Native Users
 
@@ -258,4 +260,4 @@ session := { "action": "block", "type": "block_with_formal_message" } if {
 
 The Formal Connector records every session. The session recordings can be accessed and reviewed in the Session application.
 
-<img src="../img/eks_recording.png" className="rounded-lg" />
+<img src="../assets/images/eks_recording.png" className="rounded-lg" />

@@ -5,21 +5,23 @@
  * Scans MDX files and JSON configs for broken internal links
  */
 
-import { existsSync, readFileSync, readdirSync, statSync } from 'fs';
-import { join, dirname, normalize, basename } from 'path';
-import { Glob } from 'bun';
+import { existsSync, readFileSync, readdirSync, statSync } from "fs";
+import { join, dirname, normalize, basename } from "path";
+import { Glob } from "bun";
+import { getReferencedFiles } from "./get-referenced-files";
 
 // Colors for output
 const colors = {
-  red: '\x1b[31m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  reset: '\x1b[0m'
+  red: "\x1b[31m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  reset: "\x1b[0m",
 } as const;
 
-const DOCS_ROOT = join(import.meta.dir, '..');
-const DOCS_JSON = join(DOCS_ROOT, 'docs.json');
+const DOCS_ROOT = join(import.meta.dir, "..");
+const DOCS_JSON = join(DOCS_ROOT, "docs.json");
+const REFERENCED_FILES = new Set(getReferencedFiles());
 
 interface DeadLink {
   path: string;
@@ -47,8 +49,8 @@ function fileExists(filePath: string): boolean {
   if (existsSync(`${fullPath}.md`)) return true;
 
   // Check if it's a directory with index
-  if (existsSync(join(fullPath, 'index.mdx'))) return true;
-  if (existsSync(join(fullPath, 'index.md'))) return true;
+  if (existsSync(join(fullPath, "index.mdx"))) return true;
+  if (existsSync(join(fullPath, "index.md"))) return true;
 
   return false;
 }
@@ -60,24 +62,28 @@ function extractDocsJsonLinks(): DeadLink[] {
   console.log(`${colors.blue}📋 Scanning docs.json...${colors.reset}`);
 
   try {
-    const docsJson = JSON.parse(readFileSync(DOCS_JSON, 'utf-8'));
+    const docsJson = JSON.parse(readFileSync(DOCS_JSON, "utf-8"));
     const links: DeadLink[] = [];
 
-    function extractLinks(obj: any, path = ''): void {
+    function extractLinks(obj: any, path = ""): void {
       if (Array.isArray(obj)) {
         obj.forEach((item, idx) => extractLinks(item, `${path}[${idx}]`));
-      } else if (obj && typeof obj === 'object') {
+      } else if (obj && typeof obj === "object") {
         // Check for page references
         if (obj.pages && Array.isArray(obj.pages)) {
           obj.pages.forEach((page: string) => {
-            if (typeof page === 'string' && !page.endsWith('.json')) {
+            if (typeof page === "string" && !page.endsWith(".json")) {
               links.push({ path: page, location: `${path}.pages` });
             }
           });
         }
 
         // Check for url references
-        if (obj.url && typeof obj.url === 'string' && obj.url.startsWith('docs/')) {
+        if (
+          obj.url &&
+          typeof obj.url === "string" &&
+          obj.url.startsWith("docs/")
+        ) {
           links.push({ path: obj.url, location: `${path}.url` });
         }
 
@@ -91,7 +97,9 @@ function extractDocsJsonLinks(): DeadLink[] {
     extractLinks(docsJson);
     return links;
   } catch (error) {
-    console.error(`${colors.red}❌ Error reading docs.json: ${(error as Error).message}${colors.reset}`);
+    console.error(
+      `${colors.red}❌ Error reading docs.json: ${(error as Error).message}${colors.reset}`
+    );
     return [];
   }
 }
@@ -110,11 +118,18 @@ function extractMarkdownLinks(content: string, filePath: string): DeadLink[] {
     const link = match[2];
 
     // Only check internal links (not http/https/mailto/etc)
-    if (!link.startsWith('http') && !link.startsWith('mailto:') && !link.startsWith('#')) {
+    if (
+      !link.startsWith("http") &&
+      !link.startsWith("mailto:") &&
+      !link.startsWith("#")
+    ) {
       // Remove anchor fragments
-      const cleanLink = link.split('#')[0];
+      const cleanLink = link.split("#")[0];
       if (cleanLink) {
-        links.push({ path: cleanLink, location: `markdown link in ${filePath}` });
+        links.push({
+          path: cleanLink,
+          location: `markdown link in ${filePath}`,
+        });
       }
     }
   }
@@ -125,8 +140,12 @@ function extractMarkdownLinks(content: string, filePath: string): DeadLink[] {
   while ((match = jsxLinkRegex.exec(content)) !== null) {
     const link = match[1];
 
-    if (!link.startsWith('http') && !link.startsWith('mailto:') && !link.startsWith('#')) {
-      const cleanLink = link.split('#')[0];
+    if (
+      !link.startsWith("http") &&
+      !link.startsWith("mailto:") &&
+      !link.startsWith("#")
+    ) {
+      const cleanLink = link.split("#")[0];
       if (cleanLink) {
         links.push({ path: cleanLink, location: `JSX Link in ${filePath}` });
       }
@@ -143,30 +162,36 @@ async function scanMdxFiles(): Promise<DeadLink[]> {
   console.log(`${colors.blue}📄 Scanning MDX files...${colors.reset}`);
 
   const links: DeadLink[] = [];
-  const glob = new Glob('**/*.mdx');
+  const glob = new Glob("**/*.mdx");
 
   for await (const file of glob.scan({
     cwd: DOCS_ROOT,
     onlyFiles: true,
   })) {
+    const fullPath = join(DOCS_ROOT, file);
+
+    // Only scan referenced files
+    if (!REFERENCED_FILES.has(fullPath)) {
+      continue;
+    }
+
     // Skip node_modules and .next directories
-    if (file.includes('node_modules') || file.includes('.next') || file.includes('legacy-')) {
+    if (file.includes("node_modules") || file.includes(".next")) {
       continue;
     }
 
     filesScanned++;
-    const fullPath = join(DOCS_ROOT, file);
-    const content = readFileSync(fullPath, 'utf-8');
+    const content = readFileSync(fullPath, "utf-8");
     const fileLinks = extractMarkdownLinks(content, file);
 
     fileLinks.forEach((link) => {
       // Resolve relative paths
       let resolvedPath = link.path;
 
-      if (link.path.startsWith('/')) {
+      if (link.path.startsWith("/")) {
         // Absolute path from docs root
         resolvedPath = link.path.substring(1);
-      } else if (link.path.startsWith('./') || link.path.startsWith('../')) {
+      } else if (link.path.startsWith("./") || link.path.startsWith("../")) {
         // Relative path
         const dir = dirname(file);
         resolvedPath = normalize(join(dir, link.path));
@@ -175,7 +200,7 @@ async function scanMdxFiles(): Promise<DeadLink[]> {
       links.push({
         ...link,
         path: resolvedPath,
-        sourceFile: file
+        sourceFile: file,
       });
     });
   }
@@ -187,7 +212,9 @@ async function scanMdxFiles(): Promise<DeadLink[]> {
  * Check all collected links
  */
 function checkLinks(links: DeadLink[]): void {
-  console.log(`${colors.blue}🔍 Checking ${links.length} links...${colors.reset}\n`);
+  console.log(
+    `${colors.blue}🔍 Checking ${links.length} links...${colors.reset}\n`
+  );
 
   links.forEach((link) => {
     if (!fileExists(link.path)) {
@@ -200,9 +227,13 @@ function checkLinks(links: DeadLink[]): void {
  * Report results
  */
 function reportResults(): number {
-  console.log(`\n${colors.blue}═══════════════════════════════════════════${colors.reset}`);
+  console.log(
+    `\n${colors.blue}═══════════════════════════════════════════${colors.reset}`
+  );
   console.log(`${colors.blue}           Dead Link Check Report${colors.reset}`);
-  console.log(`${colors.blue}═══════════════════════════════════════════${colors.reset}\n`);
+  console.log(
+    `${colors.blue}═══════════════════════════════════════════${colors.reset}\n`
+  );
 
   console.log(`📊 Scanned: ${filesScanned} files`);
 
@@ -211,7 +242,9 @@ function reportResults(): number {
     return 0;
   }
 
-  console.log(`${colors.red}❌ Found ${deadLinks.length} dead links:${colors.reset}\n`);
+  console.log(
+    `${colors.red}❌ Found ${deadLinks.length} dead links:${colors.reset}\n`
+  );
 
   deadLinks.forEach((link, idx) => {
     console.log(`${idx + 1}. ${colors.yellow}${link.path}${colors.reset}`);
@@ -219,7 +252,7 @@ function reportResults(): number {
     if (link.sourceFile) {
       console.log(`   Source: ${link.sourceFile}`);
     }
-    console.log('');
+    console.log("");
   });
 
   return 1;
@@ -229,7 +262,9 @@ function reportResults(): number {
  * Main execution
  */
 async function main(): Promise<void> {
-  console.log(`${colors.blue}🔗 Dead Link Checker for Mintlify Docs${colors.reset}\n`);
+  console.log(
+    `${colors.blue}🔗 Dead Link Checker for Mintlify Docs${colors.reset}\n`
+  );
 
   // Collect all links
   const docsJsonLinks = extractDocsJsonLinks();
@@ -249,7 +284,9 @@ async function main(): Promise<void> {
 // Run if called directly
 if (import.meta.main) {
   main().catch((error) => {
-    console.error(`${colors.red}❌ Fatal error: ${error.message}${colors.reset}`);
+    console.error(
+      `${colors.red}❌ Fatal error: ${error.message}${colors.reset}`
+    );
     console.error(error.stack);
     process.exit(1);
   });

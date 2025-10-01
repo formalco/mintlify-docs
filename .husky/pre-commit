@@ -1,17 +1,17 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo "🚀 Running pre-commit checks...\n"
+echo "🚀 Running pre-commit checks on referenced files...\n"
 
-# 1. Format and spell check staged files with lint-staged
-echo "📝 Formatting and spell checking staged files..."
-pnpm lint-staged
+# 1. Check spelling in referenced files only
+echo "📝 Checking spelling..."
+pnpm check-spelling
 if [ $? -ne 0 ]; then
-  echo "❌ Commit aborted: Fix formatting or spelling errors"
+  echo "❌ Commit aborted: Fix spelling errors"
   exit 1
 fi
 
-# 2. Check for broken links
+# 2. Check for broken links in referenced files only
 echo "\n🔗 Checking for broken links..."
 pnpm check-links
 if [ $? -ne 0 ]; then
@@ -19,12 +19,24 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# 3. Check for missing image assets
+# 3. Check for missing image assets in referenced files only
 echo "\n🖼️  Checking for missing image assets..."
 pnpm check-assets
 if [ $? -ne 0 ]; then
   echo "❌ Commit aborted: Fix missing image references"
   exit 1
 fi
+
+# 4. Format check content folders (don't auto-fix, just verify)
+echo "\n✨ Checking code formatting..."
+pnpm format-check
+if [ $? -ne 0 ]; then
+  echo "❌ Commit aborted: Run 'pnpm format' to fix formatting"
+  exit 1
+fi
+
+# 5. Check for unreferenced files (warning only, doesn't block)
+echo "\n📋 Checking for unreferenced files..."
+pnpm check-unreferenced
 
 echo "\n✅ All pre-commit checks passed - proceeding with commit"

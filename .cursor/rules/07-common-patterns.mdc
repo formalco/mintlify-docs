@@ -1,0 +1,294 @@
+---
+description: Common documentation patterns and anti-patterns
+---
+
+# Common Documentation Patterns
+
+## Good Patterns ✅
+
+### Outcome-Driven Structure
+
+```mdx
+> **Outcome:** After this guide, you can deploy a Connector on AWS ECS.  
+> **Prerequisites:** AWS account, Terraform CLI, Formal API key.
+```
+
+### Verifiable Steps
+
+```mdx
+### 1. Configure Terraform
+
+Create `main.tf` with your connector configuration.
+
+**Verify:**
+\`\`\`bash
+terraform plan
+
+# Expected: Plan shows connector module
+
+\`\`\`
+```
+
+### Copy-Pastable Code
+
+```bash
+export FORMAL_API_KEY="<YOUR_API_KEY>"
+curl -H "Authorization: Bearer $FORMAL_API_KEY" \
+  https://api.joinformal.com/v1/users | jq .
+# Expected: {"users":[...]}
+```
+
+### Multi-Language Parity
+
+All tabs show identical functionality:
+
+````mdx
+<Tabs>
+  <Tab title="curl">
+    ```bash
+    curl -X POST https://api.joinformal.com/v1/connectors \
+      -H "Authorization: Bearer <KEY>" \
+      -d '{"name":"db-connector"}'
+    ```
+  </Tab>
+  <Tab title="JavaScript">
+    ```ts
+    const connector = await fetch("/v1/connectors", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${KEY}` },
+      body: JSON.stringify({ name: "db-connector" })
+    });
+    ```
+  </Tab>
+</Tabs>
+````
+
+### Glossary Integration
+
+```mdx
+import { G } from "/snippets/glossary-terms.mdx";
+
+The <G anchor="connector">Connector</G> enforces <G anchor="policy">policies</G>.
+```
+
+### Troubleshooting Structure
+
+````mdx
+<AccordionGroup>
+  <Accordion title="Connection timeout">
+    **Cause:** Firewall blocking port 443 **Fix:** 1. Whitelist
+    `api.joinformal.com` in security groups 2. Verify DNS: `nslookup
+    api.joinformal.com` **Verify:** ```bash curl -I
+    https://api.joinformal.com/health ```
+  </Accordion>
+</AccordionGroup>
+````
+
+### Clear Next Steps
+
+```mdx
+<CardGroup cols={2}>
+  <Card
+    title="Configure Policies"
+    icon="shield"
+    href="/docs/guides/policies/policies"
+  >
+    Write access control rules for your resources
+  </Card>
+  <Card
+    title="Enable SSO"
+    icon="right-to-bracket"
+    href="/docs/guides/integrations/sso"
+  >
+    Set up single sign-on for team access
+  </Card>
+</CardGroup>
+```
+
+## Anti-Patterns ❌
+
+### Vague Titles
+
+**Bad:** "Working with Connectors"
+**Good:** "Deploy Connector on AWS"
+
+### Missing Verification
+
+**Bad:**
+
+```mdx
+### 1. Deploy the connector
+
+Run terraform apply.
+```
+
+**Good:**
+
+```mdx
+### 1. Deploy the connector
+
+Run terraform apply.
+
+**Verify:**
+\`\`\`bash
+terraform apply
+curl -I https://connector.example.com/health
+
+# Expected: HTTP/1.1 200 OK
+
+\`\`\`
+```
+
+### Long Sentences
+
+**Bad:** "You will then need to navigate to the Connectors page in the Formal dashboard where you will be able to click on the New Connector button which will open a form that you can use to configure your new connector instance."
+
+**Good:** "Go to **Connectors** and click **New Connector**. Fill in your connector hostname."
+
+### Relative Links
+
+**Bad:** `[See policies](../policies/introduction)`
+**Good:** `[See policies](/docs/guides/policies/policies)`
+
+### Untyped Code Blocks
+
+**Bad:**
+
+````
+```
+curl https://api.joinformal.com/health
+```
+````
+
+**Good:**
+
+````
+```bash
+curl https://api.joinformal.com/health
+```
+````
+
+### Real Secrets
+
+**Bad:**
+
+```bash
+export API_KEY="frm_abc123def456..."
+```
+
+**Good:**
+
+```bash
+export API_KEY="<YOUR_API_KEY>"
+```
+
+### Missing Alt Text
+
+**Bad:** `![](/assets/images/connector.png)`
+**Good:** `![Connector configuration form with hostname field](/assets/images/connector.png)`
+
+### Passive Voice
+
+**Bad:** "The connector should be deployed to your VPC."
+**Good:** "Deploy the connector to your VPC."
+
+## Language Patterns
+
+### Imperative Voice
+
+- ✅ "Configure", "Deploy", "Create", "Set"
+- ❌ "Configuring", "Deploying", "Creating", "Setting"
+
+### Active vs Passive
+
+- ✅ "You configure the connector" (active)
+- ❌ "The connector is configured" (passive)
+
+### Present Tense
+
+- ✅ "Click **Create**" (present)
+- ❌ "You will click Create" (future)
+
+### Second Person
+
+- ✅ "You deploy the connector" (second person)
+- ❌ "We deploy the connector" (first person)
+
+## Formatting Patterns
+
+### UI Elements
+
+- ✅ Click **Create Connector**
+- ❌ Click "Create Connector"
+- ❌ Click Create Connector
+
+### Paths and Commands
+
+- ✅ Run `terraform apply`
+- ✅ Edit `/etc/formal/config.yaml`
+- ❌ Run terraform apply
+- ❌ Edit /etc/formal/config.yaml
+
+### Numbers
+
+- ✅ "one, two, three, four, five" (one-nine)
+- ✅ "10, 11, 100, 1000" (10+)
+- ❌ "1, 2, 3" for small numbers
+- ❌ "ten, eleven" for 10+
+
+## Code Block Patterns
+
+### Show Expected Output
+
+```bash
+curl -s https://api.joinformal.com/health | jq .
+# Expected: {"status":"ok","version":"1.26.0"}
+```
+
+### Multi-Step Commands
+
+```bash
+# 1. Create configuration file
+cat > connector.yaml <<EOF
+name: my-connector
+hostname: db.example.com
+EOF
+
+# 2. Apply configuration
+formal apply -f connector.yaml
+
+# 3. Verify deployment
+formal connectors list | grep my-connector
+```
+
+### Environment Setup
+
+```bash
+# Set required environment variables
+export FORMAL_API_KEY="<YOUR_API_KEY>"
+export CONNECTOR_HOSTNAME="db.example.com"
+
+# Verify variables are set
+echo "API Key: ${FORMAL_API_KEY:0:10}..."
+echo "Hostname: $CONNECTOR_HOSTNAME"
+```
+
+## Image Patterns
+
+### Meaningful Alt Text
+
+- ✅ `![Connector form with hostname, port, and TLS toggle fields](/assets/images/connector-form.png)`
+- ❌ `![Screenshot](/assets/images/screenshot.png)`
+- ❌ `![Image](/assets/images/1.png)`
+
+### Cropped Screenshots
+
+- ✅ Crop to relevant UI section
+- ❌ Full browser window with toolbars
+- ❌ Uncropped desktop screenshots
+
+### Hide PII
+
+- ✅ Redact email addresses, API keys, IPs
+- ❌ Show real user data
+- ❌ Show production credentials

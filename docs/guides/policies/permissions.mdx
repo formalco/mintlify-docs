@@ -20,21 +20,18 @@ To adjust the validity period for your organization, contact Formal support. Org
 
 <Tabs>
   <Tab title="Web Console">
-    1. Navigate to [the Formal console](https://app.joinformal.com)
-    2. Click the **Access Token** button in the bottom right corner
-    3. Copy your credentials (username and access token)
+    1. Navigate to [the Formal console](https://app.joinformal.com) 2. Click the
+    **Access Token** button in the bottom right corner 3. Copy your credentials
+    (username and access token)
   </Tab>
-  
+
   <Tab title="Desktop App">
-    ```bash
-    formal auth credentials
-    ```
-    
-    This displays your Formal username and access token for connecting through Connectors.
+    ```bash formal auth credentials ``` This displays your Formal username and
+    access token for connecting through Connectors.
   </Tab>
 </Tabs>
 
-<img src="/img/credentials.png" alt="Access credentials in console" />
+<img src="/assets/images/credentials.png" alt="Access credentials in console" />
 
 ## Using Credentials
 
@@ -52,6 +49,7 @@ psql -h connector.joinformal.com -p 5432 \
 ```
 
 Benefits:
+
 - ✅ Short-lived, rotating tokens
 - ✅ Per-user audit trails
 - ✅ Policy enforcement based on your identity
@@ -60,7 +58,8 @@ Benefits:
 ### Native Credentials
 
 <Warning>
-Using native credentials bypasses Formal's identity-based access control. This may be restricted by policy.
+  Using native credentials bypasses Formal's identity-based access control. This
+  may be restricted by policy.
 </Warning>
 
 If allowed, append the native username after your Formal username:
@@ -70,6 +69,7 @@ idp:formal:human:alice@example.com@native_username
 ```
 
 Example:
+
 ```bash
 psql -h connector.joinformal.com -p 5432 \
   -U "idp:formal:human:alice@example.com@postgres_readonly" \
@@ -91,7 +91,8 @@ Native user selection follows this precedence:
 3. **Default**: Default native user for the resource
 
 <Note>
-A Formal User can have at most ONE native user assignment. If assigned directly, they cannot be in a group that also has a native user assignment.
+  A Formal User can have at most ONE native user assignment. If assigned
+  directly, they cannot be in a group that also has a native user assignment.
 </Note>
 
 ## Permission Policies
@@ -169,14 +170,14 @@ Map end-user IDs from external systems to Formal users:
 
 <Steps>
   <Step title="Add External ID to Formal User">
-    In the user details page, add the user's ID from your BI tool (e.g., Looker user ID `12345`)
+    In the user details page, add the user's ID from your BI tool (e.g., Looker
+    user ID `12345`)
   </Step>
   <Step title="Configure Application">
-    Update your application to propagate end-user ID when connecting
-    
-    Use Formal SDKs:
-    - [formal-sqlcommenter (Python/Django)](https://pypi.org/project/formal-sqlcommenter/)
-    - Built-in integrations for Looker, Metabase, Tableau
+    Update your application to propagate end-user ID when connecting Use Formal
+    SDKs: - [formal-sqlcommenter
+    (Python/Django)](https://pypi.org/project/formal-sqlcommenter/) - Built-in
+    integrations for Looker, Metabase, Tableau
   </Step>
   <Step title="Write Policies for End-Users">
     Reference `input.end_user` in policies to enforce per-user rules
@@ -205,7 +206,8 @@ session := {
 ## Device-Based Access Control
 
 <Warning>
-This feature requires the [Formal Desktop App](/docs/guides/client-tools/desktop-app).
+  This feature requires the [Formal Desktop
+  App](/docs/guides/client-tools/desktop-app).
 </Warning>
 
 Enforce policies based on device attributes:
@@ -235,6 +237,7 @@ session := {
 ```
 
 Available device fields include:
+
 - `device.hardware.model_name`
 - `device.hardware.serial_number`
 - `device.software.system_version`
@@ -245,40 +248,60 @@ Available device fields include:
 
 <AccordionGroup>
   <Accordion title="Use Formal Credentials" icon="check">
-    Always prefer Formal credentials over native credentials for better security and audit trails.
+    Always prefer Formal credentials over native credentials for better security
+    and audit trails.
   </Accordion>
-  
-  <Accordion title="Group-Based Permissions" icon="users">
-    Assign permissions to groups rather than individual users. Add users to groups to grant access.
-  </Accordion>
-  
-  <Accordion title="Leverage Native User Mapping" icon="database">
-    Use different native users (readonly, readwrite, admin) and assign them to groups based on required privileges.
-  </Accordion>
-  
-  <Accordion title="Implement External IDs for BI Tools" icon="chart-line">
-    Enable end-user attribution for BI tools to ensure queries are tracked to the right person, not just the application.
-  </Accordion>
-  
+
+<Accordion title="Group-Based Permissions" icon="users">
+  Assign permissions to groups rather than individual users. Add users to groups
+  to grant access.
+</Accordion>
+
+<Accordion title="Leverage Native User Mapping" icon="database">
+  Use different native users (readonly, readwrite, admin) and assign them to
+  groups based on required privileges.
+</Accordion>
+
+<Accordion title="Implement External IDs for BI Tools" icon="chart-line">
+  Enable end-user attribution for BI tools to ensure queries are tracked to the
+  right person, not just the application.
+</Accordion>
+
   <Accordion title="Rotate Tokens Regularly" icon="arrows-rotate">
-    Even though tokens are short-lived, establish a process for users to refresh credentials periodically.
+    Even though tokens are short-lived, establish a process for users to refresh
+    credentials periodically.
   </Accordion>
 </AccordionGroup>
 
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Write Policies" icon="shield-check" href="/docs/guides/policies/policies">
+  <Card
+    title="Write Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
     Create access control policies
   </Card>
-  <Card title="Configure Native Users" icon="key" href="/docs/guides/core-concepts/resources#native-users">
+  <Card
+    title="Configure Native Users"
+    icon="key"
+    href="/docs/guides/core-concepts/resources#native-users"
+  >
     Set up database credentials
   </Card>
-  <Card title="Set Up External IDs" icon="link" href="/docs/guides/core-concepts/identities#external-ids-and-identity-propagation">
+  <Card
+    title="Set Up External IDs"
+    icon="link"
+    href="/docs/guides/core-concepts/identities#external-ids-and-identity-propagation"
+  >
     Enable end-user tracking for BI tools
   </Card>
-  <Card title="Desktop App" icon="desktop" href="/docs/guides/client-tools/desktop-app">
+  <Card
+    title="Desktop App"
+    icon="desktop"
+    href="/docs/guides/client-tools/desktop-app"
+  >
     Install the Formal Desktop App
   </Card>
 </CardGroup>
-

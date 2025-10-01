@@ -2,9 +2,11 @@
 
 import { readdirSync, readFileSync, statSync, existsSync } from "fs";
 import { join, resolve } from "path";
+import { getReferencedFiles } from "./get-referenced-files";
 
 const DOCS_ROOT = resolve(__dirname, "..");
 const ASSETS_DIRS = ["assets", "images", "img"];
+const REFERENCED_FILES = new Set(getReferencedFiles());
 
 interface MissingAsset {
   file: string;
@@ -95,14 +97,23 @@ function checkAssetExists(assetPath: string): boolean {
 }
 
 function main() {
-  console.log(`${colors.blue}🖼️  Asset Checker for Documentation${colors.reset}\n`);
+  console.log(
+    `${colors.blue}🖼️  Asset Checker for Documentation${colors.reset}\n`
+  );
 
   const mdxFiles = findMDXFiles(DOCS_ROOT);
   const missingAssets: MissingAsset[] = [];
 
-  console.log(`${colors.blue}📄 Scanning ${mdxFiles.length} files...${colors.reset}`);
+  // Only check files that are actually referenced
+  const referencedMdxFiles = mdxFiles.filter((file) =>
+    REFERENCED_FILES.has(file)
+  );
 
-  for (const file of mdxFiles) {
+  console.log(
+    `${colors.blue}📄 Scanning ${referencedMdxFiles.length} referenced files...${colors.reset}`
+  );
+
+  for (const file of referencedMdxFiles) {
     const content = readFileSync(file, "utf-8");
     const images = extractImagePaths(content);
 
@@ -127,10 +138,14 @@ function main() {
     process.exit(0);
   }
 
-  console.log(`${colors.red}❌ Found ${missingAssets.length} missing assets:${colors.reset}\n`);
+  console.log(
+    `${colors.red}❌ Found ${missingAssets.length} missing assets:${colors.reset}\n`
+  );
 
   missingAssets.forEach((asset, index) => {
-    console.log(`${index + 1}. ${colors.yellow}${asset.assetPath}${colors.reset}`);
+    console.log(
+      `${index + 1}. ${colors.yellow}${asset.assetPath}${colors.reset}`
+    );
     console.log(`   File: ${asset.file}:${asset.line}`);
     console.log();
   });
@@ -139,4 +154,3 @@ function main() {
 }
 
 main();
-

@@ -1,0 +1,322 @@
+---
+description: Quick reference for common tasks and commands
+---
+
+# Quick Reference Guide
+
+## Common Commands
+
+### Development
+
+```bash
+# Start dev server
+pnpm dev
+
+# Sync API docs
+bun run sync-api-docs
+
+# Open local docs
+open http://localhost:3000
+```
+
+### Quality Checks
+
+```bash
+# Run all pre-commit checks (same as hook)
+pnpm precommit
+
+# Individual checks:
+# Check for broken links
+pnpm check-links
+
+# Check spelling
+pnpm check-spelling
+
+# Verify images exist
+pnpm check-assets
+
+# Format content files
+pnpm format
+
+# Check formatting only
+pnpm format-check
+```
+
+### Scripts
+
+```bash
+# Enhance OpenAPI specs
+bun run scripts/enhance-openapi-specs.ts
+
+# Generate API navigation
+bun run scripts/generate-api-navigation.ts
+
+# Check dead links
+bun run scripts/check-dead-links.ts
+
+# Check assets
+bun run scripts/check-assets.ts
+```
+
+## File Paths
+
+### Key Files
+
+- [docs.json](mdc:docs.json) - Navigation config
+- [package.json](mdc:package.json) - Scripts & dependencies
+- [cspell.json](mdc:cspell.json) - Spell checker config
+- [.husky/pre-commit](mdc:.husky/pre-commit) - Pre-commit hook
+
+### Documentation
+
+- `/docs/guides/` - User guides (43 pages)
+- `/docs/api/` - API reference (24 services)
+- `/docs/glossary/` - Term definitions
+- `/docs/changelog/` - Release notes
+
+### Assets
+
+- `/assets/images/` - Images (absolute paths)
+- `/assets/logos/` - Dark/light logos
+
+### Scripts
+
+- `/scripts/sync-api-docs.sh` - API sync orchestrator
+- `/scripts/enhance-openapi-specs.ts` - OpenAPI enhancer
+- `/scripts/generate-api-navigation.ts` - Nav generator
+- `/scripts/check-dead-links.ts` - Link validator
+- `/scripts/check-assets.ts` - Asset verifier
+
+### Snippets
+
+- `/snippets/glossary-terms.mdx` - Glossary `<G>` component
+- `/snippets/snippet-intro.mdx` - Reusable intro
+
+## Adding New Content
+
+### New Documentation Page
+
+1. Create: `/docs/guides/category/page-name.mdx`
+2. Add to: [docs.json](mdc:docs.json)
+3. Test: `pnpm dev`
+4. Verify: `pnpm check-links`
+
+### New Glossary Term
+
+1. Add to: `/docs/glossary/index.mdx`
+2. Add anchor: `## Term Name {#term-name}`
+3. Use in docs: `<G anchor="term-name">Term Name</G>`
+
+### New Image
+
+1. Save to: `/assets/images/category/`
+2. Reference: `![Alt text](/assets/images/category/file.png)`
+3. Verify: `pnpm check-assets`
+
+### New Changelog Entry
+
+1. Edit: `/docs/changelog/product-name.mdx`
+2. Add version section at top
+3. Follow existing format
+
+## Component Snippets
+
+### Outcome Block
+
+```mdx
+> **Outcome:** After this guide, you can <do the thing>.  
+> **Prerequisites:** <requirements>.
+```
+
+### Verify Step
+
+```mdx
+**Verify:**
+\`\`\`bash
+command-to-run
+
+# Expected: expected output
+
+\`\`\`
+```
+
+### Warning
+
+```mdx
+<Warning>Important warning message.</Warning>
+```
+
+### Tip
+
+```mdx
+<Tip>Helpful tip for users.</Tip>
+```
+
+### Note
+
+```mdx
+<Note>Additional context or information.</Note>
+```
+
+### Code Tabs
+
+````mdx
+<Tabs>
+  <Tab title="curl">```bash curl https://api.joinformal.com ```</Tab>
+  <Tab title="JavaScript">```ts const res = await fetch("/api"); ```</Tab>
+</Tabs>
+````
+
+### Accordion
+
+```mdx
+<AccordionGroup>
+  <Accordion title="Problem description">
+    **Cause:** Reason **Fix:** Solution
+  </Accordion>
+</AccordionGroup>
+```
+
+### Card Group
+
+```mdx
+<CardGroup cols={2}>
+  <Card title="Title" icon="icon-name" href="/path">
+    Description
+  </Card>
+</CardGroup>
+```
+
+### Glossary Link
+
+```mdx
+import { G } from "/snippets/glossary-terms.mdx";
+
+The <G anchor="term">Term</G> does something.
+```
+
+## Git Workflow
+
+### Standard Workflow
+
+```bash
+# 1. Make changes
+vim docs/guides/category/page.mdx
+
+# 2. Stage files
+git add .
+
+# 3. Commit (runs pre-commit checks automatically)
+git commit -m "Add new guide for X"
+
+# 4. Push
+git push origin main
+```
+
+### Pre-Commit Auto-Runs
+
+When you `git commit`, these run automatically:
+
+1. Prettier formatting
+2. Spell checking
+3. Link validation
+4. Asset verification
+
+### Skip Pre-Commit (Emergency)
+
+```bash
+git commit --no-verify -m "Urgent fix"
+```
+
+## Troubleshooting
+
+### Dev server won't start
+
+```bash
+# Update Mintlify
+npm i -g mintlify@latest
+
+# Clear cache
+rm -rf .next
+
+# Restart
+pnpm dev
+```
+
+### Page shows 404
+
+1. Check file exists in `/docs/`
+2. Verify path in [docs.json](mdc:docs.json)
+3. No `.mdx` extension in docs.json
+4. Restart dev server
+
+### Broken links
+
+```bash
+# Find all broken links
+pnpm check-links
+
+# Fix paths (use absolute: /docs/...)
+# Re-check
+pnpm check-links
+```
+
+### Spell check fails
+
+```bash
+# See errors
+pnpm check-spelling
+
+# Add words to cspell.json
+# Re-check
+pnpm check-spelling
+```
+
+### Missing images
+
+```bash
+# Find missing assets
+pnpm check-assets
+
+# Add images to /assets/images/
+# Or fix paths in MDX
+```
+
+## Available Glossary Anchors
+
+Import: `import { G } from "/snippets/glossary-terms.mdx";`
+
+Available anchors:
+
+- `connector` - Formal Connector (proxy)
+- `resource` - Data resource (DB, SSH, K8s)
+- `policy` - Access control policy
+- `session` - User session
+- `space` - Workspace/environment
+- `satellite` - Policy data loader
+- `end-user-identity` - End user identity
+- `native-user` - Native database user
+- `rego` - Policy language (OPA Rego)
+- `masking` - Data masking/redaction
+- `pii` - Personally identifiable information
+- `sso` - Single sign-on
+- `mfa` - Multi-factor authentication
+- `control-plane` - Formal control plane
+- `data-plane` - Formal data plane
+
+## Tech Stack
+
+- **Framework**: Mintlify (Next.js)
+- **Runtime**: Bun 1.2.21+
+- **Package Manager**: pnpm 9.0.0
+- **Languages**: TypeScript (scripts), MDX (docs)
+- **Formatting**: Prettier
+- **Spell Check**: cspell
+- **Pre-commit**: Husky + lint-staged
+
+## External Resources
+
+- Mintlify Docs: https://mintlify.com/docs
+- Buf Registry: https://buf.build/formal/core
+- Formal Website: https://joinformal.com
+- Formal App: https://app.joinformal.com

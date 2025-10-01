@@ -1,341 +1,537 @@
-# Mintlify Documentation Project - AI Agents Guide
+# Formal Documentation - AI Agents Guide
 
-## Project Overview
+> **Purpose:** This guide helps AI coding assistants (Claude, Cursor, Copilot, etc.) write high-quality Formal documentation that follows our standards.
 
-This is a Mintlify documentation site for Formal, structured with MDX documentation pages, reusable snippets, and configured via `docs.json`.
+---
 
-## File Structure
+## Quick Start for AI Agents
 
-```
-/
-├── docs.json              # Main configuration file (navigation, theme, colors, etc.)
-├── index.mdx              # Homepage
-├── quickstart.mdx         # Getting started guide
-├── development.mdx        # Local development instructions
-├── favicon.svg            # Site favicon
-├── logo/
-│   ├── dark.svg          # Dark theme logo
-│   └── light.svg         # Light theme logo
-├── images/               # Screenshots and graphics
-│   ├── hero-light.png
-│   ├── hero-dark.png
-│   └── checks-passed.png
-├── snippets/             # Reusable content components
-│   └── snippet-intro.mdx # Example snippet
-├── essentials/           # Core customization documentation
-│   ├── settings.mdx
-│   ├── navigation.mdx
-│   ├── markdown.mdx
-│   ├── code.mdx
-│   ├── images.mdx
-│   └── reusable-snippets.mdx
-├── api-reference/        # API documentation
-│   ├── introduction.mdx
-│   ├── openapi.json     # OpenAPI specification
-│   └── endpoint/
-│       ├── create.mdx
-│       ├── get.mdx
-│       ├── delete.mdx
-│       └── webhook.mdx
-└── ai-tools/            # AI tool integration guides
-    ├── cursor.mdx
-    ├── claude-code.mdx
-    └── windsurf.mdx
-```
+When asked to create or edit documentation:
 
-## Configuration (`docs.json`)
+1. ✅ Follow the **Authoring Rules** below (suggest, don't block)
+2. ✅ Use **MDX patterns** from this guide
+3. ✅ Ensure **one outcome per page**
+4. ✅ Make code **copy-pastable** with examples
+5. ✅ Add **verification steps** for each major action
+6. ✅ Keep sentences ≤ **20 words**
 
-### Current Setup
+---
 
-- **Theme**: mint
-- **Name**: Formal
-- **Colors**: Primary (#3D6EFF), Light (#345DD9), Dark (#2847A6)
-- **Navigation Structure**: 3 tabs (Guides, API Reference, Changelog)
+## Authoring Rules
 
-### Navigation Structure
+### Page Structure
 
-```json
-{
-  "navigation": {
-    "tabs": [
-      {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": ["index", "quickstart", "development"]
-          }
-        ]
-      }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        }
-      ]
-    }
-  }
-}
-```
-
-## Common Tasks
-
-### 1. Add a New Page
-
-1. Create the MDX file in the appropriate directory:
-
-   ```bash
-   # Example: Create a new guide page
-   touch new-guide.mdx
-   ```
-
-2. Add frontmatter to the MDX file:
-
-   ```mdx
-   ---
-   title: "Your Page Title"
-   description: "Your page description"
-   icon: "rocket"
-   ---
-
-   # Your content here
-   ```
-
-3. Add to `docs.json` navigation:
-   ```json
-   {
-     "group": "Getting started",
-     "pages": ["index", "quickstart", "development", "new-guide"]
-   }
-   ```
-
-### 2. Create Nested Navigation
-
-```json
-{
-  "group": "Parent Group",
-  "pages": [
-    "page1",
-    {
-      "group": "Nested Group",
-      "icon": "folder",
-      "pages": ["nested-page1", "nested-page2"]
-    }
-  ]
-}
-```
-
-### 3. Use Reusable Snippets
-
-**Create snippet** (`snippets/my-snippet.mdx`):
-
-```mdx
-export const companyName = "Formal";
-
-This is reusable content about {props.topic}.
-```
-
-**Use snippet** in any page:
+Every page should have:
 
 ```mdx
 ---
-title: "My Page"
+title: Deploy Connector on AWS
+description: Deploy a Formal Connector on AWS ECS Fargate with Terraform
+icon: aws
 ---
 
-import { companyName } from "/snippets/my-snippet.mdx";
-import MySnippet from "/snippets/my-snippet.mdx";
+> **Outcome:** After this guide, you can deploy a Connector on AWS ECS.  
+> **Prerequisites:** AWS account, Terraform CLI, Formal API key.
 
-Welcome to {companyName}!
+## Overview
 
-<MySnippet topic="documentation" />
+[Brief 2-3 sentence explanation]
+
+## Steps
+
+### 1. Configure Terraform
+
+[Instructions]
+
+**Verify:**
+\`\`\`bash
+terraform plan
+\`\`\`
+
+### 2. Deploy Stack
+
+[Instructions]
+
+**Verify:**
+\`\`\`bash
+terraform apply
+curl -I https://connector.example.com/health
+\`\`\`
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Deployment fails">
+    **Cause:** IAM permissions **Fix:** Add `ecs:CreateService` permission
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Configure Policies" href="/docs/guides/policies/policies">
+    Write access control rules
+  </Card>
+</CardGroup>
 ```
 
-### 4. Organize with Folders
+### Language Style
 
-- Create folder: `mkdir my-folder`
-- Create MDX file: `my-folder/my-page.mdx`
-- Reference in `docs.json`: `"my-folder/my-page"`
-- **Warning**: Cannot use `/api` as top-level folder (reserved by Next.js)
+- **Voice:** Second person ("you"), present tense, active
+- **Sentences:** ≤ 20 words
+- **UI elements:** **Bold** ("Click **Create Connector**")
+- **Code:** `inline code` for paths, flags, filenames
+- **Numbers:** One-nine as words, 10+ as numerals
 
-### 5. Add External Links
-
-```json
-{
-  "tab": "Blog",
-  "icon": "newspaper",
-  "href": "https://external-link.com/blog"
-}
-```
-
-### 6. Configure OpenAPI Endpoints
-
-```json
-{
-  "group": "API Reference",
-  "openapi": "/api-reference/openapi.json",
-  "pages": ["api-reference/introduction", "GET /users", "POST /users"]
-}
-```
-
-### 7. Add Icons to Groups
-
-```json
-{
-  "group": "Getting started",
-  "icon": "rocket",
-  "expanded": true,
-  "pages": ["quickstart"]
-}
-```
-
-### 8. Create Hidden Pages
-
-- Create MDX file but don't add to `docs.json`
-- Accessible via search and direct links only
-- Useful for internal/reference pages
-
-## Snippet Best Practices
-
-### Types of Snippets
-
-**1. Default Export (with props):**
+**Good Example:**
 
 ```mdx
-Hello world! This content uses {props.word}.
+Go to [Connectors](https://app.joinformal.com/connectors) and click **New Connector**. Enter your hostname in the **Name** field.
 ```
 
-**2. Variable Export:**
+**Bad Example:**
 
 ```mdx
-export const myName = "Formal";
-export const myObject = { fruit: "strawberries" };
-
-;
+You will then proceed to navigate to the Connectors page where you will subsequently be clicking on the New Connector button and then entering the hostname into the name field.
 ```
 
-**3. Component Export:**
+### Code Blocks
 
-```mdx
-export const MyComponent = ({ title }) => (
-  <div>
-    <h1>{title}</h1>
-    <p>Snippet content</p>
-  </div>
-);
+Every code block must:
 
-;
-```
-
-**Important**: MDX doesn't compile inside arrow functions—use HTML or default exports for MDX syntax.
-
-## Navigation Patterns
-
-### Tabs (Top-level navigation)
-
-- Create distinct sections with separate URL paths
-- Display as horizontal navigation bar
-- Can link to external URLs
-
-### Groups (Sidebar sections)
-
-- Organize pages into labeled sections
-- Can be nested
-- Support icons, tags, and expanded state
-
-### Anchors (Persistent sidebar items)
-
-- Always visible at top of sidebar
-- Can link to pages or external resources
-- Support global anchors (external only)
-
-### Dropdowns (Expandable menus)
-
-- Collapsible navigation sections
-- Support nested groups
-
-## Global Settings
-
-### Contextual Options (Current Config)
-
-```json
-"contextual": {
-  "options": [
-    "copy",      // Copy code blocks
-    "view",      // View source
-    "chatgpt",   // ChatGPT integration
-    "claude",    // Claude integration
-    "perplexity",// Perplexity integration
-    "mcp",       // MCP integration
-    "cursor",    // Cursor integration
-    "vscode"     // VS Code integration
-  ]
-}
-```
-
-### Footer Configuration
-
-```json
-"footer": {
-  "socials": {
-    "x": "https://x.com/joinformal",
-    "github": "https://github.com/formalco",
-    "linkedin": "https://linkedin.com/company/formalhq"
-  }
-}
-```
-
-### Navbar Configuration
-
-```json
-"navbar": {
-  "links": [
-    {
-      "label": "Support",
-      "href": "mailto:support@joinformal.com"
-    }
-  ],
-  "primary": {
-    "type": "button",
-    "label": "Dashboard",
-    "href": "https://app.joinformal.com"
-  }
-}
-```
-
-## Development Workflow
-
-1. **Local Development**: Run `mintlify dev` to preview changes
-2. **Add Pages**: Create MDX files and update `docs.json`
-3. **Use Snippets**: Store reusable content in `/snippets/`
-4. **Test Navigation**: Verify all links work locally
-5. **Commit Changes**: Git commit and push
-6. **Deploy**: Auto-deploys via Mintlify platform
-
-## Important Notes
-
-- Files in `/snippets/` won't render as standalone pages
-- Page paths in `docs.json` don't need `.mdx` extension
-- Navigation is recursive—groups can nest infinitely
-- Hidden pages (not in `docs.json`) are still accessible via search
-- Use `/logo/dark.svg` and `/logo/light.svg` for theme switching
-- Store images in `/images/` directory
-- Use relative paths like `/images/my-image.png` in MDX
-
-## MCP Integration
-
-Use the Context7 MCP server for Mintlify documentation:
+- Declare a language
+- Be fully copy-pastable
+- Use placeholders for secrets: `<YOUR_API_KEY>`
+- Show expected output when it proves success
 
 ```bash
-mcp__context7__resolve-library-id --libraryName "mintlify"
-mcp__context7__get-library-docs --context7CompatibleLibraryID "/mintlify/docs"
+export FORMAL_API_KEY="<YOUR_API_KEY>"
+curl -s https://api.joinformal.com/health | jq .
+# Expected: {"status":"ok"}
 ```
 
-## Quick Reference Links
+**Multi-language tabs** (keep parity across all tabs):
 
-- **Mintlify Docs**: https://mintlify.com/docs
-- **Context7 Library ID**: `/mintlify/docs`
-- **Current Branch**: main
-- **Repository**: GitHub (formal/mint/docs)
+````mdx
+<Tabs>
+  <Tab title="curl">
+    ```bash
+    curl -H "Authorization: Bearer <KEY>" \
+      https://api.joinformal.com/v1/users
+    ```
+  </Tab>
+  <Tab title="JavaScript">
+    ```ts
+    const res = await fetch("/v1/users", {
+      headers: { Authorization: `Bearer ${API_KEY}` }
+    });
+    const users = await res.json();
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    import requests
+    
+    response = requests.get(
+        "https://api.joinformal.com/v1/users",
+        headers={"Authorization": f"Bearer {API_KEY}"}
+    )
+    users = response.json()
+    ```
+  </Tab>
+</Tabs>
+````
+
+### Links
+
+**Internal links:** Absolute paths from root
+
+```mdx
+See [Connector configuration](/docs/guides/core-concepts/connectors)
+```
+
+**External links:** Add brief context (5-10 words)
+
+```mdx
+See [AWS ECS task definitions](https://docs.aws.amazon.com/ecs/task-definitions.html) (CPU and memory limits)
+```
+
+### Images
+
+Only include if adding non-obvious information.
+
+- Crop to relevant UI
+- Hide PII
+- Use meaningful alt text (≥3 words describing purpose)
+- Formats: SVG (diagrams), PNG (UI), MP4 (flows ≤30s)
+
+```mdx
+![Create Connector with listener on port 5432](/assets/images/formal_connector.png)
+```
+
+### Glossary Terms
+
+Use the `<G>` component to link terms to the glossary:
+
+```mdx
+import { G } from "/snippets/glossary-terms.mdx";
+
+The <G anchor="connector">Connector</G> enforces <G anchor="policy">policies</G> and logs all <G anchor="session">sessions</G>.
+```
+
+Available anchors: `connector`, `resource`, `policy`, `session`, `space`, `satellite`, `end-user-identity`, `native-user`, `rego`, `masking`, `pii`, `sso`, `mfa`, `control-plane`, `data-plane`
+
+---
+
+## MDX Component Patterns
+
+### Admonitions
+
+```mdx
+<Warning>
+  Rotating keys invalidates existing sessions. Schedule a maintenance window.
+</Warning>
+
+<Tip>Use a service account in CI; avoid personal tokens.</Tip>
+
+<Note>**Since v1.26:** `includePolicies` defaults to `false`.</Note>
+```
+
+### Steps with Verification
+
+````mdx
+<Steps>
+  <Step title="Create API Key">
+    Go to [API Keys](https://app.joinformal.com/api-keys) and click **Create API
+    Key**. **Verify:** ```bash export FORMAL_API_KEY="your-key-here" curl -H
+    "Authorization: Bearer $FORMAL_API_KEY" \
+    https://api.joinformal.com/v1/users ```
+  </Step>
+  <Step title="Configure Connector">
+    Add the API key to your Connector environment variables. **Verify:** ```bash
+    docker logs formal-connector | grep "Connected to Control Plane" ```
+  </Step>
+</Steps>
+````
+
+### Accordion (Troubleshooting)
+
+```mdx
+<AccordionGroup>
+  <Accordion title="Connection timeout">
+    **Possible causes:** - Firewall blocking port 443 - DNS not resolving
+    **Solution:** 1. Whitelist `api.joinformal.com` 2. Verify DNS: `nslookup
+    api.joinformal.com`
+  </Accordion>
+
+  <Accordion title="Authentication failed">
+    **Possible causes:** - API key expired - Invalid key format **Solution:** 1.
+    Generate new API key 2. Ensure no whitespace in key
+  </Accordion>
+</AccordionGroup>
+```
+
+### Card Groups (Next Steps)
+
+```mdx
+<CardGroup cols={2}>
+  <Card
+    title="Write Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
+    Create access control rules
+  </Card>
+  <Card
+    title="View Logs"
+    icon="file-lines"
+    href="/docs/guides/observability/logs"
+  >
+    Monitor all queries
+  </Card>
+  <Card
+    title="Configure SSO"
+    icon="right-to-bracket"
+    href="/docs/guides/integrations/sso"
+  >
+    Enable single sign-on
+  </Card>
+  <Card
+    title="Deploy Connector"
+    icon="server"
+    href="/docs/guides/core-concepts/connectors"
+  >
+    Set up infrastructure
+  </Card>
+</CardGroup>
+```
+
+---
+
+## File Organization
+
+### All MDX files go in `/docs`
+
+```
+/docs/
+├── guides/
+│   ├── getting-started/
+│   ├── core-concepts/
+│   ├── policies/
+│   ├── integrations/
+│   ├── configuration/
+│   └── how-to/
+├── api/
+│   ├── introduction.mdx
+│   └── openapi/          # Auto-generated, don't edit
+├── glossary/
+│   └── index.mdx
+└── changelog/
+    ├── index.mdx
+    ├── connector.mdx
+    ├── api.mdx
+    └── desktop-app.mdx
+```
+
+**Exceptions:**
+
+- `/legacy-docs` - Historical docs (reference only)
+- `/snippets` - Reusable components (not pages)
+
+### Filenames
+
+- Use `kebab-case.mdx`
+- Index pages: `index.mdx`
+- No spaces, underscores, or capital letters
+
+**Good:** `deploy-on-aws.mdx`, `what-is-formal.mdx`
+**Bad:** `Deploy_On_AWS.mdx`, `what is formal.mdx`
+
+### Images
+
+- Store in `/assets/images/`
+- Use absolute paths: `/assets/images/connector-create.png`
+- Organize by feature: `/assets/images/connectors/`, `/assets/images/policies/`
+
+---
+
+## Frontmatter
+
+Required fields:
+
+```mdx
+---
+title: Deploy Connector on AWS
+description: Deploy a Formal Connector on AWS ECS Fargate using Terraform
+icon: aws
+---
+```
+
+**Rules:**
+
+- Title ≤ 65 characters, imperative voice
+- Description ≤ 160 characters
+- Icon from [Font Awesome](https://fontawesome.com/icons) or [Simple Icons](https://simpleicons.org/)
+
+**Optional fields:**
+
+```mdx
+---
+title: Page Title
+description: Page description
+icon: rocket
+sidebarTitle: Short Title # For sidebar (if different)
+---
+```
+
+---
+
+## Navigation (docs.json)
+
+### Adding a New Page
+
+1. Create MDX file in `/docs/guides/...`
+2. Add to `docs.json`:
+
+```json
+{
+  "group": "Getting Started",
+  "pages": [
+    "docs/guides/getting-started/index",
+    "docs/guides/getting-started/quickstart",
+    "docs/guides/getting-started/your-new-page"
+  ]
+}
+```
+
+3. Do **not** add file extension (`.mdx`)
+4. Use full path from root
+
+### OpenAPI Pages
+
+**Never** add OpenAPI-generated pages to `pages` arrays. They're auto-added by `scripts/generate-api-navigation.ts`.
+
+---
+
+## Verification Steps
+
+Every major action should have a verification step:
+
+````mdx
+### 2. Deploy Connector
+
+```bash
+terraform apply
+```
+````
+
+**Verify:**
+
+```bash
+# Check service is running
+aws ecs describe-services --cluster formal --services formal-connector
+
+# Test health endpoint
+curl -I https://connector.example.com/health
+# Expected: HTTP/1.1 200 OK
+```
+
+````
+
+---
+
+## When to Create New Pages
+
+**Create a new page when:**
+- The page has a single, distinct outcome
+- Content is ≥ 300 words
+- Topic deserves its own navigation entry
+
+**Add to existing page when:**
+- Content is a small variation of existing topic
+- ≤ 2 paragraphs
+- Closely related to existing content
+
+---
+
+## API Documentation
+
+API pages are auto-generated from OpenAPI specs. To update:
+
+```bash
+bun run sync-api-docs
+````
+
+This:
+
+1. Exports protobufs from Buf Registry
+2. Generates OpenAPI v3 specs
+3. Enhances with error codes and examples
+4. Updates navigation in `docs.json`
+
+**Don't manually edit** files in `/docs/api/openapi/`
+
+---
+
+## Pre-Commit Checks
+
+Before committing, these checks run automatically:
+
+1. **Prettier** - Auto-formats code
+2. **cspell** - Checks spelling
+3. **Link checker** - Finds broken links
+4. **Asset checker** - Verifies images exist
+
+Fix errors before committing.
+
+**Manual checks:**
+
+```bash
+pnpm check-spelling    # Spell check
+pnpm check-links       # Link validation
+pnpm check-assets      # Image verification
+```
+
+---
+
+## AI Agent Behavior
+
+### Suggestions (Not Blockers)
+
+When reviewing or creating content, **suggest** improvements but don't block:
+
+- "Consider adding a verify step after deployment"
+- "This sentence is 32 words; consider splitting"
+- "Code block missing language tag"
+- "Alt text could be more descriptive"
+
+### Auto-Fixes
+
+These can be applied automatically:
+
+- Formatting (Prettier handles this)
+- Adding language tags to code blocks
+- Converting relative to absolute links
+- Fixing heading hierarchy
+
+### Flags (Require User Decision)
+
+These need user input:
+
+- Missing outcome/prerequisites
+- Duplicate content across pages
+- Missing verification steps
+- Unclear instructions
+
+---
+
+## Quick Checklist
+
+Use this when creating/editing pages:
+
+- [ ] One clear outcome stated at top
+- [ ] Title ≤65 chars, imperative voice
+- [ ] Prerequisites minimal and linked
+- [ ] Steps numbered with verification
+- [ ] Code blocks typed and copy-pastable
+- [ ] Images cropped, meaningful alt text
+- [ ] Internal links absolute paths
+- [ ] Glossary terms linked with `<G>`
+- [ ] Navigation updated in `docs.json`
+- [ ] Changelog updated (if behavior changed)
+
+---
+
+## Common Pitfalls
+
+❌ **Don't:**
+
+- Use gerunds in titles ("Deploying" → "Deploy")
+- Leave code blocks untyped
+- Use relative links ("../guides" → "/docs/guides/...")
+- Include real API keys or secrets
+- Skip verification steps
+- Use passive voice
+- Write sentences > 20 words
+
+✅ **Do:**
+
+- Use imperative titles
+- Type all code blocks
+- Use absolute links
+- Use placeholders for secrets
+- Add verify commands
+- Use active voice
+- Keep sentences concise
+
+---
+
+## Support
+
+- **Mintlify Docs:** https://mintlify.com/docs
+- **Questions:** Ask in #docs Slack channel
+- **Issues:** GitHub Issues on formal/mint/docs
+
+---
+
+_Last updated: 2025-10-01_

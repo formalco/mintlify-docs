@@ -1,4 +1,4 @@
-# Mintlify Documentation Project - Claude Guide
+# Formal Documentation - AI Agent Guide
 
 ## Project Overview
 
@@ -7,422 +7,322 @@ This is a Mintlify documentation site for Formal, structured with MDX documentat
 ## Technical Stack
 
 - **Framework**: Mintlify (Next.js based)
-- **Runtime**: Bun (for all scripts)
+- **Runtime**: Bun 1.2.21+ (for all scripts)
 - **Languages**: TypeScript (scripts), MDX (documentation)
-- **Package Manager**: pnpm
+- **Package Manager**: pnpm 9.0.0
 - **API Generation**: protoc + protoc-gen-connect-openapi + Buf Registry
 
-## File Structure
+---
 
-```
-/
-├── docs.json                      # Main configuration (navigation, theme, colors)
-├── package.json                   # Scripts use Bun
-├── scripts/
-│   ├── sync-api-docs.sh          # Main API sync orchestrator (Bash)
-│   ├── check-dead-links.ts       # Dead link checker (TypeScript/Bun)
-│   ├── enhance-openapi-specs.ts  # Add error codes & examples (TypeScript/Bun)
-│   └── generate-api-navigation.ts # Update docs.json navigation (TypeScript/Bun)
-├── docs/
-│   ├── guides/                   # User guides
-│   ├── api/
-│   │   ├── introduction.mdx      # API overview
-│   │   └── openapi/              # Generated OpenAPI specs (24 services)
-│   ├── glossary/
-│   │   └── index.mdx             # 40+ terms defined
-│   └── changelog/                # Product changelogs (4 products)
-├── legacy-docs/                   # Historical documentation
-└── snippets/                      # Reusable MDX components
+# Authoring Rules & Conventions
+
+> **Guide how to write pages right the first time. Surface as suggestions, not blockers.**
+
+## 1. Page Purpose & Scope
+
+**One outcome per page.** If a doc has two distinct outcomes, make two pages.
+
+Start every page with:
+
+```mdx
+> **Outcome:** After this guide, you can <do the thing>.  
+> **Prerequisites:** <account/role>, <tool versions>, <API access>.
 ```
 
-**IMPORTANT**: All MDX documentation files MUST be placed inside the `/docs` folder for centralization. This includes guides, API documentation, glossary, and changelogs. The only exceptions are:
+## 2. Frontmatter Schema (Mintlify)
 
-- `/legacy-docs` - Historical documentation (for reference only)
-- `/snippets` - Reusable MDX components (not standalone pages)
+Keep title ≤ 65 chars (imperative voice). Slug ≤ 60 chars (kebab-case).
 
-## Development Workflow
-
-### Running Scripts with Bun
-
-All TypeScript scripts must be run with Bun:
-
-```bash
-# Check for dead links
-bun run scripts/check-dead-links.ts
-
-# Enhance OpenAPI specs
-bun run scripts/enhance-openapi-specs.ts
-
-# Generate API navigation
-bun run scripts/generate-api-navigation.ts
-
-# Or use npm scripts (which use Bun internally)
-bun run check-links
-bun run sync-api-docs
-```
-
-### Local Development
-
-```bash
-# Start Mintlify dev server
-mintlify dev
-# or
-bun run dev
-
-# Sync API docs and start dev server
-bun run docs:sync
-
-# Build for production
-bun run docs:build
-```
-
-## API Documentation Generation
-
-### Overview
-
-API documentation is automatically generated from protobuf definitions in the Buf Registry:
-
-```
-Buf Registry → protoc → OpenAPI v3 → Enhancement → Mintlify
-```
-
-### Process
-
-1. **Export Proto Files**: `buf export buf.build/formal/core`
-2. **Generate OpenAPI**: `protoc` with `protoc-gen-connect-openapi` plugin
-3. **Enhance Specs**: Add error responses (400, 401, 403, 404, 500) and code samples
-4. **Update Navigation**: Regenerate `docs.json` with all services
-5. **Render**: Mintlify auto-generates pages from OpenAPI specs
-
-### Running API Sync
-
-```bash
-# Full API sync (runs all steps above)
-bash scripts/sync-api-docs.sh
-# or
-bun run sync-api-docs
-```
-
-### Generated Content
-
-- **24 OpenAPI Specs**: One per service (connectors, users, policies, etc.)
-- **All Response Codes**: 200, 400, 401, 403, 404, 500
-- **Code Examples**: curl, JavaScript, Python, Go
-- **Auto-generated Pages**: Mintlify creates pages for all operations
-
-### Service Categories
-
-Services are automatically organized into 6 categories:
-
-- Infrastructure (4 services)
-- Identity & Access (4 services)
-- Security & Governance (5 services)
-- Data Management (3 services)
-- Integrations (6 services)
-- Automation (2 services)
-
-## Configuration (`docs.json`)
-
-### Current Setup
-
-- **Theme**: mint
-- **Name**: Formal
-- **Colors**: Primary (#3D6EFF), Light (#345DD9), Dark (#2847A6)
-- **Navigation**: 5 tabs (Guides, API Reference, Glossary, Changelog, Legacy Docs)
-- **API Version**: v1
-- **Base URL**: https://api.joinformal.com
-
-### OpenAPI Configuration
-
-```json
-{
-  "tab": "API Reference",
-  "openapi": [
-    "docs/api/openapi/connectors_openapi.json",
-    "docs/api/openapi/user_openapi.json"
-    // ... 22 more services
-  ],
-  "groups": [
-    {
-      "group": "API Documentation",
-      "pages": ["docs/api/introduction"]
-    }
-  ]
-}
-```
-
-**Important**: Mintlify auto-generates pages from the `openapi` array. Don't manually list them in `pages` arrays.
-
-## Common Tasks
-
-### 1. Add a New Documentation Page
-
-1. Create the MDX file:
-
-   ```bash
-   touch docs/guides/new-guide.mdx
-   ```
-
-2. Add frontmatter:
-
-   ```mdx
-   ---
-   title: "Your Page Title"
-   description: "Your page description"
-   icon: "rocket"
-   ---
-
-   # Your content here
-   ```
-
-3. Add to `docs.json` navigation:
-   ```json
-   {
-     "group": "Getting started",
-     "pages": ["docs/guides/getting-started/index", "docs/guides/new-guide"]
-   }
-   ```
-
-### 2. Update API Documentation
-
-When protobuf definitions change:
-
-```bash
-# Sync from Buf Registry
-bun run sync-api-docs
-
-# This will:
-# - Export latest proto files
-# - Regenerate OpenAPI specs
-# - Add error responses & code samples
-# - Update docs.json navigation
-```
-
-### 3. Check for Dead Links
-
-```bash
-# Run link checker
-bun run check-links
-
-# Scans:
-# - All MDX files for broken links
-# - docs.json for invalid page references
-# - Both absolute and relative paths
-```
-
-### 4. Update Changelog
-
-Edit the appropriate changelog file:
+Always include `icon`. Add `redirect_from` when moving pages.
 
 ```mdx
 ---
-title: "Connector"
+title: Deploy on Vercel
+description: Deploy a Next.js app on Vercel using Formal APIs.
+icon: rocket
 ---
-
-<Update label="January 15, 2025" tags={["New Features", "Bug Fixes"]}>
-
-## 1.26.0
-
-**New**
-
-- Added support for new database type
-
-**Fixed**
-
-- Fixed connection timeout issue
-
-</Update>
 ```
 
-Files:
+**Rules:**
 
-- `docs/changelog/connector.mdx`
-- `docs/changelog/api.mdx`
-- `docs/changelog/desktop-app.mdx`
-- `docs/changelog/terraform-provider.mdx`
+- Title is imperative (no gerunds): "Deploy", not "Deploying"
+- When renaming, add all old paths to `redirect_from`
 
-### 5. Update Glossary
+## 3. Headings & Structure
 
-Edit `docs/glossary/index.mdx` with new terms. Terms are organized into sections:
+Exactly one H1 (from the title). No skipped heading levels.
 
-- Getting Started
-- Deployment & Architecture
-- Access & Authentication
-- Policies & Rules
-- Data Governance
-- Logging & Compliance
-- Integrations
-- Advanced Concepts
+**Sections ordered:**
 
-### 6. Use Reusable Snippets
+1. Why / Outcome
+2. Prerequisites
+3. Steps (numbered)
+4. Verification (prove it worked)
+5. Troubleshooting
+6. Next steps
 
-**Create snippet** (`snippets/my-snippet.mdx`):
+**Example:**
 
 ```mdx
-export const companyName = "Formal";
+## Steps
 
-This is reusable content about {props.topic}.
-```
+1. Configure OAuth app
+2. Set environment variables
+3. Deploy to Vercel
 
-**Use snippet** in any page:
+## Verify
 
-```mdx
-import { companyName } from "/snippets/my-snippet.mdx";
-import MySnippet from "/snippets/my-snippet.mdx";
-
-Welcome to {companyName}!
-
-<MySnippet topic="documentation" />
-```
-
-## Automation & CI/CD
-
-### GitHub Actions
-
-Two workflows in `.github/workflows/`:
-
-**1. Sync API Docs** (`sync-api-docs.yml`)
-
-- Triggers: Daily at 2 AM UTC, manual, on proto changes
-- Exports proto from Buf Registry
-- Generates OpenAPI specs
-- Enhances with error codes and examples
-- Creates PR with changes
-
-**2. Check Links** (`check-links.yml`)
-
-- Triggers: On PR with doc changes
-- Scans all files for dead links
-- Reports failures as PR comments
-
-### Scripts Reference
-
-| Script                       | Language   | Purpose                     |
-| ---------------------------- | ---------- | --------------------------- |
-| `sync-api-docs.sh`           | Bash       | Orchestrates API generation |
-| `check-dead-links.ts`        | TypeScript | Finds broken links          |
-| `enhance-openapi-specs.ts`   | TypeScript | Adds errors & examples      |
-| `generate-api-navigation.ts` | TypeScript | Updates docs.json           |
-
-**All TypeScript scripts run with Bun** for maximum performance.
-
-## Navigation Patterns
-
-### Tabs (Top-level navigation)
-
-```json
-{
-  "tab": "Guides",
-  "url": "docs/guides/getting-started/index",
-  "groups": [...]
-}
-```
-
-### Groups (Sidebar sections)
-
-```json
-{
-  "group": "Getting started",
-  "icon": "rocket",
-  "expanded": true,
-  "pages": ["docs/guides/getting-started/index"]
-}
-```
-
-### OpenAPI Auto-generation
-
-Mintlify automatically generates pages for all operations in OpenAPI specs listed in the `openapi` array. No need to manually create pages.
-
-## Important Notes
-
-### General
-
-- All scripts use **Bun** as the runtime (not Node.js)
-- Scripts are written in **TypeScript** with Bun-specific APIs
-- Page paths in `docs.json` don't need `.mdx` extension
-- Navigation is recursive—groups can nest infinitely
-- Hidden pages (not in `docs.json`) are still searchable
-
-### API Documentation
-
-- Mintlify reads OpenAPI specs from the `openapi` array
-- Don't list OpenAPI files again in `pages` arrays (causes warnings)
-- All services get error responses (400, 401, 403, 404, 500) automatically
-- Code samples (curl, JS, Python, Go) are auto-injected
-
-### File Organization
-
-- **All MDX files must be in `/docs`** - This is a centralization requirement for all documentation
-- `/api` is reserved by Next.js - use `/docs/api` instead
-- Files in `/snippets/` won't render as standalone pages
-- `/legacy-docs` is the only exception for historical documentation
-- Store images in `/images/` or `/assets/`
-- Use `/logo/dark.svg` and `/logo/light.svg` for theme switching
+\`\`\`bash
+curl -I https://api.joinformal.com/health
+\`\`\`
 
 ## Troubleshooting
 
-### Dead Links Found
-
-```bash
-bun run check-links
-# Review output and fix broken links
+<AccordionGroup>
+  <Accordion title="Connection timeout">
+    **Cause:** Firewall blocking port 443 **Fix:** Whitelist api.joinformal.com
+  </Accordion>
+</AccordionGroup>
 ```
 
-### API Generation Fails
+## 4. Language & Voice
 
-```bash
-# Check Buf access
-buf registry login
+- Use **second person** ("you"), **present tense**, **active voice**
+- Sentences ≤ **20 words**. Prefer examples over adjectives
+- **UI text in bold**, paths/flags in `code`, filenames in `code`
 
-# Check protoc is installed
-brew install protobuf
+**Good:** "Click **Create Connector** and enter your hostname."
+**Bad:** "You will then be clicking on the Create Connector button and subsequently entering the hostname."
 
-# Check protoc-gen-connect-openapi is installed
-go install github.com/sudorandom/protoc-gen-connect-openapi@latest
+## 5. Links
+
+**Internal links:** Use absolute paths from root
+
+```mdx
+See [Configure OAuth](/docs/guides/integrations/sso)
 ```
 
-### Mintlify Warnings
+**External links:** Add 5-10 word reason
 
-If you see "Converting circular structure to JSON" warnings, check that OpenAPI specs are valid JSON:
-
-```bash
-jq -e . docs/api/openapi/*.json
+```mdx
+See [Vercel build limits](https://vercel.com/docs/limits) (size & concurrency)
 ```
 
-## MCP Integration
+## 6. Images & Media
 
-Use the Context7 MCP server for Mintlify documentation:
+Include only if it adds non-obvious info. **Crop** to relevant UI. Hide PII.
 
-```bash
-mcp__context7__resolve-library-id --libraryName "mintlify"
-mcp__context7__get-library-docs --context7CompatibleLibraryID "/mintlify/docs"
+- **SVG** for diagrams
+- **PNG** for UI screenshots
+- **MP4** for short flows (≤30s)
+
+**Alt text** describes **purpose** (≥ 3 meaningful words).
+
+```mdx
+![Create OAuth app with callback URL](/assets/images/logs.png)
 ```
 
-## Quick Reference
+## 7. Code Blocks
 
-- **Mintlify Docs**: https://mintlify.com/docs
-- **Buf Registry**: https://buf.build/formal/core
-- **Context7 Library ID**: `/mintlify/docs`
-- **Repository**: GitHub (formal/mint/docs)
-- **Main Branch**: main
-- **Runtime**: Bun 1.2.21+
-- **Package Manager**: pnpm 9.0.0
+Every fenced block declares a language and is **copy-pastable**.
 
-## Pre-Commit Checks
+Prefer one minimal complete snippet over many partials.
 
-The repository uses Husky to run automated checks before each commit:
+Use placeholders like `<YOUR_API_KEY>`; never real secrets.
 
-### Automated Checks
-1. **Prettier Formatting** - Auto-formats all staged `.md`, `.mdx`, `.json`, `.ts` files
+Show expected output when it proves success.
+
+```bash
+export NEXT_PUBLIC_API_URL="https://api.joinformal.com"
+curl -s "$NEXT_PUBLIC_API_URL/health" | jq .
+# Expected: {"status":"ok"}
+```
+
+**Multi-language parity:** If you show tabs, ensure identical step parity.
+
+Order: **curl → JS/TS → Python → Go**
+
+<function_calls>
+<invoke name="Tabs">
+<Tab title="curl">
+`bash
+    curl -H "Authorization: Bearer <YOUR_API_KEY>" \
+      https://api.joinformal.com/v1/users
+    `
+</Tab>
+<Tab title="JavaScript">
+``ts
+    const res = await fetch("/v1/users", {
+      headers: { Authorization: `Bearer ${API_KEY}` }
+    });
+    ``
+</Tab>
+</Tabs>
+
+## 8. API-Backed Accuracy
+
+Names must match **OpenAPI and UI literals exactly**.
+
+When APIs/UI change, annotate with **Since/Deprecated** and link migration notes.
+
+```mdx
+<Note>**Since v1.26:** `includePolicies` defaults to `false`.</Note>
+```
+
+## 9. Quickstarts vs. Deep Guides
+
+**Quickstart:** Finishes in ≤ 10 minutes with a working result. Every step changes state and is verifiable.
+
+**Deep guides:** Explain trade-offs and alternatives, but keep a runnable path.
+
+## 10. SEO & Navigation
+
+- Unique title + description per page
+- Include 1 primary keyword once
+- Keep URL depth ≤ 3 segments
+- Update `docs.json` when adding pages
+
+## 11. Style Conventions
+
+- **Numbers:** Words for one–nine, numerals for 10+ (unless units)
+- **Timezones:** Absolute times with timezone ("02:00 UTC")
+- **Avoid:** "soon", "later", "we will"—be concrete or omit
+
+## 12. Changelog & Glossary
+
+- User-visible behavior changes → add changelog entry same PR
+- Glossary terms: Define in 1-2 sentences, cross-link first uses with `<G>` component
+
+---
+
+# MDX Patterns (Copy-Ready)
+
+## Admonitions
+
+```mdx
+<Warning>
+  Rotating keys invalidates existing sessions. Schedule a maintenance window.
+</Warning>
+
+<Tip>Use a service account in CI; avoid personal tokens.</Tip>
+
+<Note>
+  Formal stores logs indefinitely unless custom retention is specified.
+</Note>
+```
+
+## Tabs (Language Parity)
+
+````mdx
+<Tabs>
+  <Tab title="curl">
+    ```bash
+    curl -H "Authorization: Bearer <KEY>" https://api.joinformal.com/v1/users
+    ```
+  </Tab>
+  <Tab title="JavaScript">
+    ```ts
+    const res = await fetch("/v1/users", {
+      headers: { Authorization: `Bearer ${API_KEY}` }
+    });
+    ```
+  </Tab>
+</Tabs>
+````
+
+## Glossary Terms
+
+```mdx
+import { G } from "/snippets/glossary-terms.mdx";
+
+Users connect through the <G anchor="connector">Connector</G> which enforces <G anchor="policy">policies</G>.
+```
+
+## Structured Step with Verify
+
+````mdx
+### 2. Create the OAuth app
+
+1. Go to **Settings → Developer settings → OAuth Apps**
+2. Click **New OAuth App**, set callback to `https://app.formal.com/callback`
+
+**Verify**
+
+```bash
+curl -I https://app.formal.com/callback/test
+```
+````
+
+````
+
+---
+
+# Repository-Specific Rules
+
+## Folder & Naming
+
+- **All MDX under `/docs`** (except `/legacy-docs` and `/snippets`)
+- Filenames: `kebab-case.mdx`
+- Index pages use `index.mdx`
+- Images in `/assets/images` with **absolute paths** from root: `/assets/images/file.png`
+- Use `/assets/logos/dark.svg` and `/assets/logos/light.svg` for theming
+
+## OpenAPI Content
+
+- Do **not** list OpenAPI-generated pages in `pages` arrays
+- Error responses included: **400, 401, 403, 404, 500** (enforced by script)
+- Code samples: curl, JS, Python, Go—**keep them runnable**
+
+## docs.json Rules
+
+**Tabs:** Documentation, API Reference, Glossary, Changelog
+
+**Groups** nest as needed; keep names imperative or noun-phrase.
+
+Only add explicit `pages` for **hand-written** docs; OpenAPI is auto-added.
+
+**Example:**
+
+```json
+{
+  "tab": "Documentation",
+  "groups": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "docs/guides/getting-started/index",
+        "docs/guides/getting-started/quickstart"
+      ]
+    }
+  ]
+}
+````
+
+---
+
+# Pre-Commit Checks
+
+The repository uses Husky to run automated checks before each commit on `/docs`, `/assets`, and `/snippets` folders:
+
+## Automated Checks
+
+1. **Prettier Formatting** - Checks formatting in content folders (`.md`, `.mdx` files)
 2. **Spell Checking** - Validates spelling in documentation (cspell)
 3. **Link Validation** - Ensures no broken internal links
 4. **Asset Verification** - Checks that all referenced images exist
 
-### Running Checks Manually
+## Running Checks Manually
 
 ```bash
-# Format code
-pnpm prettier --write "**/*.{md,mdx,json,ts,tsx,js,jsx}"
+# Run all pre-commit checks (same as pre-commit hook)
+pnpm precommit
+
+# Individual checks:
+# Format content files
+pnpm format
+
+# Check formatting without modifying
+pnpm format-check
 
 # Check spelling
 pnpm check-spelling
@@ -432,14 +332,151 @@ pnpm check-links
 
 # Check for missing assets
 pnpm check-assets
-
-# Run all staged file checks
-pnpm precommit
 ```
 
-### Adding Custom Words to Spell Checker
+## Adding Custom Words to Spell Checker
 
 Edit `cspell.json` and add words to the `words` array.
+
+---
+
+# API Documentation Generation
+
+## Overview
+
+API documentation is automatically generated from protobuf definitions in the Buf Registry:
+
+```
+Buf Registry → protoc → OpenAPI v3 → Enhancement → Mintlify
+```
+
+## Process
+
+1. **Export Proto Files**: `buf export buf.build/formal/core`
+2. **Generate OpenAPI**: `protoc` with `protoc-gen-connect-openapi` plugin
+3. **Enhance Specs**: Add error responses and code samples
+4. **Update Navigation**: Regenerate `docs.json` with all services
+5. **Render**: Mintlify auto-generates pages from OpenAPI specs
+
+## Running API Sync
+
+```bash
+# Full API sync (runs all steps above)
+bash scripts/sync-api-docs.sh
+
+# Or via npm script
+bun run sync-api-docs
+```
+
+## Scripts
+
+### 1. enhance-openapi-specs.ts
+
+**Purpose:** Add error responses and improve OpenAPI specs
+
+**What it does:**
+
+- Adds standard error responses (400, 401, 403, 404, 500)
+- Ensures all operations have unique `operationId`
+- Sets proper `info.title` for each service
+
+**Run:** `bun run scripts/enhance-openapi-specs.ts`
+
+### 2. generate-api-navigation.ts
+
+**Purpose:** Update `docs.json` with API navigation structure
+
+**What it does:**
+
+- Scans `docs/api/openapi/*.json` files
+- Creates a group for each service
+- Updates the API Reference tab in `docs.json`
+
+**Run:** `bun run scripts/generate-api-navigation.ts`
+
+### 3. check-dead-links.ts
+
+**Purpose:** Find broken internal links
+
+**What it does:**
+
+- Scans all MDX files for links
+- Validates links against `docs.json` and file system
+- Reports broken links with file locations
+
+**Run:** `bun run scripts/check-dead-links.ts`
+
+### 4. check-assets.ts
+
+**Purpose:** Verify all referenced images exist
+
+**What it does:**
+
+- Scans MDX files for image references
+- Checks if image files exist in repository
+- Reports missing assets
+
+**Run:** `bun run scripts/check-assets.ts`
+
+---
+
+# Navigation Structure
+
+## Current Tabs
+
+1. **Documentation** - User guides, concepts, integrations, how-to
+2. **API Reference** - Auto-generated from 24 OpenAPI specs
+3. **Glossary** - 40+ terms with definitions
+4. **Changelog** - Product release notes (Connector, API, Desktop App, Terraform)
+
+## Documentation Groups
+
+- Getting Started (4 pages)
+- Core Concepts (6 pages)
+- Policy Engine (4 pages)
+- Integrations (7 pages)
+- Observability (1 page)
+- Configuration (4 pages)
+- Client Tools (3 pages)
+- How-To Guides (7 pages)
+
+---
+
+# Quick Reference
+
+- **Mintlify Docs**: https://mintlify.com/docs
+- **Buf Registry**: https://buf.build/formal/core
+- **Repository**: GitHub (formal/mint/docs)
+- **Main Branch**: main
+- **Runtime**: Bun 1.2.21+
+- **Package Manager**: pnpm 9.0.0
+
+---
+
+# AI Agent Instructions
+
+## When Creating/Editing Pages
+
+1. **Suggest (don't block)** concrete improvements with one example per suggestion
+2. **Ensure** page follows Authoring Rules & Conventions
+3. **Check:**
+   - One outcome per page
+   - Title ≤65 chars (imperative), description present
+   - Steps are numbered and verifiable
+   - Code blocks are typed and copy-pastable
+   - Images have meaningful alt text
+   - Navigation updated if new page
+   - Changelog updated if behavior changed
+
+4. **Prefer fixes that reduce words while increasing certainty and verifiability**
+
+## Inline Suggestions
+
+- Add outcome/prerequisite block if missing
+- Suggest "Verify" steps for each numbered step
+- Improve alt-text with purpose-focused descriptions
+- Add multi-language parity for code examples
+- Flag missing redirects on moved pages
 
 ## Key Reminders
 
@@ -449,3 +486,22 @@ Edit `cspell.json` and add words to the `words` array.
 4. **Run `bun run sync-api-docs`** after proto changes
 5. **Pre-commit hooks will auto-format and validate** - fix any errors before committing
 6. **All scripts are TypeScript** - no more JavaScript files
+7. **Use `<G>` component** for glossary term links
+8. **Images use absolute paths** from root: `/assets/images/file.png`
+
+---
+
+# First Draft Checklist
+
+Quick checklist for new pages:
+
+- [ ] Outcome & prerequisites added
+- [ ] Single clear outcome; short intro
+- [ ] Steps (numbered) with verify commands
+- [ ] Code typed, runnable, minimal complete example
+- [ ] Internal links absolute, external links justified
+- [ ] Images (if any) cropped, alt meaningful, asset exists
+- [ ] Title/description/frontmatter set
+- [ ] If behavior changed: changelog + callouts
+- [ ] Glossary terms linked with `<G>` component
+- [ ] Navigation updated in `docs.json`

@@ -2,11 +2,12 @@
 title: "HTTP"
 ---
 
-
 How to connect to HTTP using the Formal Connector.
 
 <Warning>
-The connector runs a healthcheck server on port 8080 to let clients determine if the proxy is operational. As a result, you cannot create a listener on port 8080 to connect to an HTTP resource.
+  The connector runs a healthcheck server on port 8080 to let clients determine
+  if the proxy is operational. As a result, you cannot create a listener on port
+  8080 to connect to an HTTP resource.
 </Warning>
 
 ## Connect to an HTTP Resource
@@ -14,13 +15,12 @@ The connector runs a healthcheck server on port 8080 to let clients determine if
 To connect to an HTTP Resource, follow these steps:
 
 1. **Adjust the Hostname**: In your API request, modify the hostname to point to the Connector. Replace the hostname with the http resource name you have specified in the resources section of the Formal dashboard or Terraform. If the hostname of your connector is `formalcloud.net`, and your http resource name is `stripe`, you can replace the request URL with the following:
-
    - Old Way:
      `https://api.stripe.com/v1/customers`
    - New Way (Using the Connector):
      `https://stripe.formalcloud.net/v1/customers`
 
-<img src="/img/http-example.png" className="my-5" />
+<img src="/assets/images/http-example.png" className="my-5" />
 
 2. **Tool of Your Preference**: Use your preferred API tool to send requests through the Connector. This can be tools like Postman, cURL, or any other HTTP client that allows you to specify the API endpoint. In order to see the user who made the request, you can set `X-Formal-User-Username` and `X-Formal-User-Password` in the request headers.
 
@@ -66,13 +66,11 @@ To ensure efficient and streamlined logging while preventing potential issues re
 ### Configuration Parameters
 
 1. `LOGGED_HTTP_REQUEST_PAYLOAD_MAX_SIZE:`
-
    - **Description:** This environment variable determines the maximum allowable size for an HTTP request payload to be included in the logs.
    - **Default Value:** `5000000` (equivalent to 5MB)
    - If the actual size of the request payload surpasses this limit, the payload content will not be logged.
 
 2. `LOGGED_HTTP_RESPONSE_PAYLOAD_MAX_SIZE:`
-
    - **Description:** This environment variable defines the maximum allowable size for an HTTP response payload to be captured in the logs.
    - **Default Value:** `5000000` (equivalent to 5MB)
    - If the actual size of the response payload surpasses this limit, the payload content will not be logged.
@@ -121,15 +119,16 @@ Which will then redirect traffic to the following resources:
     Configure your DNS entries with the subdomains.
   </Step>
   <Step title="Second Step">
-    Create HTTP resources with names matching the subdomains used in the hostname of the Connector. In the example provided, the names of the resources should be `openai` and `stripe`.
+    Create HTTP resources with names matching the subdomains used in the
+    hostname of the Connector. In the example provided, the names of the
+    resources should be `openai` and `stripe`.
   </Step>
-    <Step title="Third Step">
-    Link multiple resources to the same port.
-  </Step>
+  <Step title="Third Step">Link multiple resources to the same port.</Step>
 </Steps>
 
 <CardInfo>
-The TLS Certificate must be a wildcard certificate and should cover every subdomain.
+  The TLS Certificate must be a wildcard certificate and should cover every
+  subdomain.
 </CardInfo>
 
 ### Native Users
@@ -164,11 +163,11 @@ The corresponding authentication details will then be passed to the underlying r
 
 #### Api Key
 
-| Name  | Type       |
-| ----- | ---------- |
+| Name  | Type                               |
+| ----- | ---------------------------------- |
 | type  | **ENUM["query_params", "header"]** |
-| key   | **STRING** |
-| value | **STRING** |
+| key   | **STRING**                         |
+| value | **STRING**                         |
 
 #### Bearer token
 

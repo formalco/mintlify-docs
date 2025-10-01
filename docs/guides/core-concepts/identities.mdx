@@ -9,6 +9,7 @@ icon: "users"
 Formal differentiates between **admins** who manage the platform and **data consumers** who access protected resources. This page covers how to create and manage identities for data access.
 
 There are two types of identities in Formal:
+
 - **Users**: Individual human or machine identities
 - **Groups**: Collections of users for streamlined permission management
 
@@ -20,26 +21,20 @@ Users represent identities that connect to resources through Formal Connectors. 
 
 <Tabs>
   <Tab title="Human Users">
-    **Human Users** are for employees who need direct access to protected resources.
-    
-    When created, they receive an email with a temporary password that must be changed on first login. They can then retrieve their username and access token from the Formal console to connect through Connectors.
-    
-    **Use cases:**
-    - Engineers querying production databases
-    - Analysts accessing data warehouses
-    - DevOps teams managing infrastructure via SSH
+    **Human Users** are for employees who need direct access to protected
+    resources. When created, they receive an email with a temporary password
+    that must be changed on first login. They can then retrieve their username
+    and access token from the Formal console to connect through Connectors.
+    **Use cases:** - Engineers querying production databases - Analysts
+    accessing data warehouses - DevOps teams managing infrastructure via SSH
   </Tab>
-  
+
   <Tab title="Machine Users">
-    **Machine Users** are for applications, BI tools, and automated systems that connect to resources.
-    
-    Unlike human users, machine users don't receive email invitations and can have longer-lived credentials.
-    
-    **Use cases:**
-    - Internal applications querying databases
-    - BI tools like Looker, Metabase, Tableau
-    - CI/CD pipelines accessing infrastructure
-    - ETL jobs moving data
+    **Machine Users** are for applications, BI tools, and automated systems that
+    connect to resources. Unlike human users, machine users don't receive email
+    invitations and can have longer-lived credentials. **Use cases:** - Internal
+    applications querying databases - BI tools like Looker, Metabase, Tableau -
+    CI/CD pipelines accessing infrastructure - ETL jobs moving data
   </Tab>
 </Tabs>
 
@@ -49,22 +44,18 @@ Users represent identities that connect to resources through Formal Connectors. 
   <Step title="Navigate to Users">
     Go to [Users](https://app.joinformal.com/users) in the Formal console
   </Step>
-  <Step title="Click New User">
-    Select **New User** button
-  </Step>
-  <Step title="Select Identity Type">
-    Choose **Human** or **Machine**
-  </Step>
+  <Step title="Click New User">Select **New User** button</Step>
+  <Step title="Select Identity Type">Choose **Human** or **Machine**</Step>
   <Step title="Provide user information">
-    - **Name**: Full name or application name
-    - **Email**: For human users (receives credentials)
-    - **Temporary**: (Optional) Set expiration time for temporary access
-    - **Groups**: (Optional) Add to groups
+    - **Name**: Full name or application name - **Email**: For human users
+    (receives credentials) - **Temporary**: (Optional) Set expiration time for
+    temporary access - **Groups**: (Optional) Add to groups
   </Step>
 </Steps>
 
 <Tip>
-Temporary users are automatically deleted after the specified time—perfect for contractors or time-limited access grants.
+  Temporary users are automatically deleted after the specified time—perfect for
+  contractors or time-limited access grants.
 </Tip>
 
 ### External IDs and Identity Propagation
@@ -75,17 +66,18 @@ When users connect through internal applications or BI tools, their queries are 
 
 <Steps>
   <Step title="Add External ID to Human User">
-    Map the user's ID in your BI tool (e.g., Looker user ID 12345) to their Formal user
+    Map the user's ID in your BI tool (e.g., Looker user ID 12345) to their
+    Formal user
   </Step>
   <Step title="Configure your application">
-    Update your application to propagate the end-user ID when connecting through Formal
-    
-    Formal provides SDKs to simplify this:
-    - [formal-sqlcommenter for Python/Django](https://pypi.org/project/formal-sqlcommenter/)
-    - Built-in integrations for Metabase, Looker, and more
+    Update your application to propagate the end-user ID when connecting through
+    Formal Formal provides SDKs to simplify this: - [formal-sqlcommenter for
+    Python/Django](https://pypi.org/project/formal-sqlcommenter/) - Built-in
+    integrations for Metabase, Looker, and more
   </Step>
   <Step title="Verify attribution">
-    Check [Logs](/docs/guides/observability/logs) to confirm queries are attributed to the correct end user
+    Check [Logs](/docs/guides/observability/logs) to confirm queries are
+    attributed to the correct end user
   </Step>
 </Steps>
 
@@ -120,30 +112,26 @@ Groups allow you to apply policies and native user assignments to multiple users
   <Step title="Navigate to Groups">
     Go to [Groups](https://app.joinformal.com/groups) in the Formal console
   </Step>
-  <Step title="Click New Group">
-    Create a new group
-  </Step>
+  <Step title="Click New Group">Create a new group</Step>
   <Step title="Name the group">
-    Choose a descriptive name (e.g., "Engineering Team", "Analytics", "External Contractors")
+    Choose a descriptive name (e.g., "Engineering Team", "Analytics", "External
+    Contractors")
   </Step>
-  <Step title="Add members">
-    Select users to add to the group
-  </Step>
+  <Step title="Add members">Select users to add to the group</Step>
 </Steps>
 
 ### Managing Group Membership
 
 <Steps>
-  <Step title="Open group details">
-    Click on a group in the Groups list
-  </Step>
+  <Step title="Open group details">Click on a group in the Groups list</Step>
   <Step title="Add or remove users">
     Select users from the dropdown to add them, or remove existing members
   </Step>
 </Steps>
 
 <Note>
-A user can be part of multiple groups. Their effective permissions are the union of all group policies plus any user-specific policies.
+  A user can be part of multiple groups. Their effective permissions are the
+  union of all group policies plus any user-specific policies.
 </Note>
 
 ## Identity-Based Access Control
@@ -156,15 +144,15 @@ Combine users and groups with policies to create flexible access control:
 # Group policy: Engineers can query all tables
 resource "formal_policy" "engineering_read" {
   name = "engineering-read-access"
-  
+
   rule {
     # Allow SELECT queries
     technology = "postgres"
     operation  = "select"
-    
+
     # For this group
     groups = [formal_group.engineering.id]
-    
+
     # To production database
     resources = [formal_resource.production_db.id]
   }
@@ -173,17 +161,17 @@ resource "formal_policy" "engineering_read" {
 # User-specific policy: Senior engineers can UPDATE
 resource "formal_policy" "senior_write" {
   name = "senior-write-access"
-  
+
   rule {
     technology = "postgres"
     operation  = "update"
-    
+
     # Only for specific users
     users = [
       formal_user.alice.id,
       formal_user.bob.id
     ]
-    
+
     resources = [formal_resource.production_db.id]
   }
 }
@@ -221,23 +209,28 @@ cursor.execute(commented_query, (123,))
 
 <AccordionGroup>
   <Accordion title="Use Groups for Team-Based Access" icon="users">
-    Create groups that match your organizational structure (teams, departments, roles). This makes policy management scalable as your organization grows.
+    Create groups that match your organizational structure (teams, departments,
+    roles). This makes policy management scalable as your organization grows.
   </Accordion>
-  
-  <Accordion title="Leverage Temporary Users for Contractors" icon="clock">
-    Set expiration dates for external contractors or time-limited access needs. Formal automatically cleans up expired users.
-  </Accordion>
-  
-  <Accordion title="Implement External IDs for BI Tools" icon="chart-line">
-    Ensure end-user accountability even when using shared application credentials. This is critical for compliance and security auditing.
-  </Accordion>
-  
-  <Accordion title="Use Machine Users for Applications" icon="robot">
-    Never share human user credentials with applications. Create dedicated machine users for each application or service.
-  </Accordion>
-  
+
+<Accordion title="Leverage Temporary Users for Contractors" icon="clock">
+  Set expiration dates for external contractors or time-limited access needs.
+  Formal automatically cleans up expired users.
+</Accordion>
+
+<Accordion title="Implement External IDs for BI Tools" icon="chart-line">
+  Ensure end-user accountability even when using shared application credentials.
+  This is critical for compliance and security auditing.
+</Accordion>
+
+<Accordion title="Use Machine Users for Applications" icon="robot">
+  Never share human user credentials with applications. Create dedicated machine
+  users for each application or service.
+</Accordion>
+
   <Accordion title="Minimize Direct User Assignments" icon="user-minus">
-    Prefer group-based native user assignments over individual assignments. This reduces configuration complexity.
+    Prefer group-based native user assignments over individual assignments. This
+    reduces configuration complexity.
   </Accordion>
 </AccordionGroup>
 
@@ -281,17 +274,32 @@ cursor.execute(commented_query, (123,))
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Assign Native Users" icon="key" href="/docs/guides/core-concepts/resources#native-users">
+  <Card
+    title="Assign Native Users"
+    icon="key"
+    href="/docs/guides/core-concepts/resources#native-users"
+  >
     Map Formal users to database credentials
   </Card>
-  <Card title="Write Policies" icon="shield-check" href="/docs/guides/policies/policies">
+  <Card
+    title="Write Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
     Control access based on users and groups
   </Card>
-  <Card title="Configure External IDs" icon="link" href="#external-ids-and-identity-propagation">
+  <Card
+    title="Configure External IDs"
+    icon="link"
+    href="#external-ids-and-identity-propagation"
+  >
     Enable end-user attribution for BI tools
   </Card>
-  <Card title="Monitor Sessions" icon="radar" href="/docs/guides/observability/sessions">
+  <Card
+    title="Monitor Sessions"
+    icon="radar"
+    href="/docs/guides/observability/sessions"
+  >
     See what users are accessing in real-time
   </Card>
 </CardGroup>
-

@@ -33,6 +33,7 @@ sequenceDiagram
 ```
 
 The Connector intercepts every request and response, allowing you to:
+
 - ✅ Authenticate users and verify their identity
 - ✅ Evaluate access policies in real-time
 - ✅ Log all queries, commands, and API calls
@@ -48,7 +49,8 @@ When you create a Connector, you define **listeners** that specify how clients c
 A listener monitors a specific port for incoming client connections. You can define multiple listeners on different ports for different use cases.
 
 <Note>
-Port 8080 is reserved for the Connector's health check endpoint and cannot be used for listeners.
+  Port 8080 is reserved for the Connector's health check endpoint and cannot be
+  used for listeners.
 </Note>
 
 ### Listener Rules
@@ -62,15 +64,16 @@ Each listener uses routing rules to determine where to forward requests. There a
     Example: All traffic on port 5432 goes to the `production-postgres` database.
   </Accordion>
 
-  <Accordion title="Technology Rule" icon="layer-group">
-    Routes connections to **all resources of a specific technology** (e.g., all PostgreSQL databases).
-    
-    When multiple resources match, [smart routing](/docs/guides/integrations/data-technologies#smart-routing) automatically selects the correct resource based on the connection string.
-    
-    <Warning>
-    Only supported for PostgreSQL and HTTP. Use Spaces to limit which resources are accessible.
-    </Warning>
-  </Accordion>
+<Accordion title="Technology Rule" icon="layer-group">
+  Routes connections to **all resources of a specific technology** (e.g., all
+  PostgreSQL databases). When multiple resources match, [smart
+  routing](/docs/guides/integrations/data-technologies#smart-routing)
+  automatically selects the correct resource based on the connection string.
+  <Warning>
+    Only supported for PostgreSQL and HTTP. Use Spaces to limit which resources
+    are accessible.
+  </Warning>
+</Accordion>
 
   <Accordion title="Any Rule" icon="asterisk">
     Routes to **any resource** using deep packet inspection to detect the protocol automatically.
@@ -82,7 +85,8 @@ Each listener uses routing rules to determine where to forward requests. There a
 </AccordionGroup>
 
 <Tip>
-A single listener can have multiple rules, and you can combine different rule types.
+  A single listener can have multiple rules, and you can combine different rule
+  types.
 </Tip>
 
 ## Deployment
@@ -97,7 +101,8 @@ The Connector is packaged as a stateless Docker container with a distroless imag
 
 <CardGroup cols={2}>
   <Card title="AWS ECS Fargate" icon="aws">
-    Deploy as a Fargate service behind a Network Load Balancer with multi-AZ availability
+    Deploy as a Fargate service behind a Network Load Balancer with multi-AZ
+    availability
   </Card>
   <Card title="Kubernetes" icon="dharmachakra">
     Deploy using Helm charts on any K8s cluster (EKS, GKE, AKS, on-prem)
@@ -116,13 +121,13 @@ See the [Quickstart guide](/docs/guides/getting-started/quickstart) for step-by-
 
 The Connector is configured primarily through the Control Plane, but requires these environment variables:
 
-| Variable | Type | Description |
-|----------|------|-------------|
-| `FORMAL_CONTROL_PLANE_API_KEY` | **String** | API token to authenticate with the Control Plane (obtained when creating the Connector) |
-| `LOG_LEVEL` | **Enum** | Logging verbosity: `debug`, `info`, `warn`, `error`, `fatal`, `panic`, `disabled` (default: `info`) |
+| Variable                       | Type       | Description                                                                                         |
+| ------------------------------ | ---------- | --------------------------------------------------------------------------------------------------- |
+| `FORMAL_CONTROL_PLANE_API_KEY` | **String** | API token to authenticate with the Control Plane (obtained when creating the Connector)             |
+| `LOG_LEVEL`                    | **Enum**   | Logging verbosity: `debug`, `info`, `warn`, `error`, `fatal`, `panic`, `disabled` (default: `info`) |
 
 <Warning>
-You must restart the Connector whenever you change environment variables.
+  You must restart the Connector whenever you change environment variables.
 </Warning>
 
 ## Monitoring and Health
@@ -134,6 +139,7 @@ curl http://connector-host:8080/health
 ```
 
 For production monitoring, configure:
+
 - **CloudWatch Logs** (AWS ECS)
 - **kubectl logs** (Kubernetes)
 - **Cloud Logging** (GCP)
@@ -185,17 +191,32 @@ See [Observability](/docs/guides/observability/logs) for detailed monitoring gui
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Add Resources" icon="database" href="/docs/guides/core-concepts/resources">
+  <Card
+    title="Add Resources"
+    icon="database"
+    href="/docs/guides/core-concepts/resources"
+  >
     Define the databases, APIs, and infrastructure the Connector protects
   </Card>
-  <Card title="Configure Spaces" icon="layer-group" href="/docs/guides/core-concepts/spaces">
+  <Card
+    title="Configure Spaces"
+    icon="layer-group"
+    href="/docs/guides/core-concepts/spaces"
+  >
     Segment access with logical groupings
   </Card>
-  <Card title="Write Policies" icon="shield-check" href="/docs/guides/policies/policies">
+  <Card
+    title="Write Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
     Control who can access what with policy-as-code
   </Card>
-  <Card title="Monitor Sessions" icon="radar" href="/docs/guides/observability/sessions">
+  <Card
+    title="Monitor Sessions"
+    icon="radar"
+    href="/docs/guides/observability/sessions"
+  >
     View active connections and session recordings
   </Card>
 </CardGroup>
-

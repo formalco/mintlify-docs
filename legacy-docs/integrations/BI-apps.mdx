@@ -2,7 +2,6 @@
 title: "BI Applications"
 ---
 
-
 How does Formal integrate with BI applications?
 
 Formal's integration with BI apps allows you to enforce Formal's policies and controls within your BI applications.
@@ -12,12 +11,14 @@ Formal's integration with BI apps allows you to enforce Formal's policies and co
 When you set up a BI integration, Formal Control Plane automatically synchronizes with your BI application to fetch user identities. The corresponding External IDs are assigned to your users, enabling them to be recognized when queries from your BI application pass through the Connector.
 
 <CardInfo>
-Since the Connector fetches all user information from the Control Plane, your users are properly authenticated and authorized without requiring additional configuration in your deployment.
+  Since the Connector fetches all user information from the Control Plane, your
+  users are properly authenticated and authorized without requiring additional
+  configuration in your deployment.
 </CardInfo>
 
 ## Supported BI applications
 
-<img src="/img/supported_bis.png" />
+<img src="/assets/images/supported_bis.png" />
 
 ## Network configuration
 
@@ -53,7 +54,8 @@ For our workers to reach your Metahub instance, you will need to allow-list the 
 </Steps>
 
 <CardInfo>
-When connecting Metabase the user will receive a "We've Noticed a New Metabase Login" email alert from a location in Ireland.
+  When connecting Metabase the user will receive a "We've Noticed a New Metabase
+  Login" email alert from a location in Ireland.
 </CardInfo>
 
 ## Add BI Application via Terraform
@@ -74,9 +76,8 @@ resource "formal_integration_bi" "name" {
 More information available [here](https://registry.terraform.io/providers/formalco/formal/latest/docs/resources/integration_bi).
 
 <CardLink href="../guides/how-to-enable-end-user-identity-propagation">
-<Card
-    title="End-user identity propagation"
->
-    For more information on how end user identity propagation works, read this documentation.
-</Card>
+  <Card title="End-user identity propagation">
+    For more information on how end user identity propagation works, read this
+    documentation.
+  </Card>
 </CardLink>

@@ -1,0 +1,136 @@
+---
+description: Pre-commit quality checks and requirements
+---
+
+# Pre-Commit Quality Checks
+
+## Automated Checks
+
+Pre-commit hook in [.husky/pre-commit](mdc:.husky/pre-commit) runs on `/docs`, `/assets`, and `/snippets` folders:
+
+### 1. Prettier Formatting
+
+Checks formatting (doesn't auto-fix):
+
+- `docs/**/*.{md,mdx}` - Documentation
+- `assets/**/*` - Images and assets
+- `snippets/**/*.{md,mdx}` - Reusable components
+
+### 2. Spell Checking (cspell)
+
+Validates spelling in documentation.
+
+Config: [cspell.json](mdc:cspell.json)
+
+- 100+ Formal-specific terms
+- Ignores node_modules, OpenAPI files, images
+
+**Add custom words:**
+
+```json
+{
+  "words": ["PostgreSQL", "YourCustomTerm"]
+}
+```
+
+### 3. Link Validation
+
+Script: [scripts/check-dead-links.ts](mdc:scripts/check-dead-links.ts)
+
+- Scans all MDX files for links
+- Validates against docs.json and file system
+- Reports broken links with file locations
+
+### 4. Asset Verification
+
+Script: [scripts/check-assets.ts](mdc:scripts/check-assets.ts)
+
+- Scans MDX files for image references
+- Checks if files exist in repository
+- Supports markdown and HTML img tags
+
+## Manual Checks
+
+```bash
+# Run all pre-commit checks (same as pre-commit hook)
+pnpm precommit
+
+# Individual checks:
+# Check spelling
+pnpm check-spelling
+
+# Validate links
+pnpm check-links
+
+# Verify assets
+pnpm check-assets
+
+# Format content files
+pnpm format
+
+# Check formatting without modifying
+pnpm format-check
+```
+
+## Scripts Configuration
+
+From [package.json](mdc:package.json):
+
+```json
+{
+  "scripts": {
+    "check-spelling": "cspell \"docs/**/*.{md,mdx}\" \"snippets/**/*.{md,mdx}\" --no-progress",
+    "format": "prettier --write \"docs/**/*.{md,mdx}\" \"assets/**/*\" \"snippets/**/*.{md,mdx}\"",
+    "format-check": "prettier --check \"docs/**/*.{md,mdx}\" \"assets/**/*\" \"snippets/**/*.{md,mdx}\""
+  }
+}
+```
+
+Only checks content in `/docs`, `/assets`, and `/snippets` folders.
+
+## If Checks Fail
+
+### Spelling Errors
+
+1. Verify word is spelled correctly
+2. If technical term, add to [cspell.json](mdc:cspell.json)
+3. Re-run: `pnpm check-spelling`
+
+### Broken Links
+
+1. Update link to correct path (use absolute: `/docs/...`)
+2. Ensure target file exists
+3. Re-run: `pnpm check-links`
+
+### Missing Assets
+
+1. Add missing image to `/assets/images/`
+2. Or update reference path in MDX
+3. Re-run: `pnpm check-assets`
+
+### Format Issues
+
+The pre-commit hook checks but doesn't auto-fix:
+
+1. Run: `pnpm format` to fix
+2. Review changes
+3. Stage files: `git add .`
+4. Commit again
+
+## Skip Pre-Commit (Not Recommended)
+
+```bash
+git commit --no-verify -m "Message"
+```
+
+Only use when absolutely necessary (e.g., urgent hotfix).
+
+## CI/CD Integration
+
+Same checks should run in CI/CD pipeline:
+
+```yaml
+- run: pnpm check-spelling
+- run: pnpm check-links
+- run: pnpm check-assets
+```

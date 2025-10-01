@@ -9,6 +9,7 @@ icon: "shield-check"
 Formal's policy system uses [Open Policy Agent (OPA)](https://www.openpolicyagent.org/), an open-source policy engine that enables you to express access control rules as code. Policies are evaluated in real-time as users connect to resources and execute queries.
 
 Policies can:
+
 - ✅ **Block** connections to resources or specific tables/schemas
 - ✅ **Redact** query results automatically
 - ✅ **Encrypt and decrypt** data fields
@@ -22,19 +23,24 @@ Every policy consists of these essential components:
 
 <AccordionGroup>
   <Accordion title="Name" icon="tag">
-    A **unique identifier** for the policy. No two policies can share the same name.
+    A **unique identifier** for the policy. No two policies can share the same
+    name.
   </Accordion>
-  
-  <Accordion title="Description" icon="file-text">
-    A **clear explanation** of the policy's purpose and scope. This helps other admins understand what the policy does.
-  </Accordion>
-  
-  <Accordion title="Owners" icon="users">
-    The **administrators responsible** for maintaining and enforcing the policy. Owners receive notifications when policies are triggered (if configured).
-  </Accordion>
-  
+
+<Accordion title="Description" icon="file-text">
+  A **clear explanation** of the policy's purpose and scope. This helps other
+  admins understand what the policy does.
+</Accordion>
+
+<Accordion title="Owners" icon="users">
+  The **administrators responsible** for maintaining and enforcing the policy.
+  Owners receive notifications when policies are triggered (if configured).
+</Accordion>
+
   <Accordion title="Code" icon="code">
-    The **policy logic**, written in [Rego](https://www.openpolicyagent.org/docs/latest/policy-language/), OPA's purpose-built language for access control.
+    The **policy logic**, written in
+    [Rego](https://www.openpolicyagent.org/docs/latest/policy-language/), OPA's
+    purpose-built language for access control.
   </Accordion>
 </AccordionGroup>
 
@@ -42,19 +48,22 @@ Every policy consists of these essential components:
 
 Policies can be in one of three states:
 
-| Status | Description | Use Case |
-|--------|-------------|----------|
-| **Draft** | Under development, not enforced | Writing and testing new policies |
+| Status      | Description                       | Use Case                                              |
+| ----------- | --------------------------------- | ----------------------------------------------------- |
+| **Draft**   | Under development, not enforced   | Writing and testing new policies                      |
 | **Dry-run** | Logs violations without enforcing | Testing policies with real traffic before enforcement |
-| **Active** | Fully enforced and monitoring | Production enforcement |
+| **Active**  | Fully enforced and monitoring     | Production enforcement                                |
 
 <Tip>
-Use **dry-run** mode to test policies against real traffic without impacting users. Review the logs to ensure the policy works as intended before activating it.
+  Use **dry-run** mode to test policies against real traffic without impacting
+  users. Review the logs to ensure the policy works as intended before
+  activating it.
 </Tip>
 
 ## Policy Scope
 
 By default, policies apply universally to:
+
 - All users (human and machine)
 - All resources
 - All data locations
@@ -65,24 +74,24 @@ You can narrow the scope within each policy using conditions on:
 
 Access user information via `input.user` and `input.end_user`:
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `username` | **String** | Unique username |
-| `email` | **String** | Email address (human users only) |
-| `groups` | **[]String** | Groups the user belongs to |
-| `type` | **String** | `human` or `machine` |
+| Field      | Type         | Description                      |
+| ---------- | ------------ | -------------------------------- |
+| `username` | **String**   | Unique username                  |
+| `email`    | **String**   | Email address (human users only) |
+| `groups`   | **[]String** | Groups the user belongs to       |
+| `type`     | **String**   | `human` or `machine`             |
 
 ### Resource Context
 
 Filter by resource via `input.resource`:
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | **String** | Resource ID |
-| `name` | **String** | Resource name |
-| `technology` | **String** | `postgres`, `mongodb`, `snowflake`, etc. |
-| `hostname` | **String** | Resource hostname |
-| `environment` | **String** | Environment tag |
+| Field         | Type       | Description                              |
+| ------------- | ---------- | ---------------------------------------- |
+| `id`          | **String** | Resource ID                              |
+| `name`        | **String** | Resource name                            |
+| `technology`  | **String** | `postgres`, `mongodb`, `snowflake`, etc. |
+| `hostname`    | **String** | Resource hostname                        |
+| `environment` | **String** | Environment tag                          |
 
 ## Example Policies
 
@@ -171,6 +180,7 @@ Configure notifications for policy triggers:
 - **All**: Notify both user and owners
 
 Notifications can be sent via:
+
 - Email
 - Slack (requires integration setup)
 
@@ -251,7 +261,8 @@ session := {
 ```
 
 <Warning>
-A single policy cannot use both `included_connectors` and `excluded_connectors`. Choose one or the other.
+  A single policy cannot use both `included_connectors` and
+  `excluded_connectors`. Choose one or the other.
 </Warning>
 
 ### Include/Exclude Resources
@@ -289,7 +300,8 @@ session := {
 ```
 
 <Warning>
-A single policy cannot use both `included_resources` and `excluded_resources`. Choose one or the other.
+  A single policy cannot use both `included_resources` and `excluded_resources`.
+  Choose one or the other.
 </Warning>
 
 ## Managing Policies
@@ -339,40 +351,56 @@ A single policy cannot use both `included_resources` and `excluded_resources`. C
 
 <AccordionGroup>
   <Accordion title="Start with Dry-Run" icon="flask">
-    Always test new policies in dry-run mode first. Review logs to ensure they work as expected before activating.
+    Always test new policies in dry-run mode first. Review logs to ensure they
+    work as expected before activating.
   </Accordion>
-  
-  <Accordion title="Use Groups for User Policies" icon="users">
-    Instead of writing policies for individual users, use groups. This makes policies scalable and easier to maintain.
-  </Accordion>
-  
-  <Accordion title="Document Your Policies" icon="book">
-    Write clear descriptions and use meaningful reason fields. Future you (and your team) will thank you during audits.
-  </Accordion>
-  
-  <Accordion title="Leverage External Data" icon="database">
-    Use Policy Data Loaders to fetch dynamic approval lists, compliance data, or business logic from external systems.
-  </Accordion>
-  
+
+<Accordion title="Use Groups for User Policies" icon="users">
+  Instead of writing policies for individual users, use groups. This makes
+  policies scalable and easier to maintain.
+</Accordion>
+
+<Accordion title="Document Your Policies" icon="book">
+  Write clear descriptions and use meaningful reason fields. Future you (and
+  your team) will thank you during audits.
+</Accordion>
+
+<Accordion title="Leverage External Data" icon="database">
+  Use Policy Data Loaders to fetch dynamic approval lists, compliance data, or
+  business logic from external systems.
+</Accordion>
+
   <Accordion title="Scope Policies Appropriately" icon="target">
-    Use `included_connectors` or `included_resources` to prevent unintended policy application across your infrastructure.
+    Use `included_connectors` or `included_resources` to prevent unintended
+    policy application across your infrastructure.
   </Accordion>
 </AccordionGroup>
 
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Policy Enforcement" icon="gavel" href="/docs/guides/policies/enforcement">
+  <Card
+    title="Policy Enforcement"
+    icon="gavel"
+    href="/docs/guides/policies/enforcement"
+  >
     Learn about available actions and enforcement mechanisms
   </Card>
   <Card title="Permissions" icon="key" href="/docs/guides/policies/permissions">
     Understand permission models and access control patterns
   </Card>
-  <Card title="Threat Scenarios" icon="triangle-exclamation" href="/docs/guides/policies/threat-scenarios">
+  <Card
+    title="Threat Scenarios"
+    icon="triangle-exclamation"
+    href="/docs/guides/policies/threat-scenarios"
+  >
     Detect and block common attack patterns
   </Card>
-  <Card title="View Logs" icon="file-lines" href="/docs/guides/observability/logs">
+  <Card
+    title="View Logs"
+    icon="file-lines"
+    href="/docs/guides/observability/logs"
+  >
     See policy evaluations and enforcement in action
   </Card>
 </CardGroup>
-

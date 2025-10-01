@@ -94,7 +94,8 @@ Formal supports a wide range of technologies:
 </Tabs>
 
 <Tip>
-Your resource doesn't need to be publicly accessible. The Connector reaches it from within your VPC.
+  Your resource doesn't need to be publicly accessible. The Connector reaches it
+  from within your VPC.
 </Tip>
 
 ## Native Users
@@ -110,7 +111,9 @@ You can assign native users at three levels (in order of precedence):
 3. **Default**: Fallback credentials for everyone else
 
 <Warning>
-A Formal User can only have ONE native user assignment. If a user is assigned directly, they cannot be added to a group that also has a native user assignment (and vice versa). Remove the user-level assignment first.
+  A Formal User can only have ONE native user assignment. If a user is assigned
+  directly, they cannot be added to a group that also has a native user
+  assignment (and vice versa). Remove the user-level assignment first.
 </Warning>
 
 ### Creating a Native User
@@ -119,37 +122,31 @@ A Formal User can only have ONE native user assignment. If a user is assigned di
   <Step title="Navigate to the Resource">
     Go to the Resource details page and scroll to the **Native Users** section
   </Step>
-  <Step title="Click New Native User">
-    Create a new native user credential
-  </Step>
+  <Step title="Click New Native User">Create a new native user credential</Step>
   <Step title="Configure authentication">
-    Choose one of the following methods:
-    
-    **Password-based:**
-    - Enter username and password directly (encrypted at rest)
-    - Or use an environment variable: `ENV:PASSWORD_VAR_NAME`
-    
-    **IAM-based (AWS RDS):**
-    - Set password to `iam` to use the Connector's IAM role
-    - Or specify a custom role ARN to assume
+    Choose one of the following methods: **Password-based:** - Enter username
+    and password directly (encrypted at rest) - Or use an environment variable:
+    `ENV:PASSWORD_VAR_NAME` **IAM-based (AWS RDS):** - Set password to `iam` to
+    use the Connector's IAM role - Or specify a custom role ARN to assume
   </Step>
   <Step title="Assign to users or groups">
-    - Select Formal Users or Groups to assign this native user
-    - Or set as the default for everyone
+    - Select Formal Users or Groups to assign this native user - Or set as the
+    default for everyone
   </Step>
 </Steps>
 
 ### Password Configuration Options
 
-| Method | Value | Description |
-|--------|-------|-------------|
-| **Direct Password** | `yourpassword` | Stored encrypted in Formal |
-| **Environment Variable** | `ENV:DB_PASSWORD` | Read from Connector's environment |
-| **IAM Authentication** | `iam` | Use Connector's IAM role |
-| **Custom IAM Role** | `arn:aws:iam::123:role/MyRole` | Assume specified role |
+| Method                   | Value                          | Description                       |
+| ------------------------ | ------------------------------ | --------------------------------- |
+| **Direct Password**      | `yourpassword`                 | Stored encrypted in Formal        |
+| **Environment Variable** | `ENV:DB_PASSWORD`              | Read from Connector's environment |
+| **IAM Authentication**   | `iam`                          | Use Connector's IAM role          |
+| **Custom IAM Role**      | `arn:aws:iam::123:role/MyRole` | Assume specified role             |
 
 <Note>
-When using environment variables, ensure they're set in your Connector deployment (ECS task definition, Kubernetes secret, etc.).
+  When using environment variables, ensure they're set in your Connector
+  deployment (ECS task definition, Kubernetes secret, etc.).
 </Note>
 
 ## Resource Configuration
@@ -168,18 +165,16 @@ Formal can automatically discover and catalog your database schema:
 
 <AccordionGroup>
   <Accordion title="Discovery Frequency" icon="clock">
-    - None (manual only)
-    - Every 6, 12, 18, or 24 hours
-    - Custom cron expression
+    - None (manual only) - Every 6, 12, 18, or 24 hours - Custom cron expression
   </Accordion>
-  
-  <Accordion title="Native User" icon="user">
-    Select which native user credentials to use for discovery jobs
-  </Accordion>
-  
+
+<Accordion title="Native User" icon="user">
+  Select which native user credentials to use for discovery jobs
+</Accordion>
+
   <Accordion title="Deletion Policy" icon="trash">
-    - **Mark for deletion**: Flag removed schemas for manual review
-    - **Delete**: Automatically remove schemas no longer present
+    - **Mark for deletion**: Flag removed schemas for manual review -
+    **Delete**: Automatically remove schemas no longer present
   </Accordion>
 </AccordionGroup>
 
@@ -194,7 +189,9 @@ Encrypt connections between the Connector and your resource:
 - **Certificate Truststore**: Custom CA certificates
 
 <Tip>
-For AWS RDS, use the [AWS RDS CA bundle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) as your truststore.
+  For AWS RDS, use the [AWS RDS CA
+  bundle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)
+  as your truststore.
 </Tip>
 
 ## Managing Resources
@@ -206,10 +203,12 @@ Changes to resources (hostname, port, space, etc.) take effect immediately for n
 ### Deleting Resources
 
 <Warning>
-Resources with **Termination Protection** enabled cannot be deleted until protection is disabled.
+  Resources with **Termination Protection** enabled cannot be deleted until
+  protection is disabled.
 </Warning>
 
 Before deleting a resource:
+
 1. Check for active sessions
 2. Remove it from any Connector listener rules
 3. Disable termination protection if enabled
@@ -230,14 +229,25 @@ This allows you to create network segmentation and isolation patterns that match
   <Card title="Configure Native Users" icon="key" href="#native-users">
     Set up authentication for database access
   </Card>
-  <Card title="Deploy a Connector" icon="server" href="/docs/guides/core-concepts/connectors">
+  <Card
+    title="Deploy a Connector"
+    icon="server"
+    href="/docs/guides/core-concepts/connectors"
+  >
     Route traffic through Formal
   </Card>
-  <Card title="Organize with Spaces" icon="layer-group" href="/docs/guides/core-concepts/spaces">
+  <Card
+    title="Organize with Spaces"
+    icon="layer-group"
+    href="/docs/guides/core-concepts/spaces"
+  >
     Segment resources logically
   </Card>
-  <Card title="Write Access Policies" icon="shield-check" href="/docs/guides/policies/policies">
+  <Card
+    title="Write Access Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
     Control who can access what
   </Card>
 </CardGroup>
-

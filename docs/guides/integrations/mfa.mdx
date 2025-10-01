@@ -269,7 +269,7 @@ When MFA is enforced, users see:
 4. **Approval**: User approves or denies the request
 5. **Connection**: If approved, connection proceeds; if denied, connection is blocked
 
-<img height="50" src="/img/duo_mfa.JPG" alt="Duo MFA prompt" />
+<img height="50" src="/assets/images/duo_mfa.JPG" alt="Duo MFA prompt" />
 
 ## Duo Enrollment
 
@@ -295,13 +295,12 @@ Users must enroll in Duo before MFA policies can be enforced. Enrollment typical
     integration errors 4. Verify user is enrolled in Duo
   </Accordion>
 
-  <Accordion title="Connection times out waiting for MFA">
-    **Possible causes:** - User didn't approve the request in time - User denied
-    the request - Network connectivity issues between Connector and Duo
-    **Solution:** 1. Check user's Duo app for pending requests 2. Verify
-    Connector can reach `*.duosecurity.com` 3. Review Connector logs for timeout
-    errors
-  </Accordion>
+<Accordion title="Connection times out waiting for MFA">
+  **Possible causes:** - User didn't approve the request in time - User denied
+  the request - Network connectivity issues between Connector and Duo
+  **Solution:** 1. Check user's Duo app for pending requests 2. Verify Connector
+  can reach `*.duosecurity.com` 3. Review Connector logs for timeout errors
+</Accordion>
 
   <Accordion title="MFA bypassed unexpectedly">
     **Possible causes:** - Policy not active or in dry-run mode - Policy
@@ -320,20 +319,20 @@ Users must enroll in Duo before MFA policies can be enforced. Enrollment typical
     compliance and security.
   </Accordion>
 
-  <Accordion title="Privileged Operations" icon="user-lock">
-    Require MFA for SSH, Kubernetes exec, and database write operations, even in
-    non-production environments.
-  </Accordion>
+<Accordion title="Privileged Operations" icon="user-lock">
+  Require MFA for SSH, Kubernetes exec, and database write operations, even in
+  non-production environments.
+</Accordion>
 
-  <Accordion title="Risk-Based MFA" icon="chart-line">
-    Use dynamic policies to require MFA based on risk factors like IP location,
-    time of day, or resource sensitivity.
-  </Accordion>
+<Accordion title="Risk-Based MFA" icon="chart-line">
+  Use dynamic policies to require MFA based on risk factors like IP location,
+  time of day, or resource sensitivity.
+</Accordion>
 
-  <Accordion title="Secure Credentials" icon="lock">
-    Store Duo credentials in a secret manager (AWS Secrets Manager, Kubernetes
-    Secrets) rather than plain environment variables.
-  </Accordion>
+<Accordion title="Secure Credentials" icon="lock">
+  Store Duo credentials in a secret manager (AWS Secrets Manager, Kubernetes
+  Secrets) rather than plain environment variables.
+</Accordion>
 
   <Accordion title="Monitor MFA Denials" icon="bell">
     Set up alerts for MFA denials, which may indicate unauthorized access

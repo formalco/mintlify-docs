@@ -41,7 +41,7 @@ sequenceDiagram
 
 ## Supported BI Applications
 
-<img src="/img/supported_bis.png" alt="Supported BI tools" />
+<img src="/assets/images/supported_bis.png" alt="Supported BI tools" />
 
 - **Metabase**
 - **Looker**
@@ -285,13 +285,13 @@ In [Sessions](https://app.joinformal.com/sessions), you'll see:
     configured 4. Review Connector logs for end-user extraction errors
   </Accordion>
 
-  <Accordion title="Metabase sync not working">
-    **Possible causes:** - Incorrect admin credentials - IP allow-list blocking
-    Formal workers - Metabase instance not reachable **Solution:** 1. Verify
-    admin credentials are correct 2. Allow-list Formal worker IPs (see above) 3.
-    Check Metabase logs for authentication attempts 4. Ensure Metabase instance
-    is publicly accessible or VPN-accessible by Formal
-  </Accordion>
+<Accordion title="Metabase sync not working">
+  **Possible causes:** - Incorrect admin credentials - IP allow-list blocking
+  Formal workers - Metabase instance not reachable **Solution:** 1. Verify admin
+  credentials are correct 2. Allow-list Formal worker IPs (see above) 3. Check
+  Metabase logs for authentication attempts 4. Ensure Metabase instance is
+  publicly accessible or VPN-accessible by Formal
+</Accordion>
 
   <Accordion title="Policies not evaluating for end-users">
     **Possible causes:** - Policy references `input.user` instead of
@@ -310,15 +310,15 @@ In [Sessions](https://app.joinformal.com/sessions), you'll see:
     `input.user` (which is the machine user).
   </Accordion>
 
-  <Accordion title="Implement Row-Level Security" icon="filter">
-    Use end-user attributes to filter results, ensuring each BI user only sees
-    data they're authorized to access.
-  </Accordion>
+<Accordion title="Implement Row-Level Security" icon="filter">
+  Use end-user attributes to filter results, ensuring each BI user only sees
+  data they're authorized to access.
+</Accordion>
 
-  <Accordion title="Audit BI Access" icon="clipboard-list">
-    Regularly review logs to ensure end-user attribution is working and no
-    queries are misattributed.
-  </Accordion>
+<Accordion title="Audit BI Access" icon="clipboard-list">
+  Regularly review logs to ensure end-user attribution is working and no queries
+  are misattributed.
+</Accordion>
 
   <Accordion title="Sync Regularly" icon="arrows-rotate">
     For integrated BI tools, Formal syncs user lists automatically. For custom

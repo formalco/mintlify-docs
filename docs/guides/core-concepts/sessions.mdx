@@ -14,36 +14,21 @@ Sessions are the foundation of Formal's audit trail and real-time monitoring cap
 
 <Tabs>
   <Tab title="Active Sessions">
-    **Currently in progress** connections that you can monitor and terminate in real-time.
-    
-    Active sessions show:
-    - User identity and authentication method
-    - Connected resource and protocol
-    - Duration and start time
-    - Real-time query/command stream
-    - Evaluated policies and enforcement actions
-    
-    **Actions available:**
-    - ✅ View live queries/commands
-    - ✅ Terminate session immediately
-    - ✅ Analyze risk level (for SSH/K8s)
+    **Currently in progress** connections that you can monitor and terminate in
+    real-time. Active sessions show: - User identity and authentication method -
+    Connected resource and protocol - Duration and start time - Real-time
+    query/command stream - Evaluated policies and enforcement actions **Actions
+    available:** - ✅ View live queries/commands - ✅ Terminate session
+    immediately - ✅ Analyze risk level (for SSH/K8s)
   </Tab>
-  
+
   <Tab title="Completed Sessions">
     **Finished connections** with full audit records for review and compliance.
-    
-    Completed sessions provide:
-    - Complete query/command history
-    - Session recordings (SSH, Kubernetes)
-    - Policy evaluation results
-    - Performance metrics
-    - Risk analysis and anomaly detection
-    
-    **Use for:**
-    - ✅ Security audits
-    - ✅ Incident investigation
-    - ✅ Compliance reporting
-    - ✅ User behavior analysis
+    Completed sessions provide: - Complete query/command history - Session
+    recordings (SSH, Kubernetes) - Policy evaluation results - Performance
+    metrics - Risk analysis and anomaly detection **Use for:** - ✅ Security
+    audits - ✅ Incident investigation - ✅ Compliance reporting - ✅ User
+    behavior analysis
   </Tab>
 </Tabs>
 
@@ -59,7 +44,10 @@ View all queries executed during a session:
 - **Policy actions**: Masking, denials, warnings
 - **Parameters**: Bind variables and arguments
 
-<img src="/img/completed_session_postgres.png" alt="PostgreSQL session details" />
+<img
+  src="/assets/images/completed_session_postgres.png"
+  alt="PostgreSQL session details"
+/>
 
 ### SSH Sessions
 
@@ -70,10 +58,11 @@ Complete recordings of command-line interactions with pause, rewind, and fast-fo
 - **Risk scoring**: AI-powered analysis (1-5 risk level)
 - **Session summary**: Natural language description of activities
 
-<img src="/img/recordings.png" alt="SSH session recording" />
+<img src="/assets/images/recordings.png" alt="SSH session recording" />
 
 <Tip>
-Risk level is determined by analyzing commands, file access patterns, privilege escalation, and destructive actions. Level 5 indicates highest risk.
+  Risk level is determined by analyzing commands, file access patterns,
+  privilege escalation, and destructive actions. Level 5 indicates highest risk.
 </Tip>
 
 ### Kubernetes Sessions (kubectl exec)
@@ -99,7 +88,7 @@ Captures REST API calls and responses:
 
 Formal can automatically analyze session recordings to provide insights:
 
-<img src="/img/analyze_session.png" alt="Session analysis" />
+<img src="/assets/images/analyze_session.png" alt="Session analysis" />
 
 ### AI-Powered Analysis
 
@@ -115,7 +104,8 @@ For SSH and Kubernetes sessions, Formal provides:
    - Known attack patterns
 
 <Note>
-Risk scoring helps prioritize which sessions to review during security audits or incident response.
+  Risk scoring helps prioritize which sessions to review during security audits
+  or incident response.
 </Note>
 
 ## Monitoring Sessions
@@ -173,70 +163,61 @@ If you identify suspicious activity or need to immediately revoke access:
   <Step title="Terminate">
     Click **Terminate Session** in the session details
   </Step>
-  <Step title="Verify">
-    Confirm the session status changes to Completed
-  </Step>
+  <Step title="Verify">Confirm the session status changes to Completed</Step>
 </Steps>
 
 <Warning>
-Terminating a session immediately disconnects the user. Any in-flight queries or commands will be aborted.
+  Terminating a session immediately disconnects the user. Any in-flight queries
+  or commands will be aborted.
 </Warning>
 
 ## Session Metadata
 
 Every session captures rich metadata:
 
-| Field | Description |
-|-------|-------------|
-| **Session ID** | Unique identifier |
-| **User** | Formal user identity |
-| **Resource** | Connected database, API, or server |
-| **Protocol** | PostgreSQL, SSH, HTTP, etc. |
-| **Start Time** | When connection began |
-| **End Time** | When connection closed (completed only) |
-| **Duration** | Total session length |
-| **Queries/Commands** | Number of actions performed |
-| **Policies Applied** | Which policies evaluated |
-| **Actions Taken** | Denials, masking, rate limits |
-| **Client IP** | Source IP address |
-| **Client Application** | psql, Looker, ssh client, etc. |
+| Field                  | Description                             |
+| ---------------------- | --------------------------------------- |
+| **Session ID**         | Unique identifier                       |
+| **User**               | Formal user identity                    |
+| **Resource**           | Connected database, API, or server      |
+| **Protocol**           | PostgreSQL, SSH, HTTP, etc.             |
+| **Start Time**         | When connection began                   |
+| **End Time**           | When connection closed (completed only) |
+| **Duration**           | Total session length                    |
+| **Queries/Commands**   | Number of actions performed             |
+| **Policies Applied**   | Which policies evaluated                |
+| **Actions Taken**      | Denials, masking, rate limits           |
+| **Client IP**          | Source IP address                       |
+| **Client Application** | psql, Looker, ssh client, etc.          |
 
 ## Use Cases
 
 <AccordionGroup>
   <Accordion title="Security Audits" icon="shield-check">
-    Review completed sessions to ensure no unauthorized access or suspicious queries. Export session logs for compliance reporting.
+    Review completed sessions to ensure no unauthorized access or suspicious
+    queries. Export session logs for compliance reporting.
   </Accordion>
-  
-  <Accordion title="Incident Response" icon="siren">
-    When a security incident is detected, search sessions to find:
-    - What data was accessed
-    - Which users were involved
-    - Timeline of activities
-    - Attack patterns
-  </Accordion>
-  
-  <Accordion title="Compliance Reporting" icon="file-certificate">
-    Demonstrate to auditors:
-    - Who accessed what data and when
-    - That policies were enforced
-    - Complete audit trails for sensitive data
-  </Accordion>
-  
-  <Accordion title="User Behavior Analytics" icon="chart-line">
-    Understand access patterns:
-    - Which teams access which resources
-    - Query complexity and frequency
-    - Off-hours access patterns
-    - Anomalous behavior detection
-  </Accordion>
-  
+
+<Accordion title="Incident Response" icon="siren">
+  When a security incident is detected, search sessions to find: - What data was
+  accessed - Which users were involved - Timeline of activities - Attack
+  patterns
+</Accordion>
+
+<Accordion title="Compliance Reporting" icon="file-certificate">
+  Demonstrate to auditors: - Who accessed what data and when - That policies
+  were enforced - Complete audit trails for sensitive data
+</Accordion>
+
+<Accordion title="User Behavior Analytics" icon="chart-line">
+  Understand access patterns: - Which teams access which resources - Query
+  complexity and frequency - Off-hours access patterns - Anomalous behavior
+  detection
+</Accordion>
+
   <Accordion title="Real-Time Threat Detection" icon="radar">
-    Monitor active sessions for:
-    - Privilege escalation attempts
-    - Mass data exfiltration
-    - Unusual query patterns
-    - Unauthorized access attempts
+    Monitor active sessions for: - Privilege escalation attempts - Mass data
+    exfiltration - Unusual query patterns - Unauthorized access attempts
   </Accordion>
 </AccordionGroup>
 
@@ -250,40 +231,60 @@ See the [API Reference](/docs/api/sessions) for details.
 
 <AccordionGroup>
   <Accordion title="Set Up Alerting" icon="bell">
-    Configure alerts for high-risk sessions, failed authentications, or policy violations. Integrate with Slack, PagerDuty, or your SIEM.
+    Configure alerts for high-risk sessions, failed authentications, or policy
+    violations. Integrate with Slack, PagerDuty, or your SIEM.
   </Accordion>
-  
-  <Accordion title="Regular Security Reviews" icon="calendar">
-    Schedule weekly or monthly reviews of high-risk sessions and policy denials to identify potential threats early.
-  </Accordion>
-  
-  <Accordion title="Analyze Session Recordings" icon="magnifying-glass">
-    For SSH and Kubernetes sessions, review AI-generated summaries and risk scores to prioritize investigations.
-  </Accordion>
-  
-  <Accordion title="Export Session Data" icon="download">
-    Regularly export session logs to your data warehouse or SIEM for long-term retention and advanced analytics.
-  </Accordion>
-  
+
+<Accordion title="Regular Security Reviews" icon="calendar">
+  Schedule weekly or monthly reviews of high-risk sessions and policy denials to
+  identify potential threats early.
+</Accordion>
+
+<Accordion title="Analyze Session Recordings" icon="magnifying-glass">
+  For SSH and Kubernetes sessions, review AI-generated summaries and risk scores
+  to prioritize investigations.
+</Accordion>
+
+<Accordion title="Export Session Data" icon="download">
+  Regularly export session logs to your data warehouse or SIEM for long-term
+  retention and advanced analytics.
+</Accordion>
+
   <Accordion title="Monitor Active Sessions" icon="signal-stream">
-    Keep an eye on active sessions during critical maintenance windows or security incidents to catch issues in real-time.
+    Keep an eye on active sessions during critical maintenance windows or
+    security incidents to catch issues in real-time.
   </Accordion>
 </AccordionGroup>
 
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="View Logs" icon="file-lines" href="/docs/guides/observability/logs">
+  <Card
+    title="View Logs"
+    icon="file-lines"
+    href="/docs/guides/observability/logs"
+  >
     See all queries and API calls across sessions
   </Card>
-  <Card title="Write Policies" icon="shield-check" href="/docs/guides/policies/policies">
+  <Card
+    title="Write Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
     Enforce rules based on session context
   </Card>
-  <Card title="Set Up Alerts" icon="bell" href="/docs/guides/how-to/alert-triggered-policies">
+  <Card
+    title="Set Up Alerts"
+    icon="bell"
+    href="/docs/guides/how-to/alert-triggered-policies"
+  >
     Get notified of suspicious sessions
   </Card>
-  <Card title="Export to SIEM" icon="database" href="/docs/guides/integrations/log-drains">
+  <Card
+    title="Export to SIEM"
+    icon="database"
+    href="/docs/guides/integrations/log-drains"
+  >
     Send session data to your security tools
   </Card>
 </CardGroup>
-

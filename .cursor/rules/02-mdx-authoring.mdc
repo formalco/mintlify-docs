@@ -1,0 +1,161 @@
+---
+globs: docs/**/*.mdx,docs/**/*.md
+description: MDX authoring rules for documentation pages
+---
+
+# MDX Documentation Page Rules
+
+## Frontmatter Template
+
+```mdx
+---
+title: Deploy Connector on AWS # ≤65 chars, imperative
+description: Deploy a Formal Connector on AWS ECS Fargate with Terraform
+icon: aws # Font Awesome or Simple Icons
+---
+```
+
+## Page Template
+
+```mdx
+> **Outcome:** After this guide, you can <do the thing>.  
+> **Prerequisites:** <account/role>, <tool versions>, <API access>.
+
+## Overview
+
+[2-3 sentence explanation]
+
+## Steps
+
+### 1. Configure Infrastructure
+
+[Instructions]
+
+**Verify:**
+\`\`\`bash
+terraform plan
+\`\`\`
+
+### 2. Deploy
+
+[Instructions]
+
+**Verify:**
+\`\`\`bash
+curl -I https://connector.example.com/health
+
+# Expected: HTTP/1.1 200 OK
+
+\`\`\`
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Deployment fails">
+    **Cause:** Missing IAM permissions **Fix:** Add `ecs:CreateService`
+    permission
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Configure Policies" href="/docs/guides/policies/policies">
+    Write access control rules
+  </Card>
+</CardGroup>
+```
+
+## MDX Components
+
+### Admonitions
+
+```mdx
+<Warning>Rotating keys invalidates sessions. Schedule maintenance.</Warning>
+
+<Tip>Use service accounts in CI; avoid personal tokens.</Tip>
+
+<Note>**Since v1.26:** `includePolicies` defaults to `false`.</Note>
+```
+
+### Multi-Language Tabs
+
+````mdx
+<Tabs>
+  <Tab title="curl">
+    ```bash
+    curl -H "Authorization: Bearer <KEY>" https://api.joinformal.com/v1/users
+    ```
+  </Tab>
+  <Tab title="JavaScript">
+    ```ts
+    const res = await fetch("/v1/users", {
+      headers: { Authorization: `Bearer ${API_KEY}` }
+    });
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    response = requests.get(
+        "https://api.joinformal.com/v1/users",
+        headers={"Authorization": f"Bearer {API_KEY}"}
+    )
+    ```
+  </Tab>
+</Tabs>
+````
+
+### Card Groups
+
+```mdx
+<CardGroup cols={2}>
+  <Card
+    title="Write Policies"
+    icon="shield"
+    href="/docs/guides/policies/policies"
+  >
+    Create access rules
+  </Card>
+  <Card
+    title="View Logs"
+    icon="file-lines"
+    href="/docs/guides/observability/logs"
+  >
+    Monitor queries
+  </Card>
+</CardGroup>
+```
+
+## Glossary Integration
+
+Always import and use the glossary component for technical terms:
+
+```mdx
+import { G } from "/snippets/glossary-terms.mdx";
+
+Users connect through the <G anchor="connector">Connector</G>.
+```
+
+Available anchors: connector, resource, policy, session, space, satellite, end-user-identity, native-user, rego, masking, pii, sso, mfa, control-plane, data-plane
+
+## Images
+
+```mdx
+![Create Connector form with hostname field](/assets/images/connector-create.png)
+```
+
+- Use absolute paths from root
+- Alt text ≥3 meaningful words
+- Only include if adding non-obvious info
+- SVG for diagrams, PNG for UI, MP4 for flows (≤30s)
+
+## Pre-Commit Quality Checklist
+
+- [ ] Outcome stated at top
+- [ ] Title ≤65 chars, imperative
+- [ ] Steps numbered with verify commands
+- [ ] Code blocks typed, copy-pastable
+- [ ] Images have meaningful alt text
+- [ ] Links are absolute paths
+- [ ] Glossary terms linked with `<G>`
+- [ ] Navigation updated in [docs.json](mdc:docs.json)

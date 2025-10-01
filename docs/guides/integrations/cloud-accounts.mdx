@@ -34,22 +34,22 @@ The AWS Cloud Integration uses cross-account IAM roles to securely access your A
     them as Formal resources.
   </Accordion>
 
-  <Accordion title="Redshift Autodiscovery" icon="warehouse">
-    Discover Redshift clusters and data warehouses.
-  </Accordion>
+<Accordion title="Redshift Autodiscovery" icon="warehouse">
+  Discover Redshift clusters and data warehouses.
+</Accordion>
 
-  <Accordion title="EKS Autodiscovery" icon="dharmachakra">
-    Discover EKS clusters for Kubernetes access control.
-  </Accordion>
+<Accordion title="EKS Autodiscovery" icon="dharmachakra">
+  Discover EKS clusters for Kubernetes access control.
+</Accordion>
 
-  <Accordion title="EC2 Autodiscovery" icon="server">
-    Discover EC2 instances for SSH access.
-  </Accordion>
+<Accordion title="EC2 Autodiscovery" icon="server">
+  Discover EC2 instances for SSH access.
+</Accordion>
 
-  <Accordion title="ECS Autodiscovery" icon="cubes">
-    Discover ECS clusters, services, and containers for SSH access via the
-    Desktop App.
-  </Accordion>
+<Accordion title="ECS Autodiscovery" icon="cubes">
+  Discover ECS clusters, services, and containers for SSH access via the Desktop
+  App.
+</Accordion>
 
   <Accordion title="S3 Log Forwarding" icon="bucket">
     Forward Formal Connector logs to S3 buckets for long-term storage and
@@ -337,13 +337,13 @@ resource "formal_integration_cloud" "aws_staging" {
     Formal 3. Deploy in supported region
   </Accordion>
 
-  <Accordion title="Resources not discovered">
-    **Possible causes:** - Autodiscovery not enabled for that resource type -
-    Resources in unsupported region - IAM permissions insufficient **Solution:**
-    1. Verify autodiscovery toggle is enabled in Formal console 2. Check
-    resources exist in AWS 3. Review CloudFormation IAM role permissions 4. Wait
-    a few minutes for initial scan
-  </Accordion>
+<Accordion title="Resources not discovered">
+  **Possible causes:** - Autodiscovery not enabled for that resource type -
+  Resources in unsupported region - IAM permissions insufficient **Solution:**
+  1. Verify autodiscovery toggle is enabled in Formal console 2. Check resources
+  exist in AWS 3. Review CloudFormation IAM role permissions 4. Wait a few
+  minutes for initial scan
+</Accordion>
 
   <Accordion title="S3 log forwarding not working">
     **Possible causes:** - S3 bucket ARN incorrect - IAM role lacks S3
@@ -362,15 +362,15 @@ resource "formal_integration_cloud" "aws_staging" {
     predictable behavior.
   </Accordion>
 
-  <Accordion title="Enable Only What You Need" icon="toggle-on">
-    Only enable autodiscovery for resources you want to manage through Formal to
-    minimize IAM permissions.
-  </Accordion>
+<Accordion title="Enable Only What You Need" icon="toggle-on">
+  Only enable autodiscovery for resources you want to manage through Formal to
+  minimize IAM permissions.
+</Accordion>
 
-  <Accordion title="Multi-Account Structure" icon="building">
-    Create separate integrations for each AWS account (production, staging, dev)
-    for better isolation.
-  </Accordion>
+<Accordion title="Multi-Account Structure" icon="building">
+  Create separate integrations for each AWS account (production, staging, dev)
+  for better isolation.
+</Accordion>
 
   <Accordion title="Regular Audits" icon="magnifying-glass">
     Periodically review autodiscovered resources to ensure they match your

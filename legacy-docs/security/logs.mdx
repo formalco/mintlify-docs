@@ -2,23 +2,26 @@
 title: "Logs"
 ---
 
-
 How to access Formal Logs?
 
-Each query made via the Connector is pushed to the Formal Log infrastructure. This allows you to find any query made by your data consumers. 
+Each query made via the Connector is pushed to the Formal Log infrastructure. This allows you to find any query made by your data consumers.
 
 To access your Audit, navigate to the Logs application.
 
-<img src="/img/logs.png" />
+<img src="/assets/images/logs.png" />
 
-<CardInfo>Formal Logs are stored indefinitely on AWS S3 Glacier Deep Archive unless required otherwise by the customer.</CardInfo>
+<CardInfo>
+  Formal Logs are stored indefinitely on AWS S3 Glacier Deep Archive unless
+  required otherwise by the customer.
+</CardInfo>
 
 ## Detailed panel
-Formal's Audit system enriches each logged query with useful contextual information. 
+
+Formal's Audit system enriches each logged query with useful contextual information.
 
 When you click on a specific row, a panel opens, providing detailed information associated with that query.
 
-<img src="/img/logs_side_panel.png" />
+<img src="/assets/images/logs_side_panel.png" />
 
 ## Mode
 
@@ -40,25 +43,30 @@ For more advanced analysis, Aggregation Mode enables the aggregation of logs, gr
 - Pie chart
 - Line chart
 
-<img src="/img/logs_aggregation.png" />
+<img src="/assets/images/logs_aggregation.png" />
 
 To activate the Aggregation Mode, select a group by field from the dropdown menu.
 
 ## Filtering
+
 Leveraging the Quickwit query engine, Formal provides powerful filtering capabilities. Users can refine their search within the Audit Logs based on numerous criteria, such as connectors, resources, users, end users, groups, container names, AWS ECS clusters, and AWS ECS service names, among others.
 
 ## Quick Actions
 
 Find a list of actions in the `Quick Actions` menu.
-<img src="/img/quick_actions.png" />
+
+<img src="/assets/images/quick_actions.png" />
 
 ### Saved queries
+
 You can find all the queries you have saved in the `Saved queries` section.
 
 ### Recent queries
+
 Accessing the history of all past queries is made simple with the Query History feature. This allows users to review and analyze their previous search queries effortlessly.
 
 ### Query templates
+
 Formal provides a list of query templates that you can use to create new queries.
 
 Here is the list of query templates:
@@ -73,6 +81,7 @@ Here is the list of query templates:
 | `Encrypted Requests` | Logs containing encrypted data, ensuring the security and privacy of the request. |
 
 ## SSH Sessions
+
 Formal ensures comprehensive visibility and control over SSH connections by recording and displaying them in the detailed panel.
 
 When utilizing Formal Connectors, all SSH sessions are logged, allowing you to conveniently pause the recording or navigate to any desired point within the session.
@@ -80,5 +89,6 @@ When utilizing Formal Connectors, all SSH sessions are logged, allowing you to c
 ## Export your log
 
 There are two ways to export your logs:
+
 1. Formal can export your logs to AWS Cloudwatch, Datadog, or Splunk.
 2. You can download your logs in CSV format.

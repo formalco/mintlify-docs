@@ -14,10 +14,12 @@ Satellites extend Formal's core functionality without adding complexity to the C
 
 <CardGroup cols={3}>
   <Card title="Data Classifier" icon="magnifying-glass">
-    Detects PII and sensitive data in real-time for automatic redaction and classification
+    Detects PII and sensitive data in real-time for automatic redaction and
+    classification
   </Card>
   <Card title="Data Discovery" icon="map">
-    Catalogs database schemas, tables, and columns across your data infrastructure
+    Catalogs database schemas, tables, and columns across your data
+    infrastructure
   </Card>
   <Card title="Policy Data Loader" icon="code">
     Loads external data into policies using custom code in Python or Node.js
@@ -50,6 +52,7 @@ if (data.pii_classifier.column_contains_email) {
 ### Configuration
 
 Environment variables:
+
 - `FORMAL_CONTROL_PLANE_API_KEY`: Satellite authentication token
 - `PII_DETECTION`: Detection mode (`formal`, `formal_llm`, `formal_llm_only`)
 - `SATELLITE_TLS_CERT`: TLS certificate for secure communication (recommended)
@@ -68,6 +71,7 @@ Automatically discovers and catalogs your database schemas, tables, columns, and
 ### Configuration
 
 Environment variables:
+
 - `FORMAL_CONTROL_PLANE_API_KEY`: Satellite authentication token
 - `DATA_CLASSIFIER_SATELLITE_URI`: URI of Data Classifier (e.g., `localhost:50055`)
 - `PII_SAMPLING_RATE`: Sampling rate for PII analysis (1-100)
@@ -78,6 +82,7 @@ Environment variables:
 ### Schema Discovery Jobs
 
 Configure discovery schedules per resource:
+
 - **Frequency**: None, every 6/12/18/24 hours, or custom cron
 - **Deletion policy**: Mark for deletion or auto-delete removed schemas
 - **Native user**: Which credentials to use for discovery
@@ -95,10 +100,10 @@ Enables custom code to load data from external sources into your policies, exten
 
 ### Supported Runtimes
 
-| Runtime | Identifier | Available Libraries |
-|---------|------------|---------------------|
+| Runtime     | Identifier   | Available Libraries |
+| ----------- | ------------ | ------------------- |
 | Python 3.11 | `python3.11` | `requests`, `httpx` |
-| Node.js 18 | `nodejs18.x` | `lodash`, `axios` |
+| Node.js 18  | `nodejs18.x` | `lodash`, `axios`   |
 
 ### Example: Load Approved Users from API
 
@@ -155,26 +160,28 @@ if (data.approved_users.approved_user_ids.includes(user.id)) {
 
 Policy Data Loaders use second-based cron expressions:
 
-| Expression | Description |
-|------------|-------------|
-| `* * * * * *` | Every second |
+| Expression       | Description      |
+| ---------------- | ---------------- |
+| `* * * * * *`    | Every second     |
 | `*/30 * * * * *` | Every 30 seconds |
-| `0 * * * * *` | Every minute |
-| `0 */5 * * * *` | Every 5 minutes |
-| `0 30 8 * * *` | Daily at 8:30 AM |
+| `0 * * * * *`    | Every minute     |
+| `0 */5 * * * *`  | Every 5 minutes  |
+| `0 30 8 * * *`   | Daily at 8:30 AM |
 
 Format: `second minute hour day month year`
 
 ### Configuration
 
 Environment variables:
+
 - `FORMAL_CONTROL_PLANE_API_KEY`: Satellite authentication token
 - `SATELLITE_TLS_CERT_PRIVATE_KEY`: TLS private key
 - `SATELLITE_TLS_CERT_FULLCHAIN`: TLS certificate chain
 - **Custom variables**: Available to your code
 
 <Note>
-The Satellite passes all its environment variables to worker processes, so you can use environment variables in your code (e.g., API keys, endpoints).
+  The Satellite passes all its environment variables to worker processes, so you
+  can use environment variables in your code (e.g., API keys, endpoints).
 </Note>
 
 ## Deployment
@@ -250,7 +257,7 @@ Like Connectors and Resources, Satellites can be assigned to [Spaces](/docs/guid
 - **Satellite without a Space**: Can communicate with any Connector or Resource
 
 <Warning>
-Changing a Satellite's Space requires restarting the Satellite container.
+  Changing a Satellite's Space requires restarting the Satellite container.
 </Warning>
 
 ## Managing Satellites
@@ -265,12 +272,9 @@ Changing a Satellite's Space requires restarting the Satellite container.
     Choose Data Classifier, Data Discovery, or Policy Data Loader
   </Step>
   <Step title="Configure settings">
-    - **Name**: Friendly identifier
-    - **Space**: (Optional) Logical grouping
+    - **Name**: Friendly identifier - **Space**: (Optional) Logical grouping
   </Step>
-  <Step title="Copy API token">
-    Save the token for deployment
-  </Step>
+  <Step title="Copy API token">Save the token for deployment</Step>
   <Step title="Deploy container">
     Use the token in your deployment (ECS, Kubernetes, Docker)
   </Step>
@@ -289,14 +293,25 @@ Activate after testing your code to make data available to policies.
   <Card title="Deploy a Satellite" icon="rocket" href="#deployment">
     Run Satellites in your infrastructure
   </Card>
-  <Card title="Use in Policies" icon="shield-check" href="/docs/guides/policies/policies">
+  <Card
+    title="Use in Policies"
+    icon="shield-check"
+    href="/docs/guides/policies/policies"
+  >
     Reference Satellite data in policy rules
   </Card>
-  <Card title="Configure Spaces" icon="layer-group" href="/docs/guides/core-concepts/spaces">
+  <Card
+    title="Configure Spaces"
+    icon="layer-group"
+    href="/docs/guides/core-concepts/spaces"
+  >
     Segment Satellite access
   </Card>
-  <Card title="Schema Discovery" icon="map" href="/docs/guides/observability/logs">
+  <Card
+    title="Schema Discovery"
+    icon="map"
+    href="/docs/guides/observability/logs"
+  >
     Catalog your data infrastructure
   </Card>
 </CardGroup>
-

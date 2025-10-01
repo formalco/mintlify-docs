@@ -2,7 +2,6 @@
 title: "Duo"
 ---
 
-
 How to enforce MFA on Formal Connectors?
 
 Formal integrates with Duo to enforce MFA when users attempt to connect to Formal Connectors.
@@ -12,17 +11,24 @@ Formal integrates with Duo to enforce MFA when users attempt to connect to Forma
 To add Duo to Formal Connectors, you need to add the following environment variables to the Connector:
 
 {/* cSpell:ignore IKEY, SKEY */}
+
 ```
 export DUO_IKEY=<IKEY>
 export DUO_SKEY=<SKEY>
 export DUO_HOST=<HOST>
 ```
 
-<Warning><p>Replace `DUO_IKEY` (integration key), `DUO_SKEY` (secret key), `DUO_HOST` (hostname) with the values specific to your Duo account.</p></Warning>
+<Warning>
+  <p>
+    Replace `DUO_IKEY` (integration key), `DUO_SKEY` (secret key), `DUO_HOST`
+    (hostname) with the values specific to your Duo account.
+  </p>
+</Warning>
 
 ## Enforce Duo MFA to Connectors
 
 A very basic policy to enforce MFA to all users and Connectors is the following:
+
 ```rego
 package formal.v2
 
@@ -36,4 +42,5 @@ This policy will be enforced across all your Connectors and users.
 ## Example
 
 When connecting to a Connector, the user will be prompted on Duo to approve or reject the authentication.
-<img height="50" src="/img/duo_mfa.JPG" />
+
+<img height="50" src="/assets/images/duo_mfa.JPG" />

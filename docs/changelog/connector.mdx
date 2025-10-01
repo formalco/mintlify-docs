@@ -8,45 +8,54 @@ description: "Release notes for Formal Connector"
 ## 1.25.7
 
 **Fixed**
+
 - Fixed a bug in the TLS certificate renewal process
 
 ## 1.25.6
 
 **Changed**
+
 - Streamlined TLS certificate handling at connector startup
 
 ## 1.25.5
 
 **Fixed**
+
 - Fixed a bug that would prevent connector TLS certificates from being updated on renewal unless the connector is restarted
 
 ## 1.25.4
 
 **New**
+
 - Enabled satellite hostnames linked to a Connector to be configured from the Control Plane and read by the Connector
 - Added 'ConnectorName' attribute for better tracking and logging during telemetry operations
 
 ## 1.25.3
 
 **Changed**
+
 - Removed a specific MongoDB configuration created for a legacy client, streamlining the process for connecting to DocDB with client-side options
 
 ## 1.25.1
 
 **New**
+
 - Introduced metrics to monitor opened, closed, and currently active connections, enhancing visibility into connection management for performance optimization and troubleshooting
 - Implemented new metrics to monitor the number of received control plane pings, increasing observability of system interactions
 
 **Fixed**
+
 - Fixed some errors with S3 authentication
 
 ## 1.25.0
 
 **New**
+
 - Regularly send connector instance heartbeat as a gauge metric via OpenTelemetry, bolstering real-time monitoring capabilities
 - Default to starting up etcd without failing if the etcd cluster doesn't come up
 
 **Changed**
+
 - Cleaned up configuration and feature flag storage
 
 </Update>
@@ -56,16 +65,19 @@ description: "Release notes for Formal Connector"
 ## 1.24.12
 
 **Changed**
+
 - Removed unnecessary quotes from table names when parsing SQL queries to make policies easier to write
 
 ## 1.24.11
 
 **Changed**
+
 - Moved classifier-related environment variables into the new `formal_resource_classifier_configuration` Control Plane objects
 
 ## 1.24.10
 
 **Fixed**
+
 - Fixed column detection issues with parsing UNION statements with wildcards within Common Table Expressions (CTEs)
 
 </Update>
@@ -75,66 +87,81 @@ description: "Release notes for Formal Connector"
 ## 1.24.9
 
 **Changed**
+
 - Enhanced logging to include connector ID, improving traceability for debugging and monitoring purposes
 
 ## 1.24.8
 
 **Fixed**
+
 - Resolved connection issues in the MySQL proxy that were caused by handshake problems with MariaDB
 
 ## 1.24.7
 
 **New**
+
 - Enabled automatic connection to the first task's first container within a specified ECS service when no specific task or container is selected
 
 **Changed**
+
 - Simplified S3 connection establishment
 
 ## 1.24.6
 
 **Fixed**
+
 - Resolved issue with Snowflake private key authentication for enhanced connection security
 
 **Changed**
+
 - Removed unused PII_SAMPLING_RATE ensuring cleaner code base and improved performance
 
 **New**
+
 - Included desktop app device trust keys in critical data load process for strengthened data security
 
 ## 1.24.5
 
 **Fixed**
+
 - Improved robustness of desktop app device trust keys
 
 ## 1.24.4
 
 **Changed**
+
 - Improved logging around device trust signature verification errors
 
 ## 1.24.3
 
 **New**
+
 - Added stateless authentication support for Clickhouse
 
 **Fixed**
+
 - Fixed the parsing of device info to ensure accurate timestamping in UTC
 
 ## 1.24.2
 
 **Changed**
+
 - Reduced wait time for PROXY protocol headers from 10 seconds to 200 milliseconds, enhancing performance and speeding up the handling of new connections
 
 **Fixed**
+
 - Fixed MySQL column detection and data label matching for policies
 
 ## 1.24.1
 
 **New**
+
 - Implemented stateless authentication for Snowflake
 
 ## 1.24.0
 
 **New**
+
 - Introduced stateless JWT authentication for Kubernetes, PostgreSQL, HTTP, and SSH, enhancing security and streamlining user verification process
 
 </Update>
@@ -144,24 +171,29 @@ description: "Release notes for Formal Connector"
 ## 1.23.6
 
 **Fixed**
+
 - Improved reliability for MySQL resources
 
 ## 1.23.2
 
 **Changed**
+
 - Enhanced MySQL error messages for better readability during the handshake process
 
 ## 1.23.1
 
 **New**
+
 - Added support for hashed token authentication for Postgres proxy, providing a new option for users facing length restrictions on database passwords
 
 ## 1.23.0
 
 **New**
+
 - Added support for SSH private key authentication to upstream, enhancing secure connection options
 
 **Changed**
+
 - Updated MySQL to utilize our unified SQL semantic analyzer, ensuring consistent behavior across databases
 - Enabled port fields in resources to be updated for more flexible configurations
 
@@ -172,31 +204,38 @@ description: "Release notes for Formal Connector"
 ## 1.22.2
 
 **New**
+
 - Introduced a readiness endpoint for the connector (on health check port 8080 `/ready`), allowing it to signify when all listeners are initialized and ready to receive traffic
 
 **Changed**
+
 - Achieved consistency in logging and assertion libraries across the system, improving reliability of error logging
 
 ## 1.22.1
 
 **New**
+
 - Added support for handling Snowflake positional reference syntax in SQL queries
 - Introduced capability to resolve Snowflake positional arguments based on actual column names from inventory
 - Extended support for LATERAL queries, enabling more complex SQL queries that depend on preceding tables' columns
 
 **Fixed**
+
 - Resolved possible crash when retrieving outbound IP in telemetry, improving stability
 
 **Changed**
+
 - Streamlined MySQL TLS environment variables into a centralized TLS config
 - Dropped ability of the connector to exit if a health check fails, boosting connector resilience
 
 ## 1.22.0
 
 **New**
+
 - Refactored log encryption configuration and improved encryption of exec streams (SSH, SSM, Kubernetes)
 
 **Breaking Change**
+
 - Removed the ability to configure log encryption and encryption keys via environment variables; such configuration will need to be done on the control plane via the frontend or Terraform provider
 
 </Update>

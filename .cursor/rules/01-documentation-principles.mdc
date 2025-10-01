@@ -1,0 +1,79 @@
+---
+alwaysApply: true
+description: Core documentation authoring principles for Formal docs
+---
+
+# Formal Documentation Principles
+
+## Project Overview
+
+This is a Mintlify documentation site for Formal (PAM/data security platform).
+
+- **Runtime**: Bun 1.2.21+ for all scripts
+- **Package Manager**: pnpm 9.0.0
+- **Framework**: Mintlify (Next.js based)
+- **Content**: MDX files
+
+## Critical Rules
+
+### 1. File Organization
+
+- **ALL MDX files MUST go in `/docs`** directory
+- Only exceptions: `/snippets` (reusable components) and `/legacy-docs` (historical)
+- Images: `/assets/images/` with **absolute paths** like `/assets/images/file.png`
+- Filenames: `kebab-case.mdx`, index pages use `index.mdx`
+
+### 2. Page Structure
+
+Every page must have:
+
+- **One outcome per page** - single, clear goal
+- Outcome & prerequisites block at top
+- Title ≤65 chars, imperative voice (e.g., "Deploy", not "Deploying")
+- Numbered steps with verification commands
+- Troubleshooting section
+- Next steps
+
+### 3. Writing Style
+
+- **Second person** ("you"), **present tense**, **active voice**
+- **Sentences ≤ 20 words**
+- UI text in **bold**: "Click **Create Connector**"
+- Code in `backticks`: `--config`, `/etc/formal/`
+- Numbers: one-nine as words, 10+ as numerals
+
+### 4. Links
+
+- Internal links: **absolute paths** from root: `/docs/guides/core-concepts/connectors`
+- External links: add 5-10 word context
+- Never use relative links like `../guides/`
+
+### 5. Code Blocks
+
+- Every code block **must declare a language**
+- Must be **copy-pastable**
+- Use placeholders: `<YOUR_API_KEY>` (never real secrets)
+- Show expected output when it proves success
+
+### 6. Glossary Terms
+
+Use `<G>` component to link terms:
+
+```mdx
+import { G } from "/snippets/glossary-terms.mdx";
+
+The <G anchor="connector">Connector</G> enforces <G anchor="policy">policies</G>.
+```
+
+### 7. Navigation
+
+- Update [docs.json](mdc:docs.json) when adding pages
+- **Never** add OpenAPI-generated pages to `pages` arrays
+- Use full path without `.mdx` extension
+
+## AI Agent Behavior
+
+- **Suggest** improvements, don't block
+- Prefer fixes that reduce words while increasing certainty
+- Always add verification steps for actions
+- Ensure multi-language parity in code examples (curl → JS → Python → Go)

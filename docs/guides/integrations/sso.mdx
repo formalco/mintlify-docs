@@ -10,7 +10,7 @@ Formal supports Single Sign-On (SSO) integration with major identity providers, 
 
 ## Supported Providers
 
-<img src="/img/supported_sso.png" alt="Supported SSO providers" />
+<img src="/assets/images/supported_sso.png" alt="Supported SSO providers" />
 
 - **Okta**
 - **Azure AD / Microsoft Entra ID**
@@ -72,7 +72,10 @@ sequenceDiagram
   </Step>
 </Steps>
 
-<img src="/img/sso_connections.png" alt="SSO connection configuration" />
+<img
+  src="/assets/images/sso_connections.png"
+  alt="SSO connection configuration"
+/>
 
 ## Self Sign-Up
 
@@ -87,7 +90,7 @@ Enable self sign-up to allow users to create their own Formal accounts when sign
   </Step>
 </Steps>
 
-<img src="/img/toggle_self_sign_up.png" alt="Self sign-up toggle" />
+<img src="/assets/images/toggle_self_sign_up.png" alt="Self sign-up toggle" />
 
 ### With Self Sign-Up Enabled
 
@@ -183,6 +186,7 @@ Benefits:
   </Accordion>
 
 {" "}
+
 <Accordion title="User not auto-created with self sign-up">
   **Possible causes:** - Self sign-up not enabled - User's domain not in allowed
   list - SSO provider not returning email attribute **Solution:** 1. Verify self
@@ -207,18 +211,21 @@ Benefits:
   </Accordion>
 
 {" "}
+
 <Accordion title="Use MFA" icon="shield-keyhole">
   Enable MFA in your identity provider for an additional layer of security when
   accessing Formal.
 </Accordion>
 
 {" "}
+
 <Accordion title="Limit Self Sign-Up" icon="user-plus">
   Only enable self sign-up if all employees should have Formal access.
   Otherwise, manually provision users for better control.
 </Accordion>
 
 {" "}
+
 <Accordion title="Regular Audits" icon="clipboard-list">
   Periodically review SSO connections and domain configurations to ensure they
   match your current organizational structure.

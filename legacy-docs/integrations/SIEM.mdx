@@ -2,19 +2,22 @@
 title: "SIEM"
 ---
 
-
 How to export your Formal logs to your SIEM?
 
 You can integrate Formal with your SIEM to forward queries made to Formal Connectors. This allows you to streamline the flow of queries between Formal Connectors and your integrated application.
 
-<CardInfo>By default, Formal will forward **queries made to all Connectors**.</CardInfo>
-<img src="/img/supported_logs.png" />
+<CardInfo>
+  By default, Formal will forward **queries made to all Connectors**.
+</CardInfo>
+<img src="/assets/images/supported_logs.png" />
 
 ## How to connect
 
 <Steps>
   <Step title="Navigate to SIEM">
-    Go to the [_Log Integrations application_](https://app.joinformal.com/log-integrations) in the Formal dashboard.
+    Go to the [_Log Integrations
+    application_](https://app.joinformal.com/log-integrations) in the Formal
+    dashboard.
   </Step>
   <Step title="Add integration">
     Click the _Create Log Integration_ button.
@@ -28,7 +31,9 @@ You can integrate Formal with your SIEM to forward queries made to Formal Connec
 </Steps>
 
 <Warning>
-    If you're using AWS S3, you must first set up an [AWS Cloud Integration](/integrations/cloud/aws) with S3 access enabled. This integration will be used to connect to your S3 bucket.
+  If you're using AWS S3, you must first set up an [AWS Cloud
+  Integration](/integrations/cloud/aws) with S3 access enabled. This integration
+  will be used to connect to your S3 bucket.
 </Warning>
 
 ## Using Terraform
