@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "core.v1"
+    "title": "core.v1.PolicyDataLoaderService"
   },
   "paths": {
     "/core.v1.PolicyDataLoaderService/CreatePolicyDataLoader": {

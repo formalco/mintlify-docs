@@ -211,6 +211,23 @@ func main() {
 }
 
 /**
+ * Extract service name from OpenAPI spec
+ */
+function extractServiceName(spec: any): string | null {
+  // Try to get service name from the first tag in paths
+  if (spec.paths) {
+    for (const pathItem of Object.values(spec.paths)) {
+      for (const operation of Object.values(pathItem as Record<string, any>)) {
+        if (typeof operation === 'object' && operation?.tags?.[0]) {
+          return operation.tags[0];
+        }
+      }
+    }
+  }
+  return null;
+}
+
+/**
  * Enhance a single OpenAPI spec
  */
 function enhanceSpec(filePath: string): boolean {
@@ -218,6 +235,14 @@ function enhanceSpec(filePath: string): boolean {
 
   const spec = JSON.parse(readFileSync(filePath, 'utf-8'));
   let modified = false;
+
+  // Set unique title based on service name
+  const serviceName = extractServiceName(spec);
+  if (serviceName && spec.info?.title === 'core.v1') {
+    spec.info.title = serviceName;
+    modified = true;
+    console.log(`    → Updated title to: ${serviceName}`);
+  }
 
   // Add server configuration if not present
   if (!spec.servers || spec.servers.length === 0) {

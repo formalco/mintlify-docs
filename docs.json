@@ -21,7 +21,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "url": "docs/guides/getting-started/index",
         "groups": [
           {
@@ -59,40 +59,110 @@
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "API Reference",
         "url": "docs/api/introduction",
-        "openapi": [
-          "docs/api/openapi/connectors_openapi.json",
-          "docs/api/openapi/graph_openapi.json",
-          "docs/api/openapi/group_openapi.json",
-          "docs/api/openapi/integration_bi_openapi.json",
-          "docs/api/openapi/integration_cloud_openapi.json",
-          "docs/api/openapi/integration_data_catalog_openapi.json",
-          "docs/api/openapi/integration_log_openapi.json",
-          "docs/api/openapi/integration_mdm_openapi.json",
-          "docs/api/openapi/integration_mfa_openapi.json",
-          "docs/api/openapi/inventory_openapi.json",
-          "docs/api/openapi/logs_openapi.json",
-          "docs/api/openapi/monitors_openapi.json",
-          "docs/api/openapi/permissions_openapi.json",
-          "docs/api/openapi/policies_openapi.json",
-          "docs/api/openapi/policy_data_loaders_openapi.json",
-          "docs/api/openapi/resource_openapi.json",
-          "docs/api/openapi/satellite_openapi.json",
-          "docs/api/openapi/scenario_monitoring_openapi.json",
-          "docs/api/openapi/sessions_openapi.json",
-          "docs/api/openapi/sidecar_openapi.json",
-          "docs/api/openapi/spaces_openapi.json",
-          "docs/api/openapi/trackers_openapi.json",
-          "docs/api/openapi/user_openapi.json",
-          "docs/api/openapi/workflow_openapi.json"
-        ],
         "groups": [
           {
             "group": "API Documentation",
             "pages": [
               "docs/api/introduction"
             ]
+          },
+          {
+            "group": "Connectors",
+            "openapi": "docs/api/openapi/connectors_openapi.json"
+          },
+          {
+            "group": "Graph",
+            "openapi": "docs/api/openapi/graph_openapi.json"
+          },
+          {
+            "group": "Group",
+            "openapi": "docs/api/openapi/group_openapi.json"
+          },
+          {
+            "group": "Integration Bi",
+            "openapi": "docs/api/openapi/integration_bi_openapi.json"
+          },
+          {
+            "group": "Integration Cloud",
+            "openapi": "docs/api/openapi/integration_cloud_openapi.json"
+          },
+          {
+            "group": "Integration Data Catalog",
+            "openapi": "docs/api/openapi/integration_data_catalog_openapi.json"
+          },
+          {
+            "group": "Integration Log",
+            "openapi": "docs/api/openapi/integration_log_openapi.json"
+          },
+          {
+            "group": "Integration Mdm",
+            "openapi": "docs/api/openapi/integration_mdm_openapi.json"
+          },
+          {
+            "group": "Integration Mfa",
+            "openapi": "docs/api/openapi/integration_mfa_openapi.json"
+          },
+          {
+            "group": "Inventory",
+            "openapi": "docs/api/openapi/inventory_openapi.json"
+          },
+          {
+            "group": "Logs",
+            "openapi": "docs/api/openapi/logs_openapi.json"
+          },
+          {
+            "group": "Monitors",
+            "openapi": "docs/api/openapi/monitors_openapi.json"
+          },
+          {
+            "group": "Permissions",
+            "openapi": "docs/api/openapi/permissions_openapi.json"
+          },
+          {
+            "group": "Policies",
+            "openapi": "docs/api/openapi/policies_openapi.json"
+          },
+          {
+            "group": "Policy Data Loaders",
+            "openapi": "docs/api/openapi/policy_data_loaders_openapi.json"
+          },
+          {
+            "group": "Resource",
+            "openapi": "docs/api/openapi/resource_openapi.json"
+          },
+          {
+            "group": "Satellite",
+            "openapi": "docs/api/openapi/satellite_openapi.json"
+          },
+          {
+            "group": "Scenario Monitoring",
+            "openapi": "docs/api/openapi/scenario_monitoring_openapi.json"
+          },
+          {
+            "group": "Sessions",
+            "openapi": "docs/api/openapi/sessions_openapi.json"
+          },
+          {
+            "group": "Sidecar",
+            "openapi": "docs/api/openapi/sidecar_openapi.json"
+          },
+          {
+            "group": "Spaces",
+            "openapi": "docs/api/openapi/spaces_openapi.json"
+          },
+          {
+            "group": "Trackers",
+            "openapi": "docs/api/openapi/trackers_openapi.json"
+          },
+          {
+            "group": "User",
+            "openapi": "docs/api/openapi/user_openapi.json"
+          },
+          {
+            "group": "Workflow",
+            "openapi": "docs/api/openapi/workflow_openapi.json"
           }
         ]
       },
@@ -110,16 +180,16 @@
       },
       {
         "tab": "Changelog",
-        "url": "changelog/index",
+        "url": "docs/changelog/index",
         "groups": [
           {
             "group": "Changelog",
             "pages": [
-              "changelog/index",
-              "changelog/connector",
-              "changelog/api",
-              "changelog/desktop-app",
-              "changelog/terraform-provider"
+              "docs/changelog/index",
+              "docs/changelog/connector",
+              "docs/changelog/api",
+              "docs/changelog/desktop-app",
+              "docs/changelog/terraform-provider"
             ]
           }
         ]

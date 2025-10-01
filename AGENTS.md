@@ -50,7 +50,7 @@ This is a Mintlify documentation site for Formal, structured with MDX documentat
 - **Theme**: mint
 - **Name**: Formal
 - **Colors**: Primary (#3D6EFF), Light (#345DD9), Dark (#2847A6)
-- **Navigation Structure**: 3 tabs (Guides, API reference, Changelog)
+- **Navigation Structure**: 3 tabs (Guides, API Reference, Changelog)
 
 ### Navigation Structure
 
@@ -174,7 +174,7 @@ Welcome to {companyName}!
 
 ```json
 {
-  "group": "API reference",
+  "group": "API Reference",
   "openapi": "/api-reference/openapi.json",
   "pages": ["api-reference/introduction", "GET /users", "POST /users"]
 }

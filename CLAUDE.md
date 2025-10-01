@@ -28,12 +28,17 @@ This is a Mintlify documentation site for Formal, structured with MDX documentat
 │   ├── api/
 │   │   ├── introduction.mdx      # API overview
 │   │   └── openapi/              # Generated OpenAPI specs (24 services)
-│   └── glossary/
-│       └── index.mdx             # 40+ terms defined
-├── changelog/                     # Product changelogs (4 products)
+│   ├── glossary/
+│   │   └── index.mdx             # 40+ terms defined
+│   └── changelog/                # Product changelogs (4 products)
 ├── legacy-docs/                   # Historical documentation
 └── snippets/                      # Reusable MDX components
 ```
+
+**IMPORTANT**: All MDX documentation files MUST be placed inside the `/docs` folder for centralization. This includes guides, API documentation, glossary, and changelogs. The only exceptions are:
+
+- `/legacy-docs` - Historical documentation (for reference only)
+- `/snippets` - Reusable MDX components (not standalone pages)
 
 ## Development Workflow
 
@@ -108,6 +113,7 @@ bun run sync-api-docs
 ### Service Categories
 
 Services are automatically organized into 6 categories:
+
 - Infrastructure (4 services)
 - Identity & Access (4 services)
 - Security & Governance (5 services)
@@ -122,7 +128,7 @@ Services are automatically organized into 6 categories:
 - **Theme**: mint
 - **Name**: Formal
 - **Colors**: Primary (#3D6EFF), Light (#345DD9), Dark (#2847A6)
-- **Navigation**: 5 tabs (Guides, API reference, Glossary, Changelog, Legacy Docs)
+- **Navigation**: 5 tabs (Guides, API Reference, Glossary, Changelog, Legacy Docs)
 - **API Version**: v1
 - **Base URL**: https://api.joinformal.com
 
@@ -130,10 +136,10 @@ Services are automatically organized into 6 categories:
 
 ```json
 {
-  "tab": "API reference",
+  "tab": "API Reference",
   "openapi": [
     "docs/api/openapi/connectors_openapi.json",
-    "docs/api/openapi/user_openapi.json",
+    "docs/api/openapi/user_openapi.json"
     // ... 22 more services
   ],
   "groups": [
@@ -152,11 +158,13 @@ Services are automatically organized into 6 categories:
 ### 1. Add a New Documentation Page
 
 1. Create the MDX file:
+
    ```bash
    touch docs/guides/new-guide.mdx
    ```
 
 2. Add frontmatter:
+
    ```mdx
    ---
    title: "Your Page Title"
@@ -216,19 +224,22 @@ title: "Connector"
 ## 1.26.0
 
 **New**
+
 - Added support for new database type
 
 **Fixed**
+
 - Fixed connection timeout issue
 
 </Update>
 ```
 
 Files:
-- `changelog/connector.mdx`
-- `changelog/api.mdx`
-- `changelog/desktop-app.mdx`
-- `changelog/terraform-provider.mdx`
+
+- `docs/changelog/connector.mdx`
+- `docs/changelog/api.mdx`
+- `docs/changelog/desktop-app.mdx`
+- `docs/changelog/terraform-provider.mdx`
 
 ### 5. Update Glossary
 
@@ -246,6 +257,7 @@ Edit `docs/glossary/index.mdx` with new terms. Terms are organized into sections
 ### 6. Use Reusable Snippets
 
 **Create snippet** (`snippets/my-snippet.mdx`):
+
 ```mdx
 export const companyName = "Formal";
 
@@ -253,11 +265,13 @@ This is reusable content about {props.topic}.
 ```
 
 **Use snippet** in any page:
+
 ```mdx
 import { companyName } from "/snippets/my-snippet.mdx";
 import MySnippet from "/snippets/my-snippet.mdx";
 
 Welcome to {companyName}!
+
 <MySnippet topic="documentation" />
 ```
 
@@ -268,6 +282,7 @@ Welcome to {companyName}!
 Two workflows in `.github/workflows/`:
 
 **1. Sync API Docs** (`sync-api-docs.yml`)
+
 - Triggers: Daily at 2 AM UTC, manual, on proto changes
 - Exports proto from Buf Registry
 - Generates OpenAPI specs
@@ -275,18 +290,19 @@ Two workflows in `.github/workflows/`:
 - Creates PR with changes
 
 **2. Check Links** (`check-links.yml`)
+
 - Triggers: On PR with doc changes
 - Scans all files for dead links
 - Reports failures as PR comments
 
 ### Scripts Reference
 
-| Script | Language | Purpose |
-|--------|----------|---------|
-| `sync-api-docs.sh` | Bash | Orchestrates API generation |
-| `check-dead-links.ts` | TypeScript | Finds broken links |
-| `enhance-openapi-specs.ts` | TypeScript | Adds errors & examples |
-| `generate-api-navigation.ts` | TypeScript | Updates docs.json |
+| Script                       | Language   | Purpose                     |
+| ---------------------------- | ---------- | --------------------------- |
+| `sync-api-docs.sh`           | Bash       | Orchestrates API generation |
+| `check-dead-links.ts`        | TypeScript | Finds broken links          |
+| `enhance-openapi-specs.ts`   | TypeScript | Adds errors & examples      |
+| `generate-api-navigation.ts` | TypeScript | Updates docs.json           |
 
 **All TypeScript scripts run with Bun** for maximum performance.
 
@@ -336,8 +352,10 @@ Mintlify automatically generates pages for all operations in OpenAPI specs liste
 
 ### File Organization
 
+- **All MDX files must be in `/docs`** - This is a centralization requirement for all documentation
 - `/api` is reserved by Next.js - use `/docs/api` instead
 - Files in `/snippets/` won't render as standalone pages
+- `/legacy-docs` is the only exception for historical documentation
 - Store images in `/images/` or `/assets/`
 - Use `/logo/dark.svg` and `/logo/light.svg` for theme switching
 
@@ -393,7 +411,8 @@ mcp__context7__get-library-docs --context7CompatibleLibraryID "/mintlify/docs"
 ## Key Reminders
 
 1. **Always use Bun** to run TypeScript scripts
-2. **Don't duplicate OpenAPI files** in `pages` arrays
-3. **Run `bun run sync-api-docs`** after proto changes
-4. **Check links before committing** with `bun run check-links`
-5. **All scripts are TypeScript** - no more JavaScript files
+2. **All MDX files must be in `/docs`** for centralization (except `/legacy-docs` and `/snippets`)
+3. **Don't duplicate OpenAPI files** in `pages` arrays
+4. **Run `bun run sync-api-docs`** after proto changes
+5. **Check links before committing** with `bun run check-links`
+6. **All scripts are TypeScript** - no more JavaScript files
