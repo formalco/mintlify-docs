@@ -30,8 +30,7 @@
               "docs/guides/getting-started/index",
               "docs/guides/getting-started/what-is-formal",
               "docs/guides/getting-started/architecture",
-              "docs/guides/getting-started/quickstart",
-              "docs/guides/getting-started/development"
+              "docs/guides/getting-started/quickstart"
             ]
           },
           {
@@ -39,10 +38,9 @@
             "pages": [
               "docs/guides/core-concepts/connectors",
               "docs/guides/core-concepts/resources",
-              "docs/guides/core-concepts/identities",
-              "docs/guides/core-concepts/satellites",
               "docs/guides/core-concepts/spaces",
-              "docs/guides/core-concepts/sessions"
+              "docs/guides/core-concepts/satellites",
+              "docs/guides/core-concepts/identities"
             ]
           },
           {
@@ -51,6 +49,7 @@
               "docs/guides/policies/policies",
               "docs/guides/policies/permissions",
               "docs/guides/policies/enforcement",
+              "docs/guides/policies/threat-monitoring",
               "docs/guides/policies/threat-scenarios"
             ]
           },
@@ -68,7 +67,10 @@
           },
           {
             "group": "Observability",
-            "pages": ["docs/guides/observability/logs"]
+            "pages": [
+              "docs/guides/observability/logs",
+              "docs/guides/observability/sessions"
+            ]
           },
           {
             "group": "Configuration",
