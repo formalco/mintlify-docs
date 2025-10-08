@@ -18,6 +18,13 @@
       "label": "Version 1 (Current)"
     }
   ],
+  "anchors":[
+      {
+         "name":"Product Tour",
+         "icon":"video",
+         "url":"https://demo.joinformal.com"
+      }
+   ],
   "navigation": {
     "tabs": [
       {
