@@ -37,6 +37,7 @@
               "docs/guides/getting-started/index",
               "docs/guides/getting-started/what-is-formal",
               "docs/guides/getting-started/architecture",
+              "docs/guides/getting-started/terminology",
               "docs/guides/getting-started/quickstart"
             ]
           },
@@ -111,7 +112,7 @@
         ]
       },
       {
-        "tab": "API Reference",
+        "tab": "API",
         "url": "docs/api/introduction",
         "groups": [
           {
