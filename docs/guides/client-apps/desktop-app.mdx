@@ -138,6 +138,8 @@ mongosh "mongodb://localhost:27017/mydb"
 
 #### Specify Native User
 
+If you need to specify a different native user than the default one assign to your user, you can specify using the convention: `formal@[the_name_of_the_native_user]`. 
+
 ```bash
 # PostgreSQL with specific native user
 psql -h localhost -p 6432 -U formal@readonly
@@ -146,10 +148,7 @@ psql -h localhost -p 6432 -U formal@readonly
 #### SSH
 
 ```bash
-# SSH to a server
-formal ssh --sidecar-name production-connector
-
-# Or configure SSH via interactive UI
+# List resources
 formal ls
 # Select an SSH resource and press enter
 ```
@@ -193,14 +192,66 @@ formal decrypt --ciphertext "formalencrypt:second:third:fourth:fifth"
 
 ### S3 Operations
 
+The Formal `s3` command automatically routes traffic to the right Connector so your users don't have to worry about formatting the right parameters for S3.
+
 Interact with S3 through Formal:
 
 ```bash
-formal s3 [sidecar-name] ls s3://my-bucket
-formal s3 [sidecar-name] cp s3://my-bucket/file.txt .
+formal s3 ls s3://my-bucket
 ```
 
 See [AWS CLI S3 commands](https://docs.aws.amazon.com/cli/latest/userguide/cli-services-s3-commands.html) for more operations.
+
+## Device Trust
+
+The Desktop App reports device information for policy enforcement:
+
+- Hardware model and serial number
+- OS version and security settings
+- System Integrity Protection status
+- Secure boot status
+
+See [MDM Integration](/docs/guides/integrations/mdm) for device-based policies.
+
+## Headless Mode
+
+The Formal Desktop app supports being launched in headless mode. This can be useful in server environments without a GUI or keyring support.
+
+To start the agent in headless mode, you can use the following command:
+
+```bash
+formal agent --headless
+```
+
+Now in a separate terminal, you can run the Formal CLI as normal to connect to resources and get credentials:
+
+```bash
+formal auth login
+formal auth credentials
+formal ls
+formal connect [resource-name]
+```
+
+In headless mode, Formal credentials are only stored in the agent's memory. This means that you'll need to reauthenticate when restarting the agent (e.g., when the machine itself reboots).
+
+### Using an API Key
+
+The Formal Desktop app supports using an API key to authenticate to the control plane.
+
+First, you will need to create an API key on the Formal Console. You can learn how to create an API key [here](/docs/api/api_key).
+
+To start the agent with an API key, you can use the following command:
+
+```bash
+FORMAL_API_KEY=<api-key> formal agent
+```
+
+You can also run the agent in headless mode with an API key:
+
+```bash
+FORMAL_API_KEY=<api-key> formal agent --headless
+```
+
 
 ## MDM Deployment
 
@@ -211,17 +262,6 @@ Deploy the Desktop App organization-wide via your MDM:
 3. Push to all user devices
 
 <Note>Need help deploying via MDM? Contact Formal support for assistance.</Note>
-
-## Device Security
-
-The Desktop App reports device information for policy enforcement:
-
-- Hardware model and serial number
-- OS version and security settings
-- System Integrity Protection status
-- Secure boot status
-
-See [MDM Integration](/docs/guides/integrations/mdm) for device-based policies.
 
 ## Troubleshooting
 
@@ -280,19 +320,5 @@ See [MDM Integration](/docs/guides/integrations/mdm) for device-based policies.
   </Card>
   <Card title="MDM Policies" icon="mobile" href="/docs/guides/integrations/mdm">
     Enforce device-based access control
-  </Card>
-  <Card
-    title="SSH Access"
-    icon="terminal"
-    href="/docs/guides/integrations/data-technologies#ssh"
-  >
-    Connect to servers via SSH
-  </Card>
-  <Card
-    title="Kubernetes Access"
-    icon="dharmachakra"
-    href="/docs/guides/integrations/data-technologies#kubernetes"
-  >
-    Access K8s clusters
   </Card>
 </CardGroup>
