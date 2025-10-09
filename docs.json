@@ -100,13 +100,7 @@
           {
             "group": "Client Apps",
             "pages": [
-              {
-                "group": "Desktop App",
-                "pages": [
-                  "docs/guides/client-tools/desktop-app",
-                  "docs/guides/client-tools/cli"
-                ]
-              },
+              "docs/guides/client-tools/desktop-app",
               "docs/guides/client-tools/browser-extension"
             ]
           },
