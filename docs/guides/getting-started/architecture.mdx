@@ -7,28 +7,30 @@ description: "Understanding Formal's technical architecture with Control Plane, 
 
 At the heart of Formal is [the Formal Connector](/docs/guides/core-concepts/connectors), an easily deployed, cloud-native reverse proxy. Organizations can use the Formal Connector to understand and control their data. The Connector is deployed as a container in your infrastructure.
 
-Formal's architecture relies on two main parts: a control plane and a data plane. The Control Plane cannot interact with the Customer's data, only the Connector can.
+Formal's architecture relies on two main parts: a control plane and a data plane (Connector). The Control Plane cannot interact with the Customer's data, only the Connector can.
 
 ## Minimal Architecture Diagram
 
 At a minimum, Formal consists of a Connector deployed in your own infrastructure:
 
-<Diagram diagram={`
-architecture-beta
-    group customer(cloud)[Your VPC]
-    group formal(cloud)[Formal VPC]
 
-    service connector(server)[Formal Connector] in customer
-    service database(database)[Database Resource] in customer
-    service ssh(server)[SSH Resource] in customer
-    service control(server)[Control Plane] in formal
-
-    connector:L -- R:database
-    control:B -- T:connector
-    ssh:L -- R:connector
-
-`}
-/>
+```mermaid
+flowchart LR
+    subgraph customer["Your VPC"]
+        connector["Formal Connector"]
+        database[("Database Resource")]
+        ssh["SSH Resource"]
+    end
+    
+    subgraph formal["Formal VPC"]
+        control["Control Plane"]
+    end
+    
+    connector <--> ssh
+    connector <--> database
+    control <--> connector
+    User <--> connector
+```
 
 The Connector needs to have network access to https://api.joinformal.com (the Control Plane), which is hosted in Formal's infrastructure. This enables you to manage your Connectors via the REST API, Terraform provider, and https://app.joinformal.com.
 
@@ -39,27 +41,27 @@ You may add these satellites if you want to leverage additional functionality in
 You can deploy any mixture of these three satellites: each satellite should be able to operate without the others.
 The data discovery satellite, however, can use the data classifier satellite to be able to perform labelling.
 
-<Diagram diagram={`
-architecture-beta
-    group customer(cloud)[Your VPC]
-    group formal(cloud)[Formal VPC]
-
-    service connector(server)[Formal Connector] in customer
-    service database(database)[Database Resource] in customer
-    service classifier(server)[Data Classifier Satellite] in customer
-    service discovery(server)[Data Discovery Satellite] in customer
-    service loader(server)[Policy Data Loader Satellite] in customer
-    service control(server)[Control Plane] in formal
-
-    connector:T -- B:control
-    connector:L -- R:classifier
-    discovery:T -- B:classifier
-    loader:L -- R:connector
-    database:T -- B:connector
-    database:L -- R:discovery
-
-`}
-/>
+```mermaid
+flowchart TB
+    subgraph customer["Your VPC"]
+        connector["Formal Connector"]
+        database[("Database Resource")]
+        classifier["Data Classifier Satellite"]
+        discovery["Data Discovery Satellite"]
+        loader["Policy Data Loader Satellite"]
+    end
+    
+    subgraph formal["Formal VPC"]
+        control["Control Plane"]
+    end
+    
+    connector <--> control
+    connector <--> classifier
+    discovery <--> classifier
+    loader <--> connector
+    database <--> connector
+    database <--> discovery
+```
 
 Do note that the satellites require network access to the control plane directly as well.
 
