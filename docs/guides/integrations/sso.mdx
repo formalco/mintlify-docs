@@ -20,11 +20,6 @@ Formal supports Single Sign-On (SSO) integration with major identity providers, 
 - **JumpCloud**
 - **Any SAML 2.0 or OIDC provider**
 
-<Note>
-  Formal uses [WorkOS](https://workos.com/) to provide enterprise-grade SSO
-  integration with a simple setup process.
-</Note>
-
 ## How It Works
 
 1. **User** clicks "Sign in with SSO" on Formal login page
@@ -60,10 +55,9 @@ sequenceDiagram
     Choose your identity provider from the list
   </Step>
   <Step title="Configure Integration">
-    Follow the step-by-step instructions provided by WorkOS: - For **SAML**:
+    Follow the step-by-step instructions: - For **SAML**:
     Configure SSO URL, Entity ID, and X.509 certificate - For **OIDC**:
-    Configure Client ID, Client Secret, and authorization endpoints WorkOS
-    provides detailed, provider-specific setup guides.
+    Configure Client ID, Client Secret, and authorization endpoints.
   </Step>
   <Step title="Configure Domain">
     After integration is successful, specify which email domains are allowed for
@@ -77,38 +71,9 @@ sequenceDiagram
   alt="SSO connection configuration"
 />
 
-## Self Sign-Up
-
-Enable self sign-up to allow users to create their own Formal accounts when signing in with SSO for the first time.
-
-<Steps>
-  <Step title="During Setup">
-    When configuring your SSO provider, toggle **Allow self sign-up**
-  </Step>
-  <Step title="Save">
-    Users from allowed domains can now sign up automatically
-  </Step>
-</Steps>
-
-<img src="/assets/images/toggle_self_sign_up.png" alt="Self sign-up toggle" />
-
-### With Self Sign-Up Enabled
-
-- Users from allowed domains sign in with SSO
-- Formal automatically creates a user account on first login
-- Users have **viewer** permissions by default
-- Admins can upgrade permissions as needed
-
-### With Self Sign-Up Disabled
-
-- Admins must manually invite users to Formal
-- Users receive an email invitation
-- Users can then sign in with SSO
-
 <Tip>
-  Enable self sign-up for faster onboarding in organizations where all employees
-  should have access to Formal. Disable it if you want to manually approve each
-  user.
+By default, Formal enforces JIT (Just-In-Time) provisioning. Users from allowed domains sign in with SSO: Formal automatically creates a user account on first login
+Reach out to Formal support if you would like to disable JIT for your organization.
 </Tip>
 
 ## Domain Configuration
@@ -124,7 +89,7 @@ Both domains will use the same SSO provider and configuration.
 
 ## Multiple SSO Providers
 
-Organizations with multiple identity providers (e.g., different subsidiaries or acquisition integrations) can configure multiple SSO connections:
+Organizations with multiple identity providers (e.g., different subsidiaries) can configure multiple SSO connections:
 
 1. Set up the first SSO connection for Domain A
 2. Add a second SSO connection for Domain B
@@ -205,13 +170,6 @@ Benefits:
 ## Security Best Practices
 
 <AccordionGroup>
-  <Accordion title="Enforce SSO" icon="lock">
-    Disable password-based authentication for users with SSO-enabled domains to
-    ensure all access goes through your identity provider.
-  </Accordion>
-
-{" "}
-
 <Accordion title="Use MFA" icon="shield-keyhole">
   Enable MFA in your identity provider for an additional layer of security when
   accessing Formal.
@@ -237,44 +195,14 @@ Benefits:
   </Accordion>
 </AccordionGroup>
 
-## Compliance
-
-SSO integration supports compliance requirements for:
-
-- **SOC 2**: Centralized authentication and access control
-- **HIPAA**: Secure authentication for systems accessing ePHI
-- **ISO 27001**: Identity and access management controls
-- **GDPR**: User authentication and authorization tracking
-
 ## Next Steps
 
 <CardGroup cols={2}>
   <Card
-    title="Directory Sync"
+    title="SCIM Integration"
     icon="arrows-rotate"
-    href="/docs/guides/configuration/console#directory-sync"
+    href="/docs/guides/integrations/scim"
   >
-    Automatically sync users and groups
-  </Card>
-  <Card
-    title="User Management"
-    icon="users"
-    href="/docs/guides/core-concepts/identities"
-  >
-    Learn about Formal users and groups
-  </Card>
-  <Card
-    title="MFA Integration"
-    icon="shield-keyhole"
-    href="/docs/guides/integrations/mfa"
-  >
-    Add multi-factor authentication
-  </Card>
-  <Card
-    title="Console Guide"
-    icon="browser"
-    href="/docs/guides/configuration/console"
-  >
-    Manage Formal console settings
+    Automatically provision and deprovision users
   </Card>
 </CardGroup>

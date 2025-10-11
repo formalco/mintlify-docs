@@ -41,59 +41,67 @@
             ]
           },
           {
-            "group": "Core Concepts",
+            "group": "Configuring Formal",
             "pages": [
               "docs/guides/core-concepts/connectors",
               "docs/guides/core-concepts/resources",
               "docs/guides/core-concepts/spaces",
               "docs/guides/core-concepts/satellites",
-              "docs/guides/core-concepts/identities"
+              "docs/guides/core-concepts/identities",
+              "docs/guides/policies/permissions"
             ]
           },
           {
-            "group": "Policy Engine",
+            "group": "Leveraging Formal",
             "pages": [
-              "docs/guides/policies/policies",
-              "docs/guides/policies/permissions",
-              "docs/guides/policies/enforcement",
-              "docs/guides/policies/threat-monitoring",
-              "docs/guides/policies/threat-scenarios"
+              {
+                "group": "Observability",
+                "pages": [
+                  "docs/guides/observability/logs",
+                  "docs/guides/observability/sessions",
+                  "docs/guides/observability/monitors"
+                ]
+              },
+              {
+                "group": "Controls",
+                "pages": [
+                  {
+                    "group": "Policies",
+                    "pages": [
+                      "docs/guides/policies/policies",
+                      "docs/guides/policies/enforcement"
+                    ]   
+                  }
+                ]
+              }
             ]
           },
           {
             "group": "Integrations",
             "pages": [
-              "docs/guides/integrations/data-technologies",
+              "docs/guides/integrations/clouds",
+              "docs/guides/integrations/siem",
               "docs/guides/integrations/mfa",
               "docs/guides/integrations/mdm",
-              "docs/guides/integrations/business-intelligence",
+              "docs/guides/integrations/encryption-keys",
+              "docs/guides/integrations/bi",
               "docs/guides/integrations/sso",
-              "docs/guides/integrations/log-drains",
-              "docs/guides/integrations/cloud-accounts"
-            ]
-          },
-          {
-            "group": "Observability",
-            "pages": [
-              "docs/guides/observability/logs",
-              "docs/guides/observability/sessions"
+              "docs/guides/integrations/scim",
+              "docs/guides/integrations/chats"
             ]
           },
           {
             "group": "Configuration",
             "pages": [
-              "docs/guides/configuration/managing-objects",
-              "docs/guides/configuration/console",
               "docs/guides/configuration/terraform",
               "docs/guides/configuration/sdks"
             ]
           },
           {
-            "group": "Client Tools",
+            "group": "Client Apps",
             "pages": [
               "docs/guides/client-tools/desktop-app",
-              "docs/guides/client-tools/chrome-extension",
-              "docs/guides/client-tools/cli"
+              "docs/guides/client-tools/browser-extension"
             ]
           },
           {
